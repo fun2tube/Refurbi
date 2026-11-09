@@ -1,0 +1,25 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: refurbi
+      POSTGRES_PASSWORD: refurbi_dev_password
+      POSTGRES_DB: refurbi
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U refurbi"]
+      interval: 5s
+      retries: 10
+  api:
+    build:
+      context: services/api
+      dockerfile: Dockerfile.dev
+    env_file: services/api/.env.example
+    environment:
+      DATABASE_URL: postgresql+psycopg://refurbi:refurbi_dev_password@db:5432/refurbi
+    ports: ["8000:8000"]
+    depends_on:
+      db: { condition: service_healthy }
+volumes:
+  pgdata:
