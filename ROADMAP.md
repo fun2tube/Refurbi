@@ -9,7 +9,7 @@ Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)
 - [!] T02 CI: GitHub Actions running API lint (ruff) + tests (pytest against Postgres service) and web lint + typecheck + build
 - [x] T03 API core: settings (pydantic-settings), DB session, Alembic setup, health endpoint, consistent error envelope, pagination helper, structured logging
 - [x] T04 Design system in web: tokens (Midnight #111318, Porcelain #F7F7F5, Silver #A8B1B9, Refurbi Green #247C65), Inter + Manrope fonts, Button, Input, Select, Card, Badge (grade), Price (tabular, Rs formatting from paise), layout shells for store/admin/partner
-- [ ] T05 Auth: users, roles, permissions, user_roles (counter-scoped); Argon2id; JWT access + rotating refresh (HttpOnly cookie); require_permission() dependency; seed super admin from env; tests incl. counter isolation
+- [x] T05 Auth: users, roles, permissions, user_roles (counter-scoped); Argon2id; JWT access + rotating refresh (HttpOnly cookie); require_permission() dependency; seed super admin from env; tests incl. counter isolation
 
 ## Milestone 1 - Inventory core (most important)
 - [ ] T06 Catalogue schema + API: brands, product_models, product_variants, specifications, images; admin CRUD; public read endpoints; seed 15 popular models (iPhone 11-15, Galaxy S21-S23, A-series, OnePlus 9-11)
