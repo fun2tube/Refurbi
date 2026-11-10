@@ -6,6 +6,8 @@ import { DeviceArt } from "@/components/store/DeviceArt";
 import { JsonLd } from "@/components/store/JsonLd";
 import { breadcrumbLd } from "@/lib/seo";
 import { Faq, PRODUCT_FAQS } from "@/components/store/Faq";
+import { apiBaseUrl } from "@/lib/config";
+import { ReserveButton } from "@/components/store/ReserveButton";
 import { WhatsAppButton } from "@/components/store/WhatsAppButton";
 import { GradeBadge, Price } from "@/components/ui";
 import { getModel, getUnits, type Unit } from "@/lib/api";
@@ -160,6 +162,7 @@ export default async function Page({ params, searchParams }: Props) {
                   >
                     Ask about this phone
                   </a>
+                  <ReserveButton apiBase={apiBaseUrl()} unitId={u.unit_id} label="Reserve for store pickup" />
                 </li>
               ))}
             </ul>

@@ -27,6 +27,11 @@ class Settings(BaseSettings):
     # host (as some hosting platforms provide) is treated as https.
     # Seller / invoice details. FOUNDER INPUT: all are labelled placeholders until real values
     # are provided (GSTIN, legal name, address, state code, GST rate for the margin scheme).
+    # Email (Brevo free tier). Empty key = fake outbox adapter (dev/tests/preview).
+    brevo_api_key: str = ""
+    email_from: str = "no-reply@example.invalid"
+    reservation_hours: int = 24
+    otp_ttl_minutes: int = 10
     seller_legal_name: str = "REFURBI DEMO TRADERS (placeholder - not a real entity)"
     seller_gstin: str = "00AAAAA0000A0Z0"
     seller_address: str = "Placeholder address - to be confirmed by founder"

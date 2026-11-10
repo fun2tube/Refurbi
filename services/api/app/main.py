@@ -19,6 +19,8 @@ from app.pricing.router import router as pricing_router
 from app.procurement.router import router as procurement_router
 from app.qc.router import media as media_router
 from app.qc.router import router as qc_router
+from app.reservations.router import admin as reservations_admin
+from app.reservations.router import public as reservations_public
 from app.storefront.router import router as storefront_router
 from app.transfers.router import router as transfers_router
 from app.warranty.router import admin as warranty_admin
@@ -57,6 +59,8 @@ app.include_router(commission_admin)
 app.include_router(commission_partner)
 app.include_router(warranty_public)
 app.include_router(warranty_admin)
+app.include_router(reservations_public)
+app.include_router(reservations_admin)
 
 
 @app.get("/health")
