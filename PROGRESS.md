@@ -1,9 +1,9 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 12 / 37 (32%) (incl. TP1 preview task)
+- Tasks done: 13 / 37 (35%) (incl. TP1 preview task)
 - Current milestone: 3 - Public storefront (priority override)
-- Next task: T27 (storefront-first order: T27, T28, T26, T24, then T09...)
+- Next task: T28 (storefront-first order: T28, T26, T24, then T09...)
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
 
@@ -13,7 +13,7 @@
 - GSTIN, legal name, registered address (T16 invoices)
 - CA sign-off on GST margin scheme (Rule 32(5)) and ITC policy
 - Product photos/descriptions/spec text for the catalogue (T06 seeds only model names, years, 5G flag, RAM/storage configs - please verify; no prices/images invented)
-- Grade definitions A/B/C and warranty months per grade
+- Grade definitions A/B/C and warranty months per grade; return window/policy; company details and contact numbers for /about, /contact, /warranty, /returns (currently marked 'to be confirmed')
 - Counter list: names, addresses, owners, commission terms
 - Later: domain, hosting, Razorpay, WhatsApp Business, SMS DLT, Google Maps accounts
 
@@ -113,3 +113,10 @@
 - Decisions made: no addresses/hours/phones invented - shown as "to be confirmed/once verified" until T14 (verified flag, address, hours). Public store API exposes only slug/name/city/is_demo/units_available.
 - Blockers / founder inputs needed: counter names, addresses, hours, phone numbers (T14).
 - Next: T27
+
+### 2026-11-10T20:05Z - T27 Trust pages
+- Done: `/quality-check`, `/grading`, `/warranty`, `/returns`, `/about`, `/contact`, `/faq` via one statically generated route `app/(store)/[page]` (dynamicParams=false, unknown paths 404; static routes like /admin win). Content in lib/content.ts; FAQ page has FAQPage JSON-LD; per-page metadata + canonical; WhatsApp + browse CTAs. Header/footer/bottom-nav links now resolve.
+- Tests: web lint, tsc, 18 tests (2 new: required pages, forbidden-claim scan), build pass; route smoke OK. API 275 passed.
+- Decisions made: content as TS data rather than MDX (no new toolchain; trivially swappable later). All founder-owned facts (warranty months, return window, company/contact details, final grade standards) are written as "to be confirmed" - nothing invented.
+- Blockers / founder inputs needed: see Founder inputs (grade definitions, warranty, returns, company details, contact numbers).
+- Next: T28

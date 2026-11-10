@@ -41,7 +41,7 @@ Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)
 - [ ] T24 Reserve-for-store-pickup: phone OTP, device RESERVED 24h, notify counter; expiry job releases it
 - [x] T25 Store locator /stores + /stores/[slug] with live stock, map adapter, hours, call/WhatsApp
 - [ ] T26 Exchange enquiry /exchange: questionnaire -> indicative range (rule table) -> lead saved; admin lead inbox
-- [ ] T27 Trust pages: quality-check, grading, warranty, returns, about, contact, FAQ (MDX)
+- [x] T27 Trust pages: quality-check, grading, warranty, returns, about, contact, FAQ (MDX)
 - [ ] T28 SEO: metadata, canonical, JSON-LD (Organization, WebSite, Product+Offer itemCondition=Refurbished, BreadcrumbList, LocalBusiness), sitemap.xml, robots.txt, redirects table
 
 ## Milestone 4 - Online payments (Release 1.5)
