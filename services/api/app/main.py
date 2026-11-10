@@ -10,6 +10,7 @@ from app.commission.router import admin as commission_admin
 from app.commission.router import partner as commission_partner
 from app.core.errors import install_error_handlers
 from app.core.logging import configure_logging, install_request_logging
+from app.core.security import SecurityHeadersMiddleware
 from app.core.settings import get_settings
 from app.counters.router import router as counters_router
 from app.dashboard.router import router as dashboard_router
@@ -46,6 +47,7 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allow_headers=["Authorization", "Content-Type"],
 )
+app.add_middleware(SecurityHeadersMiddleware, hsts=_settings.app_env not in ("dev", "test"))
 app.include_router(auth_router)
 app.include_router(catalog_public)
 app.include_router(catalog_admin)

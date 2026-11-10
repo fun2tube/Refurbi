@@ -1,8 +1,8 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 36 / 39 (92%)
-- Current milestone: 4 - Online payments (Builder A next: T34)
+- Tasks done: 37 / 39 (95%)
+- Current milestone: 4 - Online payments (Builder A next: T35)
 - Next task (Builder B): none (all B tasks done)
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
@@ -154,3 +154,10 @@
 - Tests: API 353 passed; web 24 unit passed; E2E 3 passed; lint/typecheck/build clean.
 - Decisions made: E2E not in GitHub Actions (workflow pushes blocked); POS sale done via API as admin (no POS UI spec yet).
 - Next: T34
+
+### 2026-11-10T20:20Z - T34 Security pass (Builder A)
+- Done: API + web security headers (HSTS, nosniff, frame deny, no-store on auth/admin), login throttle (failures only, per IP + email), IMEI key rotation script + procedure, docs/SECURITY.md with OWASP checklist. Audited existing limits/CORS/upload checks. E2E now resets its scratch DB each run.
+- Tests: API 355 passed; web 24; E2E 3 passed; ruff/lint/typecheck/build clean.
+- Decisions made: CSP deferred to launch (needs real domain + Razorpay/OSM/GA4 allowlist).
+- Founder inputs: enable Dependabot; confirm CSP at launch.
+- Next: T35

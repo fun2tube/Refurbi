@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Cookie, Depends, Response
+from fastapi import APIRouter, Cookie, Depends, Request, Response
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
@@ -7,7 +7,10 @@ from app.auth.deps import current_user
 from app.auth.models import User
 from app.core.db import get_session
 from app.core.errors import UnauthorizedError
+from app.core.security import AttemptLimiter
 from app.core.settings import get_settings
+
+login_limiter = AttemptLimiter(limit=20, window_s=600)
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -58,8 +61,20 @@ def _set_cookie(response: Response, raw: str) -> None:
 
 
 @router.post("/login", response_model=TokenOut)
-def login(body: LoginIn, response: Response, db: Session = Depends(get_session)) -> TokenOut:
-    user, access, refresh = service.login(db, body.email, body.password)
+def login(
+    body: LoginIn, request: Request, response: Response, db: Session = Depends(get_session)
+) -> TokenOut:
+    ip = request.client.host if request.client else "?"
+    keys = (f"ip:{ip}", f"em:{body.email.strip().lower()}")
+    for k in keys:  # brute-force / credential-stuffing guard: only FAILED logins count
+        login_limiter.check(k)
+    try:
+        user, access, refresh = service.login(db, body.email, body.password)
+    except UnauthorizedError:
+        for k in keys:
+            login_limiter.fail(k)
+        raise
+    login_limiter.clear(keys[1])
     _set_cookie(response, refresh)
     return TokenOut(access_token=access, user=user_out(user))
 

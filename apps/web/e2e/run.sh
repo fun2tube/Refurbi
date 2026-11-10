@@ -6,6 +6,8 @@ export DATABASE_URL="${E2E_DATABASE_URL:-postgresql+psycopg://refurbi:refurbi_de
 export APP_ENV=preview JWT_SECRET=e2e-secret-not-real-0123456789abcdef
 export SUPER_ADMIN_EMAIL=admin@example.com SUPER_ADMIN_PASSWORD=e2e-password CORS_ORIGINS=http://localhost:3000
 cd "$ROOT/services/api"
+# fresh state every run (scratch DB only!) so stock/sales from earlier runs never leak in
+psql "${DATABASE_URL/+psycopg/}" -q -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"
 uv run alembic upgrade head && uv run python -m app.seed
 uv run uvicorn app.main:app --port 8000 >/tmp/refurbi-e2e-api.log 2>&1 & API_PID=$!
 cd "$ROOT/apps/web"
