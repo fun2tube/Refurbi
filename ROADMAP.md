@@ -55,4 +55,4 @@ Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)
 - [ ] T33 Playwright E2E: POS sale, reserve-for-pickup, online purchase (fake gateway), warranty lookup
 - [ ] T34 Security pass: rate limits, CORS, headers, upload validation, IMEI encryption key rotation doc, OWASP checklist
 - [ ] T35 Analytics events (GA4 ecommerce + WhatsApp clicks) behind consent; Core Web Vitals check
-- [ ] T36 Deployment: API Dockerfile, Vercel config, env templates, migration-on-deploy, backup/restore runbook, LAUNCH_CHECKLIST.md listing every remaining founder-provided item
+- [x] T36 Deployment: API Dockerfile, Vercel config, env templates, migration-on-deploy, backup/restore runbook, LAUNCH_CHECKLIST.md listing every remaining founder-provided item

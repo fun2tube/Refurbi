@@ -1,0 +1,14 @@
+{
+  // Cloudflare Workers config for the free-tier deployment (docs/GO_LIVE_FREE.md).
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "refurbi-web",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-03-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  "vars": {
+    // Public values only. Set the real API URL here or in the Cloudflare dashboard (never secrets).
+    "NEXT_PUBLIC_APP_ENV": "production",
+    "NEXT_PUBLIC_API_URL": "https://REPLACE-WITH-YOUR-API.onrender.com"
+  }
+}

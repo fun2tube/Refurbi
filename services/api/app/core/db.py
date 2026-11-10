@@ -21,7 +21,14 @@ class Base(DeclarativeBase):
 
 @lru_cache
 def get_engine() -> Engine:
-    return create_engine(get_settings().database_url, pool_pre_ping=True)
+    return create_engine(
+        get_settings().database_url,
+        pool_pre_ping=True,  # Neon free suspends idle compute; revalidate connections
+        pool_recycle=300,
+        pool_size=3,  # stay well inside Neon free connection limits
+        max_overflow=2,
+        connect_args={"connect_timeout": 15},  # allow for Neon cold start (~1-3 s)
+    )
 
 
 @lru_cache

@@ -3,7 +3,7 @@
 ## Status
 - Tasks done: 28 / 38 (74%)
 - Current milestone: 4 - Online payments (Builder A next: T29)
-- Next task (Builder B): T36
+- Next task (Builder B): none (all B tasks done)
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
 
@@ -110,3 +110,9 @@
 - Done: GET /admin/dashboard (today/month sales, units, gross margin = price - device cost, stock by location, ageing buckets, counter leaderboard; "today" = IST day) + DashboardCard on /admin.
 - Tests: API 337 passed; web tsc/build ok. Pre-existing ruff E501 in migrations/0015_reservations.py (Builder A's) - not touched.
 - Next: T36
+
+### 2026-11-10T17:00Z - T36 Zero-cost deployment (Builder B)
+- Done: docs/GO_LIVE_FREE.md (Neon, Render API, UptimeRobot, Cloudflare Workers, R2, Brevo, backups); OpenNext open-next.config.ts + wrangler.jsonc + cf:build/cf:deploy scripts (Render config unchanged); Neon-ready pool settings; scripts/backup.sh (pg_dump).
+- Tests: API 338 passed. Cloudflare build itself not run here (needs account/network); Render fallback intact.
+- Founder inputs needed: follow docs/GO_LIVE_FREE.md; GSTIN/legal name/address/UPI ID env values; confirm UptimeRobot free-plan terms are acceptable for commercial use.
+- Next: none (Builder B queue empty)

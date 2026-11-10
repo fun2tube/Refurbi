@@ -123,3 +123,12 @@ def test_json_log_format():
     rec.status = 200
     out = json.loads(JsonFormatter().format(rec))
     assert out["event"] == "hello" and out["level"] == "INFO" and out["status"] == 200
+
+
+def test_neon_database_url_is_normalised():
+    from app.core.settings import Settings
+
+    url = "postgresql://u:p@ep-x-pooler.ap-southeast-1.aws.neon.tech/refurbi?sslmode=require"
+    assert Settings(database_url=url).database_url == (
+        "postgresql+psycopg://u:p@ep-x-pooler.ap-southeast-1.aws.neon.tech/refurbi?sslmode=require"
+    )
