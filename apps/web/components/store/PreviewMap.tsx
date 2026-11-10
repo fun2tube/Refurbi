@@ -20,7 +20,9 @@ export const PREVIEW_PAGES: { title: string; blurb: string; href: string }[] = [
   { title: "sitemap.xml", blurb: "Generated from live brands, models and stores.", href: "/sitemap.xml" },
   { title: "robots.txt", blurb: "Preview blocks all crawlers.", href: "/robots.txt" },
   { title: "Old catalogue (API check)", blurb: "Raw model list from the public API.", href: "/catalogue" },
-  { title: "Admin", blurb: "Back-office. Demo admin sign-in.", href: "/admin" },
+  { title: "Admin", blurb: "Back-office home. Demo admin sign-in.", href: "/admin" },
+  { title: "Admin: inventory", blurb: "Device table with filters; device page has timeline, QC form, pricing, photos.", href: "/admin/inventory" },
+  { title: "Admin: receive stock", blurb: "Suppliers, purchase orders, goods receipt with IMEI check.", href: "/admin/receive" },
   { title: "Partner", blurb: "Counter area (POS comes later).", href: "/partner" },
 ];
 

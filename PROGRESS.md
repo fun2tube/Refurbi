@@ -1,7 +1,7 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 17 / 37 (46%) (incl. TP1 preview task)
+- Tasks done: 18 / 37 (49%) (incl. TP1 preview task)
 - Current milestone: 3 - Public storefront (priority override)
 - Next task: T26 (storefront-first order: T26, T24, then T09...)
 - Preview URL: https://refurbi-web.onrender.com
@@ -146,3 +146,9 @@
 - Tests: API 294 passed; ruff clean (worked examples in test_pricing).
 - Founder inputs: real margin targets per grade (defaults A25%/B20%/C15% are placeholders).
 - Next: T12
+
+### 2026-11-10T15:35Z - T12 Admin UI inventory/QC/receive (Builder B)
+- Done: API GET /admin/inventory/devices (filters: brand, model, status, grade, battery, location, age, IMEI last4) + device detail with timeline (IMEI last4 only). Web: /admin nav, /admin/inventory table, /admin/inventory/[id] (timeline, QC form, pricing, photo upload), /admin/receive (suppliers, PO, receive with IMEI). Linked from start-page preview map.
+- Tests: API 297 passed; web lint, tsc, vitest 22, build pass.
+- Decisions made: token in sessionStorage (same as login); PO creation UI deferred (API only).
+- Next: T13
