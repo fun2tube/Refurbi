@@ -11,6 +11,7 @@ PERMISSIONS: dict[str, str] = {
     "transfers.manage": "Create, approve and receive stock transfers",
     "transfers.receive": "Confirm receipt of a transfer at own counter",
     "leads.manage": "View and manage exchange enquiries",
+    "orders.manage": "View and fulfil online orders",
     "procurement.write": "Suppliers, purchase orders, goods receipt",
     "counter.stock.read": "View stock at a counter",
     "counter.sell": "Sell a device at a counter (POS)",

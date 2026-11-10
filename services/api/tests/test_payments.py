@@ -51,7 +51,7 @@ def test_signed_webhook_marks_paid_and_is_idempotent(client):
     with f() as db:
         assert db.scalar(select(Payment)).status == "PAID"
         assert db.scalar(select(Checkout)).status == "PAID"
-        assert db.scalar(select(Device).where(Device.id == uid)).status == "RESERVED"
+        assert db.scalar(select(Device).where(Device.id == uid)).status == "SOLD"
         assert len(db.scalars(select(PaymentEvent)).all()) == 1
     assert c.get(f"/public/checkout/{j['token']}").json()["status"] == "PAID"
     assert c.post(f"/public/payments/{j['token']}/start").status_code == 409

@@ -1,8 +1,8 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 30 / 38 (79%)
-- Current milestone: 4 - Online payments (Builder A next: T31)
+- Tasks done: 31 / 39 (79%)
+- Current milestone: 4 - Online payments (Builder A next: T31B)
 - Next task (Builder B): none (all B tasks done)
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
@@ -128,3 +128,9 @@
 - Tests: API 345 passed; ruff clean; web build/lint/typecheck green.
 - Founder inputs: Razorpay key id/secret/webhook secret at go-live (optional; pay-at-store works without).
 - Next: T31
+
+### 2026-11-10T18:35Z - T31A Orders + tracking + My orders (Builder A)
+- Done: app/orders (migration 0018): order created on payment (devices -> SOLD via lifecycle), status history, fake courier adapter, public tracking by unguessable token, email-OTP account orders list, admin list/advance API (perm orders.manage). Web: /orders/[token], /account.
+- Tests: API 348 passed; ruff clean; web build/lint/typecheck green. Public endpoints tested for no IMEI/cost/PII.
+- Decisions made: T31 split; T31B = admin UI, GST invoice + warranty for online orders (needs Sale/Invoice integration).
+- Next: T31B

@@ -10,6 +10,7 @@ from app.checkout.models import Checkout, CheckoutItem
 from app.core.errors import ConflictError
 from app.inventory.lifecycle import transition
 from app.inventory.models import Device, DeviceStatus
+from app.orders.service import create_from_checkout
 from app.payments.gateway import Gateway
 from app.payments.models import Payment, PaymentEvent
 
@@ -32,6 +33,7 @@ def _mark_paid(db: Session, p: Payment, payment_id: str | None) -> None:
     p.paid_at = datetime.now(UTC)
     if c.status == "HOLD":
         p.status, c.status = "PAID", "PAID"
+        create_from_checkout(db, c)
         return
     if c.status == "EXPIRED":  # paid after the hold lapsed: re-take the phones if still free
         devs = [
@@ -42,6 +44,7 @@ def _mark_paid(db: Session, p: Payment, payment_id: str | None) -> None:
             for d in devs:
                 transition(db, d.id, DeviceStatus.RESERVED, reason="late payment re-hold")
             p.status, c.status = "PAID", "PAID"
+            create_from_checkout(db, c)
             return
     p.status = "REFUND_DUE"  # money received but phones gone: founder must refund (T32)
 
