@@ -3,6 +3,7 @@
 from app.auth import models as auth_models  # noqa: F401
 from app.billing import models as billing_models  # noqa: F401
 from app.catalog import models as catalog_models  # noqa: F401
+from app.checkout import models as checkout_models  # noqa: F401
 from app.commission import models as commission_models  # noqa: F401
 from app.core.db import Base  # noqa: F401
 from app.counters import models as counters_models  # noqa: F401

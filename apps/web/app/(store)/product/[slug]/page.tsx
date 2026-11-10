@@ -7,6 +7,7 @@ import { JsonLd } from "@/components/store/JsonLd";
 import { breadcrumbLd } from "@/lib/seo";
 import { Faq, PRODUCT_FAQS } from "@/components/store/Faq";
 import { apiBaseUrl } from "@/lib/config";
+import { AddToCart } from "@/components/store/AddToCart";
 import { ReserveButton } from "@/components/store/ReserveButton";
 import { WhatsAppButton } from "@/components/store/WhatsAppButton";
 import { GradeBadge, Price } from "@/components/ui";
@@ -162,6 +163,7 @@ export default async function Page({ params, searchParams }: Props) {
                   >
                     Ask about this phone
                   </a>
+                  <AddToCart unitId={u.unit_id} />
                   <ReserveButton apiBase={apiBaseUrl()} unitId={u.unit_id} label="Reserve for store pickup" />
                 </li>
               ))}

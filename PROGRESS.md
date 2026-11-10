@@ -1,8 +1,8 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 28 / 38 (74%)
-- Current milestone: 4 - Online payments (Builder A next: T29)
+- Tasks done: 29 / 38 (76%)
+- Current milestone: 4 - Online payments (Builder A next: T30)
 - Next task (Builder B): none (all B tasks done)
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
@@ -116,3 +116,9 @@
 - Tests: API 338 passed. Cloudflare build itself not run here (needs account/network); Render fallback intact.
 - Founder inputs needed: follow docs/GO_LIVE_FREE.md; GSTIN/legal name/address/UPI ID env values; confirm UptimeRobot free-plan terms are acceptable for commercial use.
 - Next: none (Builder B queue empty)
+
+### 2026-11-10T17:45Z - T29 Cart + checkout hold (Builder A)
+- Done: app/checkout (checkouts/items, migration 0016): public cart check, delivery-estimate stub, checkout hold (row lock, email OTP, 15-min hold, expiry release, cancel via lifecycle). Web: /cart (localStorage cart, address, PIN estimate, countdown), Add to cart on phone page, header cart link. Fixed main web build (open-next.config.ts excluded from tsc).
+- Tests: API 341 passed; ruff clean; web 24 passed, lint/typecheck/build green.
+- Decisions made: payment not wired yet (T30); hold UI says nothing charged.
+- Next: T30

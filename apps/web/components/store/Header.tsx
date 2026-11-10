@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CartLink } from "./CartLink";
 import { Container } from "./Container";
 
 export const NAV = [
@@ -35,6 +36,7 @@ export function Header() {
             className="h-10 w-full rounded-full border border-silver/60 bg-white px-4 text-sm outline-none focus:border-brand"
           />
         </form>
+        <CartLink />
       </Container>
     </header>
   );

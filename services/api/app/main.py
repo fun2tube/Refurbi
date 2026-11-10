@@ -5,6 +5,7 @@ from app.auth.router import router as auth_router
 from app.billing.router import router as billing_router
 from app.catalog.router import admin as catalog_admin
 from app.catalog.router import public as catalog_public
+from app.checkout.router import public as checkout_public
 from app.commission.router import admin as commission_admin
 from app.commission.router import partner as commission_partner
 from app.core.errors import install_error_handlers
@@ -62,6 +63,7 @@ app.include_router(warranty_public)
 app.include_router(warranty_admin)
 app.include_router(reservations_public)
 app.include_router(reservations_admin)
+app.include_router(checkout_public)
 app.include_router(dashboard_router)
 
 

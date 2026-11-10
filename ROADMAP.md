@@ -1,6 +1,8 @@
 # Refurbi Build Roadmap
 
 ## Priority: storefront first
+Two parallel streams: Builder A = storefront (T21-T35), Builder B = back-office (T09-T20, T36). Zero-cost rule (D11): no paid services; every integration behind an adapter with a dev fake.
+
 Founder-approved 2026-11-10: Milestone 3 (T21-T28) is done BEFORE the remaining Milestone 1/2 tasks. T21-T28 use demo data and public read-only endpoints (never exposing IMEI, cost, supplier or commission). Order: T21, T22, T23, T25, T27, T28, T26, T24, then T09, T10, T11, T12, T13, T14... in normal order.
 
 Each task is sized for roughly one autonomous build session (~45 min). Take the first unchecked task whose dependencies are done, finish it with tests, tick it, log it in PROGRESS.md.
@@ -46,7 +48,7 @@ Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)
 - [x] T28 SEO: metadata, canonical, JSON-LD (Organization, WebSite, Product+Offer itemCondition=Refurbished, BreadcrumbList, LocalBusiness), sitemap.xml, robots.txt, redirects table
 
 ## Milestone 4 - Online payments (Release 1.5)
-- [ ] T29 Cart + checkout with device reservation (row lock, 15-min hold), address, PIN-code delivery estimate stub
+- [x] T29 Cart + checkout with device reservation (row lock, 15-min hold), address, PIN-code delivery estimate stub
 - [ ] T30 Payment adapter (Razorpay) with signed idempotent webhook (payment_events unique event_id); fake gateway in dev
 - [ ] T31 Orders, order status history, shipments adapter, customer account (orders, warranties)
 - [ ] T32 Returns/refunds workflow
