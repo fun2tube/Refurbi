@@ -18,6 +18,7 @@ from app.exchange.router import public as exchange_public
 from app.inventory.router import router as inventory_router
 from app.orders.router import admin as orders_admin
 from app.orders.router import public as orders_public
+from app.orders.router import returns_admin as returns_admin
 from app.payments.router import public as payments_public
 from app.pos.router import router as pos_router
 from app.pricing.router import router as pricing_router
@@ -70,6 +71,7 @@ app.include_router(checkout_public)
 app.include_router(payments_public)
 app.include_router(orders_public)
 app.include_router(orders_admin)
+app.include_router(returns_admin)
 app.include_router(dashboard_router)
 
 

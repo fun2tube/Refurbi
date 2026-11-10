@@ -33,12 +33,17 @@ class Gateway(Protocol):
 
     def create_order(self, amount_paise: int, receipt: str) -> dict: ...
 
+    def refund(self, payment_id: str | None, amount_paise: int) -> str: ...
+
 
 class FakeGateway:
     name = "fake"
 
     def create_order(self, amount_paise: int, receipt: str) -> dict:
         return {"order_id": f"fake_order_{secrets.token_hex(8)}", "key_id": "fake_key"}
+
+    def refund(self, payment_id: str | None, amount_paise: int) -> str:
+        return f"fake_refund_{secrets.token_hex(6)}"
 
 
 class RazorpayGateway:
@@ -56,6 +61,17 @@ class RazorpayGateway:
         )
         with urllib.request.urlopen(req, timeout=15) as r:  # noqa: S310 - fixed https URL
             return {"order_id": json.load(r)["id"], "key_id": s.razorpay_key_id}
+
+    def refund(self, payment_id: str | None, amount_paise: int) -> str:
+        s = get_settings()
+        auth = base64.b64encode(f"{s.razorpay_key_id}:{s.razorpay_key_secret}".encode()).decode()
+        req = urllib.request.Request(
+            f"https://api.razorpay.com/v1/payments/{payment_id}/refund",
+            data=json.dumps({"amount": amount_paise}).encode(),
+            headers={"Authorization": f"Basic {auth}", "Content-Type": "application/json"},
+        )
+        with urllib.request.urlopen(req, timeout=15) as r:  # noqa: S310 - fixed https URL
+            return json.load(r)["id"]
 
 
 def get_gateway() -> Gateway:

@@ -122,3 +122,88 @@ def test_admin_order_detail(client):
     d = c.get(f"/admin/orders/{oid}", headers=h).json()
     assert d["items"][0]["invoice_number"] and d["timeline"][0]["status"] == "PLACED"
     assert c.get("/admin/orders/9999", headers=h).status_code == 404
+
+
+def _delivered(c, f):
+    uid, _ = _paid(c)
+    h = token(c, f, "adm@example.com", "super_admin")
+    oid = c.get("/admin/orders", headers=h).json()[0]["id"]
+    for _ in range(3):
+        c.post(f"/admin/orders/{oid}/advance", headers=h)
+    with f() as db:
+        tok = db.scalar(select(Order)).token
+    inv = c.get(f"/public/orders/{tok}").json()["items"][0]["invoice_number"]
+    return uid, h, tok, inv
+
+
+def test_return_and_refund_flow(client):
+    c, f = client
+    uid, h, tok, inv = _delivered(c, f)
+    url = f"/public/orders/{tok}/returns"
+    assert (
+        c.post(
+            "/public/orders/bad/returns", json={"invoice_number": inv, "reason": "changed mind"}
+        ).status_code
+        == 404
+    )
+    assert c.post(url, json={"invoice_number": "X/9", "reason": "changed mind"}).status_code == 404
+    assert c.post(url, json={"invoice_number": inv, "reason": "screen flicker"}).status_code == 201
+    assert c.post(url, json={"invoice_number": inv, "reason": "again"}).status_code == 409
+    assert c.get(f"/public/orders/{tok}").json()["items"][0]["return_status"] == "REQUESTED"
+    assert c.get("/admin/returns").status_code == 401
+    rid = c.get("/admin/returns", headers=h).json()[0]["id"]
+    # cannot skip steps
+    assert c.post(f"/admin/returns/{rid}/refund", json={}, headers=h).status_code == 409
+    assert c.post(f"/admin/returns/{rid}/receive", headers=h).status_code == 409
+    assert (
+        c.post(f"/admin/returns/{rid}/approve", json={}, headers=h).json()["status"] == "APPROVED"
+    )
+    assert c.post(f"/admin/returns/{rid}/receive", headers=h).json()["status"] == "RECEIVED"
+    with f() as db:
+        assert db.get(Device, uid).status == "RETURNED"
+    price = c.get("/admin/returns", headers=h).json()[0]["price_paise"]
+    assert (
+        c.post(
+            f"/admin/returns/{rid}/refund", json={"amount_paise": price + 1}, headers=h
+        ).status_code
+        == 400
+    )
+    r = c.post(f"/admin/returns/{rid}/refund", json={}, headers=h).json()
+    assert (
+        r["status"] == "REFUNDED"
+        and r["refund_paise"] == price
+        and r["refund_ref"].startswith("fake_refund")
+    )
+    assert c.post(f"/admin/returns/{rid}/refund", json={}, headers=h).status_code == 409
+    it = c.get(f"/public/orders/{tok}").json()["items"][0]
+    assert (
+        it["return_status"] == "REFUNDED"
+        and it["refund_paise"] == price
+        and it["warranty_active"] is False
+    )
+    low = c.get(f"/public/orders/{tok}").text.lower()
+    assert "refund_ref" not in low and "fake_refund" not in low and "imei" not in low
+
+
+def test_return_rejected_and_rules(client):
+    c, f = client
+    uid, _ = _paid(c)  # not delivered yet
+    with f() as db:
+        tok = db.scalar(select(Order)).token
+    inv = c.get(f"/public/orders/{tok}").json()["items"][0]["invoice_number"]
+    assert (
+        c.post(
+            f"/public/orders/{tok}/returns", json={"invoice_number": inv, "reason": "too early"}
+        ).status_code
+        == 409
+    )
+
+
+def test_return_window_closed(client, monkeypatch):
+    c, f = client
+    uid, h, tok, inv = _delivered(c, f)
+    from app.core.settings import get_settings
+
+    monkeypatch.setattr(get_settings(), "return_window_days", -1)
+    r = c.post(f"/public/orders/{tok}/returns", json={"invoice_number": inv, "reason": "too late"})
+    assert r.status_code == 400 and "window" in r.text

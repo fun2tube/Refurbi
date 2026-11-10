@@ -11,6 +11,7 @@ export default function Page() {
     { href: "/admin/inventory", t: "Inventory", d: "All devices: filter by brand, model, status, grade, battery, location, age." },
     { href: "/admin/receive", t: "Receive stock", d: "Suppliers, purchase orders and goods receipt (IMEI check on every unit)." },
     { href: "/admin/orders", t: "Online orders", d: "Pack, ship and deliver web orders; see invoice and warranty per order." },
+    { href: "/admin/returns", t: "Returns and refunds", d: "Approve returns, receive devices back, refund (demo gateway in preview)." },
     { href: "/admin/login", t: "Sign in", d: "Demo admin sign-in." },
   ];
   return (

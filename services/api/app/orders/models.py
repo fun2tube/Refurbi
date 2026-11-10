@@ -44,3 +44,21 @@ class OrderStatusHistory(Base):
     note: Mapped[str] = mapped_column(String(200), default="")
     actor_user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class ReturnRequest(Base):
+    """Return/refund for one order item (T32). One request per item."""
+
+    __tablename__ = "return_requests"
+    id: Mapped[int] = mapped_column(ID, primary_key=True)
+    order_item_id: Mapped[int] = mapped_column(ForeignKey("order_items.id"), unique=True)
+    order_id: Mapped[int] = mapped_column(ForeignKey("orders.id"), index=True)
+    reason: Mapped[str] = mapped_column(String(500))
+    status: Mapped[str] = mapped_column(String(10), default="REQUESTED")
+    refund_paise: Mapped[int] = mapped_column(Integer, default=0)
+    refund_ref: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    admin_note: Mapped[str] = mapped_column(String(300), default="")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
+    )

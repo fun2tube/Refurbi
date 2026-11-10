@@ -1,8 +1,8 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 32 / 39 (82%)
-- Current milestone: 4 - Online payments (Builder A next: T32)
+- Tasks done: 33 / 39 (85%)
+- Current milestone: 4 - Online payments (Builder A next: T33)
 - Next task (Builder B): none (all B tasks done)
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
@@ -141,3 +141,10 @@
 - Decisions made: customer state defaults to seller state (no state captured at checkout yet); PDF keeps IMEI last4 on the customer's own invoice only (JSON never has IMEI).
 - Founder inputs: GSTIN/legal name for invoices (already listed).
 - Next: T32
+
+### 2026-11-10T19:40Z - T32 Returns/refunds (Builder A)
+- Done: return_requests (migration 0020); customer requests return per item (delivered orders, window check); admin approve/reject -> receive (SOLD->RETURNED via lifecycle) -> refund via gateway adapter (fake/Razorpay refund API), warranty ended on refund. Web: Request return on /orders/[token], /admin/returns.
+- Tests: API 353 passed; ruff clean; web lint/typecheck/build green.
+- Decisions made: refund up to item price, one return per item; REFUND_DUE payments still handled manually.
+- Founder inputs: real return window/policy (placeholder RETURN_WINDOW_DAYS=7).
+- Next: T33

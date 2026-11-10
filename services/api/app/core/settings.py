@@ -35,6 +35,8 @@ class Settings(BaseSettings):
     razorpay_key_secret: str = ""
     razorpay_webhook_secret: str = "dev-only-webhook-secret"
     reservation_hours: int = 24
+    # PLACEHOLDER return window (days after delivery). FOUNDER INPUT: real returns policy.
+    return_window_days: int = 7
     otp_ttl_minutes: int = 10
     seller_legal_name: str = "REFURBI DEMO TRADERS (placeholder - not a real entity)"
     seller_gstin: str = "00AAAAA0000A0Z0"

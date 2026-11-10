@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Container } from "@/components/store/Container";
 import { apiGet } from "@/lib/api";
 import { formatRupees } from "@/lib/money";
+import { ReturnForm } from "./ReturnForm";
 import { apiBaseUrl } from "@/lib/config";
 
 export const dynamic = "force-dynamic";
@@ -10,7 +11,7 @@ export const metadata: Metadata = { title: "Track your order", robots: { index: 
 
 type Order = {
   number: string; status: string; total_paise: number; carrier: string | null; tracking_no: string | null;
-  items: { title: string; price_paise: number; invoice_number: string | null; warranty_ends_on: string | null }[]; timeline: { status: string; note: string; at: string }[];
+  items: { title: string; price_paise: number; invoice_number: string | null; warranty_ends_on: string | null; return_status: string | null; refund_paise: number | null }[]; timeline: { status: string; note: string; at: string }[];
 };
 
 export default async function OrderPage({ params }: { params: Promise<{ token: string }> }) {
@@ -27,8 +28,9 @@ export default async function OrderPage({ params }: { params: Promise<{ token: s
       <p className="mt-1 text-sm text-midnight/70">Status: <b>{o.status}</b> · Total {formatRupees(o.total_paise)}</p>
       {o.tracking_no && <p className="mt-1 text-sm">Tracking: {o.carrier} {o.tracking_no}</p>}
       <ul className="mt-4 space-y-1 text-sm">
-        {o.items.map((i, n) => <li key={n}>{i.title} - {formatRupees(i.price_paise)}{i.invoice_number && <> · <a className="text-brand underline" href={`${apiBaseUrl()}/public/orders/${token}/invoice.pdf?number=${encodeURIComponent(i.invoice_number)}`}>Invoice {i.invoice_number}</a></>}{i.warranty_ends_on && <> · warranty until {i.warranty_ends_on}</>}</li>)}
+        {o.items.map((i, n) => <li key={n}>{i.title} - {formatRupees(i.price_paise)}{i.invoice_number && <> · <a className="text-brand underline" href={`${apiBaseUrl()}/public/orders/${token}/invoice.pdf?number=${encodeURIComponent(i.invoice_number)}`}>Invoice {i.invoice_number}</a></>}{i.warranty_ends_on && <> · warranty until {i.warranty_ends_on}</>}{i.return_status && <> · return {i.return_status.toLowerCase()}{i.refund_paise ? ` (refunded ${formatRupees(i.refund_paise)})` : ""}</>}{i.invoice_number && !i.return_status && <ReturnForm apiBase={apiBaseUrl()} token={token} invoice={i.invoice_number} />}</li>)}
       </ul>
+      <p className="mt-2 text-xs text-midnight/60">Return window and conditions: to be confirmed (placeholder 7 days after delivery in this preview).</p>
       <h2 className="mt-6 font-display text-lg font-semibold">Timeline</h2>
       <ol className="mt-2 space-y-1 text-sm">
         {o.timeline.map((t, n) => (

@@ -1,7 +1,7 @@
 from datetime import UTC, date, datetime
 
 from fastapi import APIRouter, Depends, Request, Response
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -12,9 +12,10 @@ from app.catalog.models import ProductModel, ProductVariant
 from app.core.db import get_session
 from app.core.errors import NotFoundError
 from app.inventory.models import Device
-from app.orders import service
+from app.orders import returns, service
 from app.orders.courier import Courier, get_courier
-from app.orders.models import Order, OrderItem, OrderStatusHistory
+from app.orders.models import Order, OrderItem, OrderStatusHistory, ReturnRequest
+from app.payments.gateway import Gateway, get_gateway
 from app.reservations.router import Email, _rate_limit
 from app.reservations.service import norm_email, verify_otp
 from app.warranty.models import Warranty
@@ -37,6 +38,8 @@ class OrderItemOut(BaseModel):
     warranty_months: int | None = None
     warranty_ends_on: date | None = None
     warranty_active: bool | None = None
+    return_status: str | None = None
+    refund_paise: int | None = None
 
 
 class OrderOut(BaseModel):
@@ -60,12 +63,15 @@ def _view(db: Session, o: Order) -> OrderOut:
             Invoice.number,
             Warranty.months,
             Warranty.ends_on,
+            ReturnRequest.status,
+            ReturnRequest.refund_paise,
         )
         .join(Device, Device.id == OrderItem.device_id)
         .join(ProductVariant, ProductVariant.id == Device.variant_id)
         .join(ProductModel, ProductModel.id == ProductVariant.model_id)
         .outerjoin(Invoice, Invoice.device_id == OrderItem.device_id)
         .outerjoin(Warranty, Warranty.device_id == OrderItem.device_id)
+        .outerjoin(ReturnRequest, ReturnRequest.order_item_id == OrderItem.id)
         .where(OrderItem.order_id == o.id)
     ).all()
     today = datetime.now(UTC).date()
@@ -81,8 +87,9 @@ def _view(db: Session, o: Order) -> OrderOut:
             OrderItemOut(
                 title=f"{n} {g}GB", price_paise=p, invoice_number=inv, warranty_months=m,
                 warranty_ends_on=e, warranty_active=None if e is None else e >= today,
+                return_status=rs, refund_paise=rp if rs == "REFUNDED" else None,
             )
-            for p, n, g, inv, m, e in rows
+            for p, n, g, inv, m, e, rs, rp in rows
         ],
         timeline=[TimelineOut(status=h.status, note=h.note, at=h.created_at) for h in hist],
     )  # fmt: skip
@@ -112,6 +119,29 @@ def invoice_pdf(token: str, number: str, db: Session = Depends(get_session)) -> 
         render_pdf(inv), media_type="application/pdf",
         headers={"Content-Disposition": f'inline; filename="{number.replace("/", "-")}.pdf"'},
     )  # fmt: skip
+
+
+class ReturnIn(BaseModel):
+    invoice_number: str = Field(min_length=3, max_length=40)
+    reason: str = Field(min_length=3, max_length=500)
+
+
+@public.post("/orders/{token}/returns", status_code=201)
+def request_return(token: str, body: ReturnIn, db: Session = Depends(get_session)) -> dict:
+    o = db.scalar(select(Order).where(Order.token == token))
+    item = (
+        db.scalar(
+            select(OrderItem)
+            .join(Invoice, Invoice.device_id == OrderItem.device_id)
+            .where(OrderItem.order_id == o.id, Invoice.number == body.invoice_number.strip())
+        )
+        if o
+        else None
+    )
+    if o is None or item is None:
+        raise NotFoundError("Order item not found")
+    r = returns.request_return(db, o, item, body.reason)
+    return {"status": r.status}
 
 
 class AccountIn(BaseModel):
@@ -186,3 +216,83 @@ def advance(
     user=Depends(require_permission("orders.manage")),
 ):
     return _adm(service.advance(db, order_id, courier, getattr(user, "id", None)))
+
+
+class AdminReturn(BaseModel):
+    id: int
+    order_number: str
+    item: str
+    invoice_number: str | None
+    price_paise: int
+    reason: str
+    status: str
+    refund_paise: int
+    refund_ref: str | None
+    admin_note: str
+    created_at: datetime
+
+
+returns_admin = APIRouter(prefix="/admin/returns", tags=["returns-admin"])
+
+
+def _ret(db: Session, r: ReturnRequest) -> AdminReturn:
+    row = db.execute(
+        select(
+            Order.number,
+            OrderItem.price_paise,
+            ProductModel.name,
+            ProductVariant.storage_gb,
+            Invoice.number,
+        )
+        .join(OrderItem, OrderItem.order_id == Order.id)
+        .join(Device, Device.id == OrderItem.device_id)
+        .join(ProductVariant, ProductVariant.id == Device.variant_id)
+        .join(ProductModel, ProductModel.id == ProductVariant.model_id)
+        .outerjoin(Invoice, Invoice.device_id == OrderItem.device_id)
+        .where(OrderItem.id == r.order_item_id)
+    ).one()
+    return AdminReturn(
+        id=r.id, order_number=row[0], price_paise=row[1], item=f"{row[2]} {row[3]}GB",
+        invoice_number=row[4], reason=r.reason, status=r.status, refund_paise=r.refund_paise,
+        refund_ref=r.refund_ref, admin_note=r.admin_note, created_at=r.created_at,
+    )  # fmt: skip
+
+
+class DecisionIn(BaseModel):
+    note: str = Field(default="", max_length=300)
+
+
+class RefundIn(BaseModel):
+    amount_paise: int | None = Field(default=None, gt=0)
+
+
+@returns_admin.get("", response_model=list[AdminReturn], dependencies=[_perm])
+def list_returns(db: Session = Depends(get_session)):
+    rows = db.scalars(select(ReturnRequest).order_by(ReturnRequest.id.desc()).limit(200))
+    return [_ret(db, r) for r in rows]
+
+
+@returns_admin.post("/{rid}/approve", response_model=AdminReturn)
+def approve(rid: int, body: DecisionIn, db: Session = Depends(get_session), user=_perm):
+    return _ret(db, returns.decide(db, rid, True, body.note, getattr(user, "id", None)))
+
+
+@returns_admin.post("/{rid}/reject", response_model=AdminReturn)
+def reject(rid: int, body: DecisionIn, db: Session = Depends(get_session), user=_perm):
+    return _ret(db, returns.decide(db, rid, False, body.note, getattr(user, "id", None)))
+
+
+@returns_admin.post("/{rid}/receive", response_model=AdminReturn)
+def receive(rid: int, db: Session = Depends(get_session), user=_perm):
+    return _ret(db, returns.receive(db, rid, getattr(user, "id", None)))
+
+
+@returns_admin.post("/{rid}/refund", response_model=AdminReturn)
+def refund(
+    rid: int,
+    body: RefundIn,
+    db: Session = Depends(get_session),
+    gw: Gateway = Depends(get_gateway),
+    user=_perm,
+):
+    return _ret(db, returns.refund(db, rid, gw, body.amount_paise, getattr(user, "id", None)))
