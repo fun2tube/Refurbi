@@ -106,7 +106,22 @@ def test_cors_origins_accept_bare_hosts_and_urls():
         "https://x.example",
         "http://localhost:3000",
     ]
-    assert Settings(cors_origins="").cors_origin_list == []
+    assert Settings(cors_origins="").cors_origin_list == ["https://refurbi-web.onrender.com"]
+
+
+def test_cors_defaults_allow_preview_web_without_env():
+    from fastapi.testclient import TestClient
+
+    from app.main import app
+
+    c = TestClient(app)
+    hdr = {"Access-Control-Request-Method": "GET"}
+    for origin in ("https://refurbi-web.onrender.com", "https://refurbi-web-pr-4.onrender.com"):
+        r = c.options("/health", headers={**hdr, "Origin": origin})
+        assert r.headers["access-control-allow-origin"] == origin
+    for origin in ("https://evil.example", "https://refurbi-web.onrender.com.evil.io"):
+        r = c.options("/health", headers={**hdr, "Origin": origin})
+        assert "access-control-allow-origin" not in r.headers
 
 
 def test_preview_flag():

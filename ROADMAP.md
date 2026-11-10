@@ -1,5 +1,8 @@
 # Refurbi Build Roadmap
 
+## Priority: storefront first
+Founder-approved 2026-11-10: Milestone 3 (T21-T28) is done BEFORE the remaining Milestone 1/2 tasks. T21-T28 use demo data and public read-only endpoints (never exposing IMEI, cost, supplier or commission). Order: T21, T22, T23, T25, T27, T28, T26, T24, then T09, T10, T11, T12, T13, T14... in normal order.
+
 Each task is sized for roughly one autonomous build session (~45 min). Take the first unchecked task whose dependencies are done, finish it with tests, tick it, log it in PROGRESS.md.
 
 Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)

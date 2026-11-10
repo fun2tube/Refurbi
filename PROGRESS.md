@@ -4,11 +4,11 @@
 - Tasks done: 8 / 37 (22%) (incl. TP1 preview task)
 - Current milestone: 1 - Inventory core
 - Next task: T09
-- Preview URL: (not yet recorded - founder: add a line `Preview URL: ...` after following docs/PREVIEW_SETUP.md)
+- Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
 
 ## Founder inputs needed (not blocking yet)
-- **ACTION (3 min): follow docs/PREVIEW_SETUP.md to get your preview link**
+- Preview is live at https://refurbi-web.onrender.com; after the TP1-fix push, re-sync the Blueprint in Render (Blueprints > refurbi-preview > Manual sync) if it still shows the failed CORS_ORIGINS step
 - Set real JWT_SECRET, SUPER_ADMIN_EMAIL/PASSWORD in the deploy env, then run `python -m app.seed` (T05)
 - GSTIN, legal name, registered address (T16 invoices)
 - CA sign-off on GST margin scheme (Rule 32(5)) and ITC policy
@@ -78,3 +78,10 @@
 - Decisions made: "recorded IMEI check" is currently the IMEI_CHECKED stock movement; T09 will add the real IMEI-check record and tighten this guard. Re-QC allowed from AVAILABLE/QC_PASSED/QC_FAILED/REPAIR/RETURNED. No HTTP endpoint yet (admin UI/API in T12). Preview-seeded demo devices are inserted directly in initial state (documented in preview_seed.py).
 - Blockers / founder inputs needed: none new. T02 still blocked; preview link action still pending (see top of Founder inputs).
 - Next: T09
+
+### 2026-11-10T18:00Z - TP1-fix Render Blueprint sync failure (CORS_ORIGINS)
+- Done: first Blueprint sync failed on `CORS_ORIGINS` (fromService reference to refurbi-web, a web<->api cycle). Removed that env var from render.yaml. API now allows `https://refurbi-web.onrender.com` by default (`default_cors_origins`) plus regex `^https://refurbi-web[a-z0-9-]*\.onrender\.com$` (`cors_origin_regex`); optional `CORS_ORIGINS` env still adds origins. CORS middleware is always installed.
+- Tests: API 269 passed (new: default-origin + regex allow/deny incl. lookalike-domain rejection); ruff clean.
+- Decisions made: kept `NEXT_PUBLIC_API_URL` fromService (web -> api is one-directional, no cycle now).
+- Blockers / founder inputs needed: re-sync Blueprint in Render after this push. If it still errors, paste the error into the next run.
+- Next: T21 (storefront-first priority, see ROADMAP.md)

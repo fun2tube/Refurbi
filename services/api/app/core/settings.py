@@ -26,6 +26,10 @@ class Settings(BaseSettings):
     # Comma-separated browser origins allowed by CORS (the web app). Scheme optional: a bare
     # host (as some hosting platforms provide) is treated as https.
     cors_origins: str = ""
+    # Always allowed: the Render preview web app (no cross-service env reference needed).
+    default_cors_origins: str = "https://refurbi-web.onrender.com"
+    # Regex for preview deploys / renamed services of the same app.
+    cors_origin_regex: str = r"^https://refurbi-web[a-z0-9-]*\.onrender\.com$"
     # Default page size / cap for list endpoints.
     default_page_size: int = 20
     max_page_size: int = 100
@@ -45,12 +49,14 @@ class Settings(BaseSettings):
 
     @property
     def cors_origin_list(self) -> list[str]:
-        out = []
-        for raw in self.cors_origins.split(","):
+        out: list[str] = []
+        for raw in f"{self.default_cors_origins},{self.cors_origins}".split(","):
             o = raw.strip().rstrip("/")
             if not o:
                 continue
-            out.append(o if "://" in o else f"https://{o}")
+            o = o if "://" in o else f"https://{o}"
+            if o not in out:
+                out.append(o)
         return out
 
 

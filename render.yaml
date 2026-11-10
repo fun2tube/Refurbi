@@ -35,11 +35,8 @@ services:
         value: admin@demo.refurbi
       - key: SUPER_ADMIN_PASSWORD # demo admin password: read it in the Render dashboard
         generateValue: true
-      - key: CORS_ORIGINS # full https URL of the web service
-        fromService:
-          type: web
-          name: refurbi-web
-          envVarKey: RENDER_EXTERNAL_URL
+      # CORS: the API allows https://refurbi-web.onrender.com by default (app/core/settings.py);
+      # optional CORS_ORIGINS env var adds more. No cross-service reference (it failed Blueprint sync).
 
   # ---- Web (Next.js) ----
   - type: web
