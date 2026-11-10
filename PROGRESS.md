@@ -1,7 +1,7 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 20 / 37 (54%) (incl. TP1 preview task)
+- Tasks done: 21 / 37 (56%) (incl. TP1 preview task)
 - Current milestone: 3 - Public storefront (priority override)
 - Next task (Builder B): T15
 - Preview URL: https://refurbi-web.onrender.com
@@ -163,3 +163,9 @@
 - Tests: API 305 passed; ruff clean.
 - Founder inputs: real counter list, owners, agreements and commission terms (all current counters are demo).
 - Next: T15
+
+### 2026-11-10T16:10Z - T26 Exchange enquiry (Builder A)
+- Done: /exchange questionnaire -> indicative range -> lead saved; public POST /public/exchange/{quote,leads} (rate-limited, response has no PII); admin inbox /admin/exchange (new perm leads.manage, migration 0009).
+- Tests: API 309 passed, ruff clean; web lint/tsc/vitest/build pass.
+- Founder inputs: real exchange rule table (current values are DEMO placeholders in app/exchange/rules.py).
+- Next: T24 (needs email OTP; Brevo adapter + fake)

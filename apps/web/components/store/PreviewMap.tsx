@@ -10,6 +10,7 @@ export const PREVIEW_PAGES: { title: string; blurb: string; href: string }[] = [
   { title: "Product page", blurb: "Model page listing the actual available units, specs, FAQs, sticky CTA.", href: "/refurbished-iphone-13" },
   { title: "Store locator", blurb: "Stores with live stock counts.", href: "/stores" },
   { title: "Store page", blurb: "Store detail with live stock, map adapter placeholder, WhatsApp.", href: "/stores/demo-counter-a" },
+  { title: "Exchange enquiry", blurb: "Questionnaire -> indicative demo range -> lead saved.", href: "/exchange" },
   { title: "Quality check", blurb: "Trust page.", href: "/quality-check" },
   { title: "Grading", blurb: "Trust page.", href: "/grading" },
   { title: "Warranty", blurb: "Trust page.", href: "/warranty" },
@@ -23,6 +24,7 @@ export const PREVIEW_PAGES: { title: string; blurb: string; href: string }[] = [
   { title: "Admin", blurb: "Back-office home. Demo admin sign-in.", href: "/admin" },
   { title: "Admin: inventory", blurb: "Device table with filters; device page has timeline, QC form, pricing, photos.", href: "/admin/inventory" },
   { title: "Admin: receive stock", blurb: "Suppliers, purchase orders, goods receipt with IMEI check.", href: "/admin/receive" },
+  { title: "Admin: exchange enquiries", blurb: "Lead inbox with status.", href: "/admin/exchange" },
   { title: "Partner", blurb: "Counter area (POS comes later).", href: "/partner" },
 ];
 

@@ -57,6 +57,12 @@ export default async function Home() {
               >
                 Find a store
               </Link>
+              <Link
+                href="/exchange"
+                className="inline-flex h-12 items-center rounded-full border border-silver/60 px-6 font-medium hover:bg-white/10"
+              >
+                Exchange your phone
+              </Link>
             </div>
           </div>
           <div className="relative mx-auto flex h-64 items-end justify-center md:h-96">

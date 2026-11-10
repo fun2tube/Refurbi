@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = siteUrl();
   const [brands, models, stores] = await Promise.all([getBrands(), getModels({ limit: 100 }), getStores()]);
-  const paths = ["/", "/refurbished-mobiles", "/stores", ...PAGES.map((p) => `/${p.slug}`)];
+  const paths = ["/", "/refurbished-mobiles", "/stores", "/exchange", ...PAGES.map((p) => `/${p.slug}`)];
   if (brands.ok) paths.push(...brands.data.map((b) => `/refurbished-mobiles/${b.slug}`));
   if (models.ok) paths.push(...models.data.map((m) => `/refurbished-${m.slug}`));
   if (stores.ok) paths.push(...stores.data.map((s) => `/stores/${s.slug}`));

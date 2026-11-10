@@ -40,7 +40,7 @@ Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)
 - [x] T23 Product page /refurbished-[model-slug]: variant info + list of actual available units (grade, battery %, photos, price, store), specs, warranty, FAQs, sticky CTA (WhatsApp / reserve / visit store)
 - [ ] T24 Reserve-for-store-pickup: phone OTP, device RESERVED 24h, notify counter; expiry job releases it
 - [x] T25 Store locator /stores + /stores/[slug] with live stock, map adapter, hours, call/WhatsApp
-- [ ] T26 Exchange enquiry /exchange: questionnaire -> indicative range (rule table) -> lead saved; admin lead inbox
+- [x] T26 Exchange enquiry /exchange: questionnaire -> indicative range (rule table) -> lead saved; admin lead inbox
 - [x] T27 Trust pages: quality-check, grading, warranty, returns, about, contact, FAQ (MDX)
 - [x] T28 SEO: metadata, canonical, JSON-LD (Organization, WebSite, Product+Offer itemCondition=Refurbished, BreadcrumbList, LocalBusiness), sitemap.xml, robots.txt, redirects table
 

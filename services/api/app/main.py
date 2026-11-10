@@ -8,6 +8,8 @@ from app.core.errors import install_error_handlers
 from app.core.logging import configure_logging, install_request_logging
 from app.core.settings import get_settings
 from app.counters.router import router as counters_router
+from app.exchange.router import admin as exchange_admin
+from app.exchange.router import public as exchange_public
 from app.inventory.router import router as inventory_router
 from app.pricing.router import router as pricing_router
 from app.procurement.router import router as procurement_router
@@ -39,6 +41,8 @@ app.include_router(counters_router)
 app.include_router(inventory_router)
 app.include_router(pricing_router)
 app.include_router(media_router)
+app.include_router(exchange_public)
+app.include_router(exchange_admin)
 
 
 @app.get("/health")
