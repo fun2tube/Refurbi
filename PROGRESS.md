@@ -1,9 +1,9 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 11 / 37 (30%) (incl. TP1 preview task)
+- Tasks done: 12 / 37 (32%) (incl. TP1 preview task)
 - Current milestone: 3 - Public storefront (priority override)
-- Next task: T25 (storefront-first order: T25, T27, T28, T26, T24, then T09...)
+- Next task: T27 (storefront-first order: T27, T28, T26, T24, then T09...)
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
 
@@ -106,3 +106,10 @@
 - Decisions made: "Reserve" CTA omitted until T24 exists (no dead buttons). Photos: placeholder silhouette until real photos (T10). Warranty copy is deliberately non-committal until founder supplies terms.
 - Blockers / founder inputs needed: warranty months per grade, return policy, real product photos.
 - Next: T25
+
+### 2026-11-10T19:55Z - T25 Store locator
+- Done: `/stores` (live stock count per store, WhatsApp "nearest store" CTA) and `/stores/[slug]` (live in-stock grid from `/public/stores` + `/public/units?store=`, map panel, hours/address placeholders, WhatsApp). Map adapter in lib/maps.ts: placeholder by default, `NEXT_PUBLIC_MAPS_PROVIDER=google-link` gives an encoded Google Maps search link; real embedded map comes with T14 coordinates. Unknown store -> 404.
+- Tests: web lint, tsc, 16 tests (2 new map adapter), build pass; smoke vs seeded API OK. API 275 passed.
+- Decisions made: no addresses/hours/phones invented - shown as "to be confirmed/once verified" until T14 (verified flag, address, hours). Public store API exposes only slug/name/city/is_demo/units_available.
+- Blockers / founder inputs needed: counter names, addresses, hours, phone numbers (T14).
+- Next: T27

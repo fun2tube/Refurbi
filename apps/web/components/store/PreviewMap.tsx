@@ -8,6 +8,8 @@ export const PREVIEW_PAGES: { title: string; blurb: string; href: string }[] = [
   { title: "Brand listing", blurb: "Apple phones, with crawlable pagination.", href: "/refurbished-mobiles/apple" },
   { title: "Budget listing", blurb: "Phones under ₹20,000.", href: "/refurbished-mobiles/under-20000" },
   { title: "Product page", blurb: "Model page listing the actual available units, specs, FAQs, sticky CTA.", href: "/refurbished-iphone-13" },
+  { title: "Store locator", blurb: "Stores with live stock counts.", href: "/stores" },
+  { title: "Store page", blurb: "Store detail with live stock, map adapter placeholder, WhatsApp.", href: "/stores/demo-counter-a" },
   { title: "Old catalogue (API check)", blurb: "Raw model list from the public API.", href: "/catalogue" },
   { title: "Admin", blurb: "Back-office. Demo admin sign-in.", href: "/admin" },
   { title: "Partner", blurb: "Counter area (POS comes later).", href: "/partner" },
