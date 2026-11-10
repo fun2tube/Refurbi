@@ -35,7 +35,7 @@ Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)
 - [ ] T20 Admin dashboard: today's sales, units, gross margin, stock by location, ageing, counter leaderboard
 
 ## Milestone 3 - Public storefront
-- [ ] T21 Homepage per blueprint order (product as hero, restrained motion), header/search, footer, mobile bottom nav
+- [x] T21 Homepage per blueprint order (product as hero, restrained motion), header/search, footer, mobile bottom nav
 - [ ] T22 Listing pages /refurbished-mobiles, /refurbished-mobiles/[brand], /refurbished-mobiles/under-[price] with filters (brand, price, storage, RAM, grade, battery, 5G, store) - SSR, crawlable pagination
 - [ ] T23 Product page /refurbished-[model-slug]: variant info + list of actual available units (grade, battery %, photos, price, store), specs, warranty, FAQs, sticky CTA (WhatsApp / reserve / visit store)
 - [ ] T24 Reserve-for-store-pickup: phone OTP, device RESERVED 24h, notify counter; expiry job releases it

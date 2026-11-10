@@ -1,9 +1,9 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 8 / 37 (22%) (incl. TP1 preview task)
-- Current milestone: 1 - Inventory core
-- Next task: T09
+- Tasks done: 9 / 37 (24%) (incl. TP1 preview task)
+- Current milestone: 3 - Public storefront (priority override)
+- Next task: T22 (storefront-first order: T22, T23, T25, T27, T28, T26, T24, then T09...)
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
 
@@ -85,3 +85,10 @@
 - Decisions made: kept `NEXT_PUBLIC_API_URL` fromService (web -> api is one-directional, no cycle now).
 - Blockers / founder inputs needed: re-sync Blueprint in Render after this push. If it still errors, paste the error into the next run.
 - Next: T21 (storefront-first priority, see ROADMAP.md)
+
+### 2026-11-10T19:00Z - T21 Homepage, header/search, footer, mobile bottom nav
+- Done: public read-only API `/public/units` (filters: brand, model, q, price range, storage, RAM, grade, min battery, 5G, store; sort; paginated), `/public/units/{id}`, `/public/models` (in-stock models with from-price), `/public/brands`, `/public/stores`, `/public/stores/{slug}` - whitelist schemas, only AVAILABLE+priced devices, no IMEI/cost/supplier/commission. Web: storefront shell (sticky header with GET search, desktop nav, footer, mobile sticky bottom nav, 2-column product grid), homepage (Midnight hero with generic SVG phone silhouette + live "in stock" chip, budget tiles, available-now grid, brand + popular-model lists, trust section, WhatsApp CTA), UnitCard/DeviceArt components, lib/api.ts server client with timeout and friendly fallback, lib/site.ts (WhatsApp link from NEXT_PUBLIC_WHATSAPP_NUMBER, site URL), `/preview` map page + preview map section on `/` (replaces 'coming soon' cards).
+- Tests: API 275 passed (6 new storefront tests incl. leak test for every public endpoint, availability rule, filters, photo-URL filtering); ruff clean. Web: lint, tsc, 12 tests, build pass; smoke-tested `next start` with API down (graceful message).
+- Decisions made: units exposed by internal numeric id (`unit_id`; not sensitive). Header/footer/bottom-nav link to pages still to come in T22-T28 (stores, exchange, trust pages) - these land in following tasks. Pages are force-dynamic (live stock, SSR). Stores have only name/city until T14 adds address/hours (nothing invented).
+- Blockers / founder inputs needed: WhatsApp number (env NEXT_PUBLIC_WHATSAPP_NUMBER); tagline/hero copy review; grade definitions (copy says A/B/C describe cosmetic condition - verify).
+- Next: T22

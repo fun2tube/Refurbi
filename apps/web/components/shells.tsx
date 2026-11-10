@@ -1,17 +1,15 @@
-import Link from "next/link";
+import { BottomNav } from "./store/BottomNav";
+import { Footer } from "./store/Footer";
+import { Header } from "./store/Header";
 import type { ReactNode } from "react";
 
 export function StoreShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen">
-      <header className="border-b border-silver/40 bg-porcelain">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-          <Link href="/" className="font-display text-xl font-bold lowercase">
-            refurbi<span className="text-brand">.</span>
-          </Link>
-        </div>
-      </header>
-      <main className="mx-auto max-w-6xl px-4 py-8">{children}</main>
+      <Header />
+      <main>{children}</main>
+      <Footer />
+      <BottomNav />
     </div>
   );
 }

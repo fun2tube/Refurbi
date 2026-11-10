@@ -19,7 +19,7 @@ async function load(): Promise<{ items: ModelItem[] } | { error: string }> {
 export default async function Catalogue() {
   const data = await load();
   return (
-    <div className="space-y-4">
+    <div className="mx-auto w-full max-w-6xl space-y-4 px-4 py-8">
       <h1 className="font-display text-2xl font-bold">Catalogue (demo)</h1>
       {"error" in data ? (
         <p className="text-sm text-midnight/70">{data.error}</p>

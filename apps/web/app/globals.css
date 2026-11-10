@@ -28,3 +28,10 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
 }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-8px) rotate(-3deg); }
+}
+body { padding-bottom: 0; }
+@media (max-width: 767px) { body { padding-bottom: 4rem; } }
