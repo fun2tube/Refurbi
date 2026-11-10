@@ -19,6 +19,8 @@ from app.qc.router import media as media_router
 from app.qc.router import router as qc_router
 from app.storefront.router import router as storefront_router
 from app.transfers.router import router as transfers_router
+from app.warranty.router import admin as warranty_admin
+from app.warranty.router import public as warranty_public
 
 configure_logging(get_settings().log_level)
 
@@ -49,6 +51,8 @@ app.include_router(exchange_admin)
 app.include_router(transfers_router)
 app.include_router(billing_router)
 app.include_router(pos_router)
+app.include_router(warranty_public)
+app.include_router(warranty_admin)
 
 
 @app.get("/health")

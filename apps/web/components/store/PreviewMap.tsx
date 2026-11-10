@@ -25,6 +25,8 @@ export const PREVIEW_PAGES: { title: string; blurb: string; href: string }[] = [
   { title: "Admin: inventory", blurb: "Device table with filters; device page has timeline, QC form, pricing, photos.", href: "/admin/inventory" },
   { title: "Admin: receive stock", blurb: "Suppliers, purchase orders, goods receipt with IMEI check.", href: "/admin/receive" },
   { title: "Admin: exchange enquiries", blurb: "Lead inbox with status.", href: "/admin/exchange" },
+  { title: "Admin: warranty claims", blurb: "Search warranties, open and progress claims.", href: "/admin/warranty" },
+  { title: "Warranty check", blurb: "Public lookup by phone + invoice number (sell a device in /partner first).", href: "/warranty-check" },
   { title: "Partner", blurb: "Counter POS: search counter stock, sell, payment mode, invoice PDF, WhatsApp share. Sign in as partner@demo.refurbi.", href: "/partner" },
 ];
 

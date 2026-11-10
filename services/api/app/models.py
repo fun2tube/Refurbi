@@ -11,3 +11,4 @@ from app.pos import models as pos_models  # noqa: F401
 from app.pricing import models as pricing_models  # noqa: F401
 from app.procurement import models as procurement_models  # noqa: F401
 from app.transfers import models as transfers_models  # noqa: F401
+from app.warranty import models as warranty_models  # noqa: F401

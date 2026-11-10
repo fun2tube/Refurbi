@@ -5,6 +5,7 @@ export const ADMIN_LINKS = [
   { href: "/admin/inventory", label: "Inventory" },
   { href: "/admin/receive", label: "Receive stock" },
   { href: "/admin/exchange", label: "Exchange enquiries" },
+  { href: "/admin/warranty", label: "Warranty claims" },
   { href: "/admin/login", label: "Sign in" },
 ];
 

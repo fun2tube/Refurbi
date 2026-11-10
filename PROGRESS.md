@@ -3,7 +3,7 @@
 ## Status
 - Tasks done: 21 / 37 (56%) (incl. TP1 preview task)
 - Current milestone: 3 - Public storefront (priority override)
-- Next task (Builder B): T18
+- Next task (Builder B): T19
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
 
@@ -191,3 +191,10 @@
 - Done: /partner mobile-first POS (search counter stock, sell, cash/UPI/card, invoice PDF, WhatsApp share); preview seeds partner@demo.refurbi (password = demo admin password in Render env) scoped to first demo counter; linked from start page.
 - Tests: API 324 passed; web lint/tsc/vitest/build pass.
 - Next: T18
+
+### 2026-11-10T17:55Z - T18 Warranty (Builder B)
+- Done: warranty auto-created on POS sale (WARRANTY_MONTHS env, default 6 = placeholder); public POST /public/warranty/lookup (phone + invoice no., rate-limited, no PII/IMEI, uniform 404); admin claims workflow (OPEN>IN_REVIEW>APPROVED/REJECTED>RESOLVED, approve -> WARRANTY_HOLD via lifecycle); UI /admin/warranty and /warranty-check; migration 0013.
+- Tests: API 329 passed; ruff clean; web lint/tsc/build pass; alembic up/down ok.
+- Founder inputs: warranty months per grade/terms (placeholder 6 months for all).
+- Note: T15 transfers have API only (no admin UI yet) - add UI when convenient.
+- Next: T19

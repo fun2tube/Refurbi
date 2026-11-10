@@ -24,6 +24,7 @@ from app.counters.models import Counter
 from app.inventory.lifecycle import transition
 from app.inventory.models import Device, DeviceStatus, LocationKind
 from app.pos.models import Sale
+from app.warranty.service import create_warranty
 
 router = APIRouter(prefix="/pos/counters/{counter_id}", tags=["pos"])
 _stock = Depends(require_permission("counter.stock.read", counter_param="counter_id"))
@@ -156,6 +157,8 @@ def sell(
         payment_ref=body.payment_ref.strip(),
     )
     db.add(s)
+    db.flush()
+    create_warranty(db, s)
     db.commit()
     return _sale_out(db, s, inv)
 

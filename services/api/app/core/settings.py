@@ -38,6 +38,8 @@ class Settings(BaseSettings):
     # Static UPI ID for counter QR payments. FOUNDER INPUT; placeholder is not a real VPA.
     upi_id: str = "demo@upi"
     upi_payee_name: str = "Refurbi Demo"
+    # FOUNDER INPUT: warranty months per sale. Placeholder until warranty terms are confirmed.
+    warranty_months: int = 6
     cors_origins: str = ""
     # Always allowed: the Render preview web app (no cross-service env reference needed).
     default_cors_origins: str = "https://refurbi-web.onrender.com"
