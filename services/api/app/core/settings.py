@@ -34,6 +34,10 @@ class Settings(BaseSettings):
     invoice_prefix: str = "DEMO"
     gst_rate_bps: int = 1800  # 18% - CA to confirm for refurbished phones / margin scheme
     hsn_code: str = "8517"
+    default_gst_mode: str = "MARGIN"  # MARGIN | STANDARD (CA to confirm)
+    # Static UPI ID for counter QR payments. FOUNDER INPUT; placeholder is not a real VPA.
+    upi_id: str = "demo@upi"
+    upi_payee_name: str = "Refurbi Demo"
     cors_origins: str = ""
     # Always allowed: the Render preview web app (no cross-service env reference needed).
     default_cors_origins: str = "https://refurbi-web.onrender.com"

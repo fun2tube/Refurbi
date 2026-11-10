@@ -3,7 +3,7 @@
 ## Status
 - Tasks done: 21 / 37 (56%) (incl. TP1 preview task)
 - Current milestone: 3 - Public storefront (priority override)
-- Next task (Builder B): T17
+- Next task (Builder B): T17B
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
 
@@ -180,3 +180,9 @@
 - Tests: API 320 passed; ruff clean; alembic up/down ok.
 - Founder inputs: SELLER_GSTIN, SELLER_LEGAL_NAME, SELLER_ADDRESS, SELLER_STATE_CODE, INVOICE_PREFIX, GST_RATE_BPS (CA to confirm 18% + margin scheme eligibility) - all placeholders now.
 - Next: T17
+
+### 2026-11-10T17:10Z - T17A POS API (Builder B)
+- Done: /pos/counters/{id}/stock|sales|invoices/{id}/pdf, counter-scoped (partner sees only own counter; no IMEI/cost); sale = lifecycle SOLD + invoice + Sale row; payment CASH/UPI/CARD recorded manually; UPI deep link from UPI_ID env, wa.me share link; migration 0012.
+- Tests: API 323 passed; ruff clean; alembic up/down ok.
+- Founder inputs: UPI_ID / UPI_PAYEE_NAME (placeholder demo@upi now).
+- Next: T17B (web UI)

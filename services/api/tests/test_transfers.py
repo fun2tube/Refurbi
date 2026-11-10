@@ -2,9 +2,10 @@
 from sqlalchemy import select
 
 from app.auth.models import Role, User, UserRole
+from app.auth.security import hash_password
 from app.counters.models import Counter
 from app.inventory.models import Device, DeviceStatus, StockMovement
-from tests.test_catalog import client, factory, token  # noqa: F401
+from tests.test_catalog import PW, client, factory, token  # noqa: F401
 from tests.test_qc import mk
 
 
@@ -79,7 +80,7 @@ def test_counter_partner_receives_only_own(client, factory):
 
     def scoped(email, counter):
         with factory() as db:
-            u = User(email=email, password_hash=db.scalar(select(User.password_hash)))
+            u = User(email=email, password_hash=hash_password(PW))
             db.add(u)
             db.flush()
             rid = db.scalar(select(Role.id).where(Role.code == "counter_partner"))
@@ -93,7 +94,6 @@ def test_counter_partner_receives_only_own(client, factory):
         c2id = c2.id
     scoped("other@x.in", c2id)
     scoped("own@x.in", cid)
-    from tests.test_catalog import PW
 
     def login(email):
         res = client.post("/auth/login", json={"email": email, "password": PW})

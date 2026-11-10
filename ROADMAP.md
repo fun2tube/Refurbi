@@ -29,7 +29,8 @@ Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)
 - [x] T14 Counters: schema, admin CRUD, agreements, commission rules (per model, flat/percent), verified flag gating public page
 - [x] T15 Stock transfers warehouse <-> counter with approval + IN_TRANSIT + receive confirmation
 - [x] T16 Invoice engine: GST margin scheme (Rule 32(5)) + standard mode, HSN, CGST/SGST vs IGST, FY gap-free numbering, PDF invoice; unit tests with worked examples
-- [ ] T17 Partner POS UI (mobile-first): search own counter stock, sell device (customer phone + name), payment mode (cash/UPI/card recorded), issue invoice + warranty, WhatsApp-share link
+- [x] T17A (API) Partner POS UI (mobile-first): search own counter stock, sell device (customer phone + name), payment mode (cash/UPI/card recorded), issue invoice + warranty, WhatsApp-share link
+- [ ] T17B Partner POS web UI (mobile-first) on top of the T17A API, linked from start page
 - [ ] T18 Warranty: auto-created on sale, public lookup by phone + invoice no., claims workflow in admin
 - [ ] T19 Commission entries per sold device + counter settlement statement
 - [ ] T20 Admin dashboard: today's sales, units, gross margin, stock by location, ageing, counter leaderboard
