@@ -1,7 +1,7 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 14 / 37 (38%) (incl. TP1 preview task)
+- Tasks done: 15 / 37 (41%) (incl. TP1 preview task)
 - Current milestone: 3 - Public storefront (priority override)
 - Next task: T26 (storefront-first order: T26, T24, then T09...)
 - Preview URL: https://refurbi-web.onrender.com
@@ -127,3 +127,9 @@
 - Decisions made: LocalBusiness JSON-LD deliberately NOT emitted yet - it needs a real address/phone/hours (T14); Organization carries only name+url. Set NEXT_PUBLIC_SITE_URL in production for correct canonicals/sitemap.
 - Blockers / founder inputs needed: production domain (NEXT_PUBLIC_SITE_URL); legal name/address/contact for Organization + LocalBusiness.
 - Next: T26
+
+### 2026-11-10T15:30Z - T09 Suppliers, POs, goods receipts (Builder B)
+- Done: D11 zero-cost decision added; app/procurement (suppliers, POs, receive with IMEI + fake CEIR adapter -> IMEI_CHECKED/BLACKLISTED via lifecycle), migration 0006, demo suppliers + PO in preview seed. API only (admin UI comes with T12).
+- Tests: API 281 passed; ruff clean.
+- Decisions made: receipts create device PURCHASED then lifecycle transition; fake checker blocks IMEIs starting 13579.
+- Next: T10

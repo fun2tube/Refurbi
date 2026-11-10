@@ -12,6 +12,7 @@ from app.catalog.models import ProductVariant
 from app.counters.models import Counter
 from app.inventory import imei as imei_mod
 from app.inventory.models import Device, DeviceStatus, LocationKind
+from app.procurement.models import PurchaseOrder, PurchaseOrderLine, Supplier
 
 DEMO_COUNTERS = [
     ("demo-counter-a", "Demo Counter A", "Demo City"),
@@ -77,5 +78,21 @@ def seed_preview(db: Session) -> dict[str, int]:
                 )
             )
             created += 1
+    suppliers = 0
+    for name, city in [("Demo Supplier One", "Demo City"), ("Demo Supplier Two", "Demo Town")]:
+        if db.scalar(select(Supplier.id).where(Supplier.name == name)) is None:
+            db.add(
+                Supplier(name=name, city=city, notes="Demo data, not a real supplier", is_demo=True)
+            )
+            suppliers += 1
+    db.flush()
+    sup = db.scalar(select(Supplier).where(Supplier.name == "Demo Supplier One"))
+    if variants and sup and db.scalar(select(PurchaseOrder.id)) is None:
+        po = PurchaseOrder(supplier_id=sup.id, status="ORDERED", notes="Demo purchase order")
+        po.lines = [
+            PurchaseOrderLine(variant_id=variants[0].id, quantity=5, unit_cost_paise=1_200_000),
+            PurchaseOrderLine(variant_id=variants[-1].id, quantity=3, unit_cost_paise=2_400_000),
+        ]
+        db.add(po)
     db.commit()
-    return {"counters": len(counters), "devices_created": created}
+    return {"counters": len(counters), "devices_created": created, "suppliers": suppliers}
