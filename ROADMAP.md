@@ -33,7 +33,7 @@ Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)
 - [x] T17B Partner POS web UI (mobile-first) on top of the T17A API, linked from start page
 - [x] T18 Warranty: auto-created on sale, public lookup by phone + invoice no., claims workflow in admin
 - [x] T19 Commission entries per sold device + counter settlement statement
-- [ ] T20 Admin dashboard: today's sales, units, gross margin, stock by location, ageing, counter leaderboard
+- [x] T20 Admin dashboard: today's sales, units, gross margin, stock by location, ageing, counter leaderboard
 
 ## Milestone 3 - Public storefront
 - [x] T21 Homepage per blueprint order (product as hero, restrained motion), header/search, footer, mobile bottom nav

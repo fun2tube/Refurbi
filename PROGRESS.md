@@ -3,7 +3,7 @@
 ## Status
 - Tasks done: 28 / 38 (74%)
 - Current milestone: 4 - Online payments (Builder A next: T29)
-- Next task (Builder B): T20
+- Next task (Builder B): T36
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
 
@@ -105,3 +105,8 @@
 - Founder inputs: BREVO_API_KEY + EMAIL_FROM; a free cron (e.g. cron-job.org) hitting expiry endpoint.
 - Next: T29
 
+
+### 2026-11-10T16:40Z - T20 Admin dashboard (Builder B)
+- Done: GET /admin/dashboard (today/month sales, units, gross margin = price - device cost, stock by location, ageing buckets, counter leaderboard; "today" = IST day) + DashboardCard on /admin.
+- Tests: API 337 passed; web tsc/build ok. Pre-existing ruff E501 in migrations/0015_reservations.py (Builder A's) - not touched.
+- Next: T36
