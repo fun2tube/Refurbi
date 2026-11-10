@@ -1,0 +1,65 @@
+# Refurbi preview Blueprint for Render. One click: New > Blueprint > pick this repo > Apply.
+# No manual env vars: every value is generated or wired below. See docs/PREVIEW_SETUP.md.
+# Free plans sleep when idle; the free Postgres expires after Render's free period.
+databases:
+  - name: refurbi-db
+    plan: free
+    region: singapore
+    databaseName: refurbi
+    user: refurbi
+
+services:
+  # ---- API (FastAPI) ----
+  - type: web
+    name: refurbi-api
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./services/api/Dockerfile # paths are relative to the repo root
+    dockerContext: ./services/api
+    healthCheckPath: /health
+    envVars:
+      - key: APP_ENV
+        value: preview
+      - key: DATABASE_URL # postgres:// is rewritten to postgresql+psycopg:// by the app
+        fromDatabase:
+          name: refurbi-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: IMEI_ENCRYPTION_KEYS # any string; the app derives a Fernet key from it
+        generateValue: true
+      - key: IMEI_HASH_KEY
+        generateValue: true
+      - key: SUPER_ADMIN_EMAIL
+        value: admin@demo.refurbi
+      - key: SUPER_ADMIN_PASSWORD # demo admin password: read it in the Render dashboard
+        generateValue: true
+      - key: CORS_ORIGINS # full https URL of the web service
+        fromService:
+          type: web
+          name: refurbi-web
+          envVarKey: RENDER_EXTERNAL_URL
+
+  # ---- Web (Next.js) ----
+  - type: web
+    name: refurbi-web
+    runtime: node
+    plan: free
+    region: singapore
+    rootDir: apps/web
+    buildCommand: npm ci && npm run build
+    startCommand: npm run start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: 22.12.0
+      - key: APP_ENV
+        value: preview
+      - key: NEXT_PUBLIC_APP_ENV
+        value: preview
+      - key: NEXT_PUBLIC_API_URL # full https URL of the API service
+        fromService:
+          type: web
+          name: refurbi-api
+          envVarKey: RENDER_EXTERNAL_URL

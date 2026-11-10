@@ -1,6 +1,7 @@
 """IMEI helpers: validation, encryption at rest (Fernet, rotation-ready) and a keyed hash for
 uniqueness/lookup. Plaintext IMEI must never be logged or returned by public endpoints."""
 
+import base64
 import hashlib
 import hmac
 import re
@@ -31,9 +32,19 @@ def luhn_ok(number: str) -> bool:
     return total % 10 == 0
 
 
+def _to_fernet_key(raw: str) -> bytes:
+    """Use a proper Fernet key as-is; otherwise derive one deterministically (SHA-256) so hosts
+    that only generate random strings (e.g. one-click preview deploys) still work."""
+    try:
+        Fernet(raw)
+        return raw.encode()
+    except (ValueError, TypeError):
+        return base64.urlsafe_b64encode(hashlib.sha256(raw.encode()).digest())
+
+
 def _fernet() -> MultiFernet:
     keys = [k.strip() for k in get_settings().imei_encryption_keys.split(",") if k.strip()]
-    return MultiFernet([Fernet(k) for k in keys])
+    return MultiFernet([Fernet(_to_fernet_key(k)) for k in keys])
 
 
 def encrypt_imei(imei: str) -> str:

@@ -1,5 +1,6 @@
 from functools import lru_cache
 
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -22,9 +23,35 @@ class Settings(BaseSettings):
     # imei_encryption_keys: comma-separated Fernet keys, newest first (older ones decrypt only).
     imei_encryption_keys: str = "ZGV2LW9ubHktaW1laS1rZXktZGV2LW9ubHkta2V5MDA="
     imei_hash_key: str = "dev-only-imei-hash-key-change-me"
+    # Comma-separated browser origins allowed by CORS (the web app). Scheme optional: a bare
+    # host (as some hosting platforms provide) is treated as https.
+    cors_origins: str = ""
     # Default page size / cap for list endpoints.
     default_page_size: int = 20
     max_page_size: int = 100
+
+    @field_validator("database_url")
+    @classmethod
+    def _normalise_db_url(cls, v: str) -> str:
+        # Hosts hand out postgres:// or postgresql://; SQLAlchemy needs the psycopg driver.
+        for prefix in ("postgres://", "postgresql://"):
+            if v.startswith(prefix):
+                return "postgresql+psycopg://" + v[len(prefix) :]
+        return v
+
+    @property
+    def is_preview(self) -> bool:
+        return self.app_env == "preview"
+
+    @property
+    def cors_origin_list(self) -> list[str]:
+        out = []
+        for raw in self.cors_origins.split(","):
+            o = raw.strip().rstrip("/")
+            if not o:
+                continue
+            out.append(o if "://" in o else f"https://{o}")
+        return out
 
 
 @lru_cache

@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.auth.router import router as auth_router
 from app.catalog.router import admin as catalog_admin
@@ -12,6 +13,15 @@ configure_logging(get_settings().log_level)
 app = FastAPI(title="Refurbi API", version="0.1.0")
 install_error_handlers(app)
 install_request_logging(app)
+_origins = get_settings().cors_origin_list
+if _origins:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=_origins,
+        allow_credentials=True,
+        allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        allow_headers=["Authorization", "Content-Type"],
+    )
 app.include_router(auth_router)
 app.include_router(catalog_public)
 app.include_router(catalog_admin)

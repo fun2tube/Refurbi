@@ -1,12 +1,14 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 6 / 36 (17%)
+- Tasks done: 7 / 37 (19%) (incl. TP1 preview task)
 - Current milestone: 1 - Inventory core
 - Next task: T08
+- Preview URL: (not yet recorded - founder: add a line `Preview URL: ...` after following docs/PREVIEW_SETUP.md)
 - Blockers: T02 (push lacks `workflow` scope)
 
 ## Founder inputs needed (not blocking yet)
+- **ACTION (3 min): follow docs/PREVIEW_SETUP.md to get your preview link**
 - Set real JWT_SECRET, SUPER_ADMIN_EMAIL/PASSWORD in the deploy env, then run `python -m app.seed` (T05)
 - GSTIN, legal name, registered address (T16 invoices)
 - CA sign-off on GST margin scheme (Rule 32(5)) and ITC policy
@@ -61,4 +63,11 @@
 - Tests: API 44 passed (15 new: D7 enum, IMEI validation, encrypt/rotate/hash, unique IMEI, 8 CHECK violations, partial unique test index); ruff clean; alembic upgrade/downgrade/check verified on Postgres 16 (partial index confirmed in pg_indexes).
 - Decisions made: Schema only - no write paths yet; status changes arrive with the lifecycle service (T08). The D2 "one active reservation/sale per device" partial indexes need reservation/sale tables, so they land with T24/T17 (noted); the partial index here is on current QC test. counter_id has no FK until T14. Grades A/B/C remain placeholders.
 - Blockers / founder inputs needed: T02 still blocked (workflow scope). Before production: generate real IMEI_ENCRYPTION_KEYS (Fernet) and IMEI_HASH_KEY and store them securely; losing the encryption key makes stored IMEIs unreadable.
+- Next: T08
+
+### 2026-11-10T14:30Z - TP1 One-click preview deployment on Render
+- Done: root `render.yaml` Blueprint (free Postgres `refurbi-db`; Docker API `refurbi-api` with DATABASE_URL via fromDatabase, JWT_SECRET / IMEI_ENCRYPTION_KEYS / IMEI_HASH_KEY / SUPER_ADMIN_PASSWORD via generateValue, APP_ENV=preview, healthCheckPath /health, CORS_ORIGINS wired from the web service's RENDER_EXTERNAL_URL; Node web `refurbi-web` with NEXT_PUBLIC_API_URL wired from the API's RENDER_EXTERNAL_URL). API: services/api/Dockerfile + scripts/start.sh (alembic upgrade head, idempotent seed incl. demo data, uvicorn on $PORT); settings normalise postgres:// to postgresql+psycopg://, CORS_ORIGINS (bare hosts treated as https) + CORSMiddleware; IMEI keys that are not valid Fernet keys are derived by SHA-256 (so generated strings work); minimal `counters` table (migration 0005, T14 will extend); `app/preview_seed.py` (3 demo counters, 30 demo devices across grades A/B/C, warehouse + counters, synthetic Luhn IMEIs 99000000..., dummy paise prices; runs only when APP_ENV=preview). Web: DemoBanner on every page when APP_ENV/NEXT_PUBLIC_APP_ENV=preview, preview start page at `/` (links to /catalogue, /admin, /partner, "coming soon" for the rest), /catalogue (live from public API), /admin/login (demo admin sign-in against the API), lib/config.ts (normalises API URL scheme; localhost fallback only in development). docs/PREVIEW_SETUP.md.
+- Tests: API 57 passed (13 new: seed idempotency/grades/counters, demo admin login with a +/= password, DB URL + CORS normalisation, CORS headers, Fernet derivation, public catalogue leak check); ruff clean. Web: lint, tsc, 9 tests, build pass. Verified against real local Postgres 16: alembic upgrade + check, seed twice, API login, and a headless browser flow (catalogue lists 15 models; login from the web origin works via CORS).
+- Decisions made: (1) Render free plan has no pre-deploy command, so migrations + seed run in the container start script. (2) Public URLs wired with `fromService ... envVarKey: RENDER_EXTERNAL_URL` (gives a full https URL; `host` is private-network only); apps also normalise a missing scheme. (3) Demo devices are inserted directly in their initial state because the lifecycle service (T08) does not exist yet. (4) Access token kept in sessionStorage in the preview login page (refresh cookie is SameSite=Strict and web/API are different sites on Render; real auth UI comes later). (5) `/` is the preview start page until T21 replaces it.
+- Blockers / founder inputs needed: render.com and docs.render.com were NOT reachable from the build sandbox, so render.yaml was checked against the spec only via search-result excerpts and memory, NOT by Render's validator. Residual risks to check on first Apply: (a) web<->api `fromService` references form a cycle (Render may reject it; fallback: drop CORS_ORIGINS wiring and use a Next rewrite proxy); (b) `RENDER_EXTERNAL_URL` via fromService envVarKey; (c) Docker `dockerfilePath`/`dockerContext` are repo-root relative. If Apply errors, copy the error to the next run. Founder: ACTION (3 min) follow docs/PREVIEW_SETUP.md, then record `Preview URL: ...` here.
 - Next: T08
