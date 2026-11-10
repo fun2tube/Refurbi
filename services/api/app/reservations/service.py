@@ -49,6 +49,7 @@ def send_otp(db: Session, email: str, sender: EmailSender) -> str:
         "Your Refurbi verification code",
         f"Your code is {code}. It expires in {ttl} minutes.",
     )
+    return code
 
 
 def verify_otp(db: Session, email: str, code: str) -> None:

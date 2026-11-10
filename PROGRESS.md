@@ -1,8 +1,8 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 35 / 39 (90%)
-- Current milestone: 4 - Online payments (Builder A next: T33)
+- Tasks done: 36 / 39 (92%)
+- Current milestone: 4 - Online payments (Builder A next: T34)
 - Next task (Builder B): none (all B tasks done)
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
@@ -148,3 +148,9 @@
 - Decisions made: refund up to item price, one return per item; REFUND_DUE payments still handled manually.
 - Founder inputs: real return window/policy (placeholder RETURN_WINDOW_DAYS=7).
 - Next: T33
+
+### 2026-11-10T20:00Z - T33 Playwright E2E (Builder A)
+- Done: apps/web/e2e (config, run.sh: scratch DB + seed + API + web), specs: reserve-for-pickup, online purchase (fake gateway), POS sale + warranty lookup. Fixed real bug: send_otp never returned the code, so the preview's demo OTP hint was empty (reserve/checkout unusable in preview).
+- Tests: API 353 passed; web 24 unit passed; E2E 3 passed; lint/typecheck/build clean.
+- Decisions made: E2E not in GitHub Actions (workflow pushes blocked); POS sale done via API as admin (no POS UI spec yet).
+- Next: T34

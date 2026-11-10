@@ -89,7 +89,8 @@ def test_expiry_releases_and_admin(client):
 
 def test_demo_code_only_with_fake_adapter(client, monkeypatch):
     c, _ = client
-    assert "demo_code" in c.post("/public/reservations/otp", json={"email": "d@example.com"}).json()
+    code = c.post("/public/reservations/otp", json={"email": "d@example.com"}).json()["demo_code"]
+    assert code and code.isdigit() and len(code) == 6
     monkeypatch.setenv("APP_ENV", "production")
     from app.core.settings import get_settings
 
