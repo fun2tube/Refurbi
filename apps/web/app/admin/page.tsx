@@ -1,5 +1,9 @@
 import Link from "next/link";
 import { Card } from "@/components/ui";
+import { apiBaseUrl } from "@/lib/config";
+import { AlertsCard } from "./AlertsCard";
+
+export const dynamic = "force-dynamic";
 
 export default function Page() {
   const tiles = [
@@ -10,6 +14,7 @@ export default function Page() {
   return (
     <div className="space-y-4">
       <h1 className="font-display text-2xl font-bold">Admin</h1>
+      <AlertsCard apiBase={apiBaseUrl()} />
       <div className="grid gap-3 sm:grid-cols-2">
         {tiles.map((x) => (
           <Link key={x.href} href={x.href}>

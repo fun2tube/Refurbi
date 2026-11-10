@@ -1,9 +1,9 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 18 / 37 (49%) (incl. TP1 preview task)
+- Tasks done: 19 / 37 (51%) (incl. TP1 preview task)
 - Current milestone: 3 - Public storefront (priority override)
-- Next task: T26 (storefront-first order: T26, T24, then T09...)
+- Next task (Builder B): T14
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
 
@@ -152,3 +152,8 @@
 - Tests: API 297 passed; web lint, tsc, vitest 22, build pass.
 - Decisions made: token in sessionStorage (same as login); PO creation UI deferred (API only).
 - Next: T13
+
+### 2026-11-10T15:40Z - T13 Stock ageing + alerts (Builder B)
+- Done: compute_alerts (AGEING 21/35d, QC_FAILED, TRANSIT_STUCK >3d, COUNTER_MISMATCH), GET /admin/inventory/alerts, alerts card on /admin dashboard. Computed on demand (no job table).
+- Tests: API 299 passed; web lint/tsc/build pass.
+- Next: T14

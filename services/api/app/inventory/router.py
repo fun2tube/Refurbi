@@ -13,6 +13,7 @@ from app.core.db import get_session
 from app.core.errors import NotFoundError
 from app.core.pagination import PageDep, make_page
 from app.counters.models import Counter
+from app.inventory.alerts import compute_alerts
 from app.inventory.models import Device, DevicePhoto, DeviceTest, StockMovement
 
 router = APIRouter(prefix="/admin/inventory", tags=["inventory-admin"])
@@ -126,3 +127,12 @@ def device_detail(device_id: int, db: Session = Depends(get_session), _: User = 
         ],
         "photos": [{"id": p.id, "url": p.url, "kind": p.kind} for p in photos],
     }
+
+
+@router.get("/alerts")
+def alerts(db: Session = Depends(get_session), _: User = _perm):
+    items = compute_alerts(db)
+    counts: dict[str, int] = {}
+    for a in items:
+        counts[a["kind"]] = counts.get(a["kind"], 0) + 1
+    return {"counts": counts, "total": len(items), "items": items[:200]}
