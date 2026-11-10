@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.auth.router import router as auth_router
+from app.billing.router import router as billing_router
 from app.catalog.router import admin as catalog_admin
 from app.catalog.router import public as catalog_public
 from app.core.errors import install_error_handlers
@@ -45,6 +46,7 @@ app.include_router(media_router)
 app.include_router(exchange_public)
 app.include_router(exchange_admin)
 app.include_router(transfers_router)
+app.include_router(billing_router)
 
 
 @app.get("/health")

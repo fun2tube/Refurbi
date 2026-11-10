@@ -25,6 +25,15 @@ class Settings(BaseSettings):
     imei_hash_key: str = "dev-only-imei-hash-key-change-me"
     # Comma-separated browser origins allowed by CORS (the web app). Scheme optional: a bare
     # host (as some hosting platforms provide) is treated as https.
+    # Seller / invoice details. FOUNDER INPUT: all are labelled placeholders until real values
+    # are provided (GSTIN, legal name, address, state code, GST rate for the margin scheme).
+    seller_legal_name: str = "REFURBI DEMO TRADERS (placeholder - not a real entity)"
+    seller_gstin: str = "00AAAAA0000A0Z0"
+    seller_address: str = "Placeholder address - to be confirmed by founder"
+    seller_state_code: str = "29"
+    invoice_prefix: str = "DEMO"
+    gst_rate_bps: int = 1800  # 18% - CA to confirm for refurbished phones / margin scheme
+    hsn_code: str = "8517"
     cors_origins: str = ""
     # Always allowed: the Render preview web app (no cross-service env reference needed).
     default_cors_origins: str = "https://refurbi-web.onrender.com"

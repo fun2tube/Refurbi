@@ -32,7 +32,8 @@ def upgrade() -> None:
         sa.Column("approved_at", sa.DateTime(timezone=True), nullable=True),
         sa.Column("received_at", sa.DateTime(timezone=True), nullable=True),
         sa.CheckConstraint(
-            "(from_counter_id IS NULL) != (to_counter_id IS NULL)", name="ck_stock_transfers_one_side_warehouse"
+            "(from_counter_id IS NULL) != (to_counter_id IS NULL)",
+            name="ck_stock_transfers_one_side_warehouse",
         ),
         sa.PrimaryKeyConstraint("id"),
     )

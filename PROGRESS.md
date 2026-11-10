@@ -3,7 +3,7 @@
 ## Status
 - Tasks done: 21 / 37 (56%) (incl. TP1 preview task)
 - Current milestone: 3 - Public storefront (priority override)
-- Next task (Builder B): T16
+- Next task (Builder B): T17
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
 
@@ -174,3 +174,9 @@
 - Done: /admin/transfers create/approve/reject/cancel/receive (partial receive ok); approve -> IN_TRANSIT, receive -> AVAILABLE at destination via lifecycle service; perms transfers.manage (admin) + transfers.receive (partner, own counter only); migration 0010.
 - Tests: API 313 passed; ruff clean; alembic up/down ok.
 - Next: T16
+
+### 2026-11-10T16:50Z - T16 Invoice engine (Builder B)
+- Done: app/billing: GST margin scheme (Rule 32(5)) + standard mode (CGST/SGST vs IGST, integer paise), FY gap-free numbering (row-locked, rollback-safe), reportlab PDF, issue_invoice() service for T17, /admin/invoices list/detail/pdf (no cost/margin exposed); migration 0011; seller details from env (placeholders).
+- Tests: API 320 passed; ruff clean; alembic up/down ok.
+- Founder inputs: SELLER_GSTIN, SELLER_LEGAL_NAME, SELLER_ADDRESS, SELLER_STATE_CODE, INVOICE_PREFIX, GST_RATE_BPS (CA to confirm 18% + margin scheme eligibility) - all placeholders now.
+- Next: T17
