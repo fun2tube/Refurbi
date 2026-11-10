@@ -12,7 +12,7 @@ Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)
 - [x] T05 Auth: users, roles, permissions, user_roles (counter-scoped); Argon2id; JWT access + rotating refresh (HttpOnly cookie); require_permission() dependency; seed super admin from env; tests incl. counter isolation
 
 ## Milestone 1 - Inventory core (most important)
-- [ ] T06 Catalogue schema + API: brands, product_models, product_variants, specifications, images; admin CRUD; public read endpoints; seed 15 popular models (iPhone 11-15, Galaxy S21-S23, A-series, OnePlus 9-11)
+- [x] T06 Catalogue schema + API: brands, product_models, product_variants, specifications, images; admin CRUD; public read endpoints; seed 15 popular models (iPhone 11-15, Galaxy S21-S23, A-series, OnePlus 9-11)
 - [ ] T07 Device schema: devices (imei_encrypted, imei_hash unique, grade, battery_health, cost_paise, price_paise, status, location), device_tests (JSONB checklist), device_photos, stock_movements, audit_log; partial unique indexes per D2
 - [ ] T08 Device lifecycle state machine service (D7) with exhaustive transition tests; every transition writes stock_movement + audit_log
 - [ ] T09 Suppliers + purchase orders + goods receipts; receiving a device requires IMEI + IMEI-check record (fake CEIR adapter in dev)

@@ -1,15 +1,16 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 4 / 36 (11%)
+- Tasks done: 5 / 36 (14%)
 - Current milestone: 0 - Foundation
-- Next task: T06
+- Next task: T07
 - Blockers: T02 (push lacks `workflow` scope)
 
 ## Founder inputs needed (not blocking yet)
 - Set real JWT_SECRET, SUPER_ADMIN_EMAIL/PASSWORD in the deploy env, then run `python -m app.seed` (T05)
 - GSTIN, legal name, registered address (T16 invoices)
 - CA sign-off on GST margin scheme (Rule 32(5)) and ITC policy
+- Product photos/descriptions/spec text for the catalogue (T06 seeds only model names, years, 5G flag, RAM/storage configs - please verify; no prices/images invented)
 - Grade definitions A/B/C and warranty months per grade
 - Counter list: names, addresses, owners, commission terms
 - Later: domain, hosting, Razorpay, WhatsApp Business, SMS DLT, Google Maps accounts
@@ -47,3 +48,10 @@
 - Decisions made: counter-scoped role grants permission only for that counter and never for counter-less actions; global role (counter_id NULL) applies everywhere. counter_id has no FK until counters table exists (T14 should add it). Customer phone-OTP auth (D8) deferred to T24 reserve flow. Ignored ruff B008 (FastAPI Depends). Login failures return one uniform message and equalise timing for unknown emails. No rate limiting yet (T34).
 - Blockers / founder inputs needed: T02 still blocked (workflow scope).
 - Next: T06
+
+### 2026-11-10T10:45Z - T06 Catalogue schema + API
+- Done: app/catalog: brands, product_models, product_variants (sku unique, storage/RAM CHECKs), specifications (unique per model+key), product_images; migration 0003; public read endpoints `/catalog/brands`, `/catalog/models` (brand filter, paginated), `/catalog/models/{slug}` (active variants, specs, images; whitelist schemas, no internal ids); admin CRUD under `/admin/catalog` (brands, models, variants, replace-all specs, images add/delete) gated by catalog.read/catalog.write; deactivation hides items publicly; idempotent demo seed of 15 models (iPhone 11-15, Galaxy S21-S23 + A34/A52s/A53/A54 5G, OnePlus 9/10 Pro/11) wired into `python -m app.seed`.
+- Tests: API 29 passed (7 new incl. public endpoint no-sensitive-fields checks, auth/permission 401/403, CRUD, conflicts, visibility); ruff clean; alembic upgrade/downgrade/check verified on local Postgres 16. Web untouched.
+- Decisions made: specs are per model (not per variant); image URLs only accepted if https:// or relative (blocks javascript:); seed lists RAM/storage configs from public knowledge and is labelled demo - founder to verify; slugs omit duplicate brand prefix (iphone-13, oneplus-11, samsung-galaxy-s22). A52s was added to reach 15 models.
+- Blockers / founder inputs needed: T02 still blocked (workflow scope); catalogue content (photos, specs) and grade definitions.
+- Next: T07

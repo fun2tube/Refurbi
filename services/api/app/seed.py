@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 from app.auth.models import Permission, Role, User, UserRole
 from app.auth.rbac import PERMISSIONS, ROLES
 from app.auth.security import hash_password
+from app.catalog.seed import seed_catalog
 from app.core.settings import get_settings
 
 
@@ -56,6 +57,7 @@ def main() -> None:
     s = get_settings()
     with _session_factory()() as db:
         seed_rbac(db)
+        seed_catalog(db)
         admin = seed_super_admin(db, s.super_admin_email, s.super_admin_password)
         print("seeded rbac;", "super admin ready" if admin else "super admin skipped (env not set)")
 
