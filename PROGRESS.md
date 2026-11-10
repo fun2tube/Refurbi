@@ -1,9 +1,9 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 1 / 36 (3%)
+- Tasks done: 2 / 36 (6%)
 - Current milestone: 0 - Foundation
-- Next task: T03
+- Next task: T04
 - Blockers: T02 (push lacks `workflow` scope)
 
 ## Founder inputs needed (not blocking yet)
@@ -25,3 +25,10 @@
 - Decisions made: pushed directly to main (accepted). Used system Python 3.12 via UV_PYTHON locally (uv download of 3.12 is slow in sandbox). Web uses npm (package-lock committed). Docker daemon not run in sandbox; compose file only syntax-checked.
 - Blockers / founder inputs needed: T02 BLOCKED [!]: push of .github/workflows/* was rejected ("OAuth App ... without `workflow` scope"). Workflow parked at ci/ci.yml. Founder: grant the workflow scope / GitHub App `workflows` permission, or manually `git mv ci/ci.yml .github/workflows/ci.yml`.
 - Next: T03
+
+### 2026-11-10T02:45Z - T03 API core
+- Done: app/core (settings via pydantic-settings, SQLAlchemy 2 engine/session dependency + naming-convention Base, error envelope `{"error":{code,message,details?,request_id?}}` with AppError/NotFound/Conflict/Unauthorized/Forbidden + handlers for HTTP/validation/unhandled (no internals leaked), pagination helper (PageDep, paginate, Page envelope, page_size capped), JSON structured logging with x-request-id middleware); Alembic configured (migrations/env.py reads DATABASE_URL, empty 0001 baseline); app/models.py registry for autogenerate; /health kept.
+- Tests: API 8 passed; ruff check + format clean. `alembic upgrade head` / `alembic check` verified against a real local Postgres 16 (not docker). Web untouched.
+- Decisions made: Pagination is page/page_size (default 20, max 100). Core tests use in-memory SQLite for the helper; Postgres-specific behaviour will be tested once CI (T02) provides a service. Ignored ruff UP046/UP047 (TypeVar style kept). Sandbox default python is 3.11, ran with UV_PYTHON=/usr/bin/python3.12.
+- Blockers / founder inputs needed: T02 still blocked (workflow scope).
+- Next: T04
