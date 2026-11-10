@@ -7,6 +7,7 @@ PERMISSIONS: dict[str, str] = {
     "inventory.read": "View devices and stock",
     "inventory.write": "Add/edit devices, run QC",
     "pricing.write": "Change device prices",
+    "counters.manage": "Manage counters, agreements and commission rules",
     "procurement.write": "Suppliers, purchase orders, goods receipt",
     "counter.stock.read": "View stock at a counter",
     "counter.sell": "Sell a device at a counter (POS)",

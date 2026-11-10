@@ -8,7 +8,7 @@ from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, Query
 from pydantic import BaseModel, ConfigDict
-from sqlalchemy import func, select
+from sqlalchemy import func, or_, select
 from sqlalchemy.orm import Session
 
 from app.catalog.models import Brand, ProductModel, ProductVariant
@@ -67,8 +67,15 @@ class StoreOut(BaseModel):
     units_available: int = 0
 
 
+def _public_location():
+    """Warehouse stock, or stock at a counter that is both verified and active."""
+    ok = select(Counter.id).where(Counter.is_verified.is_(True), Counter.is_active.is_(True))
+    return or_(Device.counter_id.is_(None), Device.counter_id.in_(ok))
+
+
 def _available():
     return (
+        _public_location(),
         Device.status == DeviceStatus.AVAILABLE.value,
         Device.price_paise.is_not(None),
         ProductVariant.is_active,
@@ -231,7 +238,9 @@ def _store_counts(db: Session) -> dict[int, int]:
 @router.get("/stores", response_model=list[StoreOut])
 def list_stores(db: Session = Depends(get_session)):
     counts = _store_counts(db)
-    counters = db.scalars(select(Counter).order_by(Counter.name)).all()
+    counters = db.scalars(
+        select(Counter).where(Counter.is_verified, Counter.is_active).order_by(Counter.name)
+    ).all()
     return [
         StoreOut(
             slug=c.slug,
@@ -246,7 +255,9 @@ def list_stores(db: Session = Depends(get_session)):
 
 @router.get("/stores/{slug}", response_model=StoreOut)
 def get_store(slug: str, db: Session = Depends(get_session)):
-    c = db.scalar(select(Counter).where(Counter.slug == slug))
+    c = db.scalar(
+        select(Counter).where(Counter.slug == slug, Counter.is_verified, Counter.is_active)
+    )
     if c is None:
         raise NotFoundError("Store not found")
     return StoreOut(

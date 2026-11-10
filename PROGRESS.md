@@ -1,9 +1,9 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 19 / 37 (51%) (incl. TP1 preview task)
+- Tasks done: 20 / 37 (54%) (incl. TP1 preview task)
 - Current milestone: 3 - Public storefront (priority override)
-- Next task (Builder B): T14
+- Next task (Builder B): T15
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
 
@@ -157,3 +157,9 @@
 - Done: compute_alerts (AGEING 21/35d, QC_FAILED, TRANSIT_STUCK >3d, COUNTER_MISMATCH), GET /admin/inventory/alerts, alerts card on /admin dashboard. Computed on demand (no job table).
 - Tests: API 299 passed; web lint/tsc/build pass.
 - Next: T14
+
+### 2026-11-10T15:50Z - T14 Counters (Builder B)
+- Done: counters extended (address, owner, phone, active, verified), agreements, commission rules (FLAT paise / PERCENT bps, per-model overrides default, commission_for helper), admin CRUD under /admin/counters (new permission counters.manage), verify requires an in-force agreement. Public storefront now hides unverified/inactive counters and their stock; demo counters seeded as verified. Migration 0008.
+- Tests: API 305 passed; ruff clean.
+- Founder inputs: real counter list, owners, agreements and commission terms (all current counters are demo).
+- Next: T15

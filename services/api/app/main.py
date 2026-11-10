@@ -7,6 +7,7 @@ from app.catalog.router import public as catalog_public
 from app.core.errors import install_error_handlers
 from app.core.logging import configure_logging, install_request_logging
 from app.core.settings import get_settings
+from app.counters.router import router as counters_router
 from app.inventory.router import router as inventory_router
 from app.pricing.router import router as pricing_router
 from app.procurement.router import router as procurement_router
@@ -34,6 +35,7 @@ app.include_router(catalog_admin)
 app.include_router(storefront_router)
 app.include_router(procurement_router)
 app.include_router(qc_router)
+app.include_router(counters_router)
 app.include_router(inventory_router)
 app.include_router(pricing_router)
 app.include_router(media_router)

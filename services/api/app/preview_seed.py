@@ -39,9 +39,10 @@ def seed_preview(db: Session) -> dict[str, int]:
     for slug, name, city in DEMO_COUNTERS:
         c = db.scalar(select(Counter).where(Counter.slug == slug))
         if c is None:
-            c = Counter(slug=slug, name=name, city=city, is_demo=True)
+            c = Counter(slug=slug, name=name, city=city, is_demo=True, is_verified=True)
             db.add(c)
             db.flush()
+        c.is_verified = True  # demo counters are public in preview
         counters.append(c)
 
     variants = list(db.scalars(select(ProductVariant).order_by(ProductVariant.id)))

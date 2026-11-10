@@ -26,7 +26,7 @@ Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)
 - [x] T13 Stock ageing + alerts job (21-day / 35-day, QC fail, counter mismatch) on admin dashboard
 
 ## Milestone 2 - Counters & POS
-- [ ] T14 Counters: schema, admin CRUD, agreements, commission rules (per model, flat/percent), verified flag gating public page
+- [x] T14 Counters: schema, admin CRUD, agreements, commission rules (per model, flat/percent), verified flag gating public page
 - [ ] T15 Stock transfers warehouse <-> counter with approval + IN_TRANSIT + receive confirmation
 - [ ] T16 Invoice engine: GST margin scheme (Rule 32(5)) + standard mode, HSN, CGST/SGST vs IGST, FY gap-free numbering, PDF invoice; unit tests with worked examples
 - [ ] T17 Partner POS UI (mobile-first): search own counter stock, sell device (customer phone + name), payment mode (cash/UPI/card recorded), issue invoice + warranty, WhatsApp-share link
