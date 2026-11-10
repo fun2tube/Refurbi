@@ -1,9 +1,9 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 9 / 37 (24%) (incl. TP1 preview task)
+- Tasks done: 10 / 37 (27%) (incl. TP1 preview task)
 - Current milestone: 3 - Public storefront (priority override)
-- Next task: T22 (storefront-first order: T22, T23, T25, T27, T28, T26, T24, then T09...)
+- Next task: T23 (storefront-first order: T23, T25, T27, T28, T26, T24, then T09...)
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
 
@@ -92,3 +92,10 @@
 - Decisions made: units exposed by internal numeric id (`unit_id`; not sensitive). Header/footer/bottom-nav link to pages still to come in T22-T28 (stores, exchange, trust pages) - these land in following tasks. Pages are force-dynamic (live stock, SSR). Stores have only name/city until T14 adds address/hours (nothing invented).
 - Blockers / founder inputs needed: WhatsApp number (env NEXT_PUBLIC_WHATSAPP_NUMBER); tagline/hero copy review; grade definitions (copy says A/B/C describe cosmetic condition - verify).
 - Next: T22
+
+### 2026-11-10T19:30Z - T22 Listing pages with filters
+- Done: `/refurbished-mobiles` (all), `/refurbished-mobiles/[slug]` (brand pages e.g. `/apple`, budget pages `/under-20000`; unknown brand/invalid slug -> 404). SSR (force-dynamic, live stock). Filters (GET form, works without JS): search, brand, max price, storage, RAM, grade, battery, 5G, store, sort. Crawlable pagination via `?page=N` links with rel prev/next, 12 per page. Per-page title/description/canonical, breadcrumb. Filter whitelist + page clamping in lib/listing.ts. `apps/web/.env.example` added (was git-ignored; gitignore exception added).
+- Tests: web lint, tsc, 14 tests, build pass; manual smoke of all listing routes against a seeded API (200/404 as expected). API 275 passed.
+- Decisions made: price filter in rupees in the UI (converted to paise for the API). Brand pages use the in-stock brand list, so a brand with no stock 404s. Sitemap/JSON-LD for these pages come in T28. NOTE for T23: product URL `/refurbished-[model-slug]` can't be a Next dynamic segment; implement with a rewrite `/refurbished-:slug` -> `/product/:slug` in next.config (literal `/refurbished-mobiles` wins).
+- Blockers / founder inputs needed: none new.
+- Next: T23
