@@ -60,3 +60,16 @@ export const getModels = (params: Record<string, string | number | undefined> = 
   apiGet<ModelStock[]>(`/public/models${qs(params)}`);
 export const getBrands = () => apiGet<Brand[]>("/public/brands");
 export const getStores = () => apiGet<Store[]>("/public/stores");
+
+export type ModelDetail = {
+  slug: string;
+  name: string;
+  brand: Brand;
+  release_year: number | null;
+  is_5g: boolean;
+  description: string;
+  variants: { sku: string; storage_gb: number; ram_gb: number | null; color: string | null }[];
+  specifications: { key: string; value: string }[];
+  images: { url: string; alt: string }[];
+};
+export const getModel = (slug: string) => apiGet<ModelDetail>(`/catalog/models/${encodeURIComponent(slug)}`);

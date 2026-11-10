@@ -1,9 +1,9 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 10 / 37 (27%) (incl. TP1 preview task)
+- Tasks done: 11 / 37 (30%) (incl. TP1 preview task)
 - Current milestone: 3 - Public storefront (priority override)
-- Next task: T23 (storefront-first order: T23, T25, T27, T28, T26, T24, then T09...)
+- Next task: T25 (storefront-first order: T25, T27, T28, T26, T24, then T09...)
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
 
@@ -99,3 +99,10 @@
 - Decisions made: price filter in rupees in the UI (converted to paise for the API). Brand pages use the in-stock brand list, so a brand with no stock 404s. Sitemap/JSON-LD for these pages come in T28. NOTE for T23: product URL `/refurbished-[model-slug]` can't be a Next dynamic segment; implement with a rewrite `/refurbished-:slug` -> `/product/:slug` in next.config (literal `/refurbished-mobiles` wins).
 - Blockers / founder inputs needed: none new.
 - Next: T23
+
+### 2026-11-10T19:45Z - T23 Product page
+- Done: `/refurbished-[model-slug]` (rewrite to internal `/product/[slug]` in next.config; `/refurbished-mobiles` still wins). Shows model hero (generic SVG phone), from-price + unit count, list of actual available units (storage/RAM, grade, battery %, store link or warehouse, price, per-unit WhatsApp enquiry with prefilled text), storage filter chips, specs from catalogue API, warranty/returns pointer (no invented terms), FAQs (generic, no claims), desktop CTAs + sticky mobile CTA bar (WhatsApp / Visit store) above the bottom nav. Product JSON-LD (AggregateOffer, itemCondition RefurbishedCondition). Unknown model -> 404. No new API needed (uses /catalog/models/{slug} + /public/units?model=).
+- Tests: web lint, tsc, 14 tests, build pass; smoke vs seeded API (200 with units/JSON-LD, 404 for unknown slug). API 275 passed.
+- Decisions made: "Reserve" CTA omitted until T24 exists (no dead buttons). Photos: placeholder silhouette until real photos (T10). Warranty copy is deliberately non-committal until founder supplies terms.
+- Blockers / founder inputs needed: warranty months per grade, return policy, real product photos.
+- Next: T25

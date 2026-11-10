@@ -7,6 +7,7 @@ export const PREVIEW_PAGES: { title: string; blurb: string; href: string }[] = [
   { title: "All refurbished phones", blurb: "Filterable listing of real units (brand, price, storage, RAM, grade, battery, 5G, store).", href: "/refurbished-mobiles" },
   { title: "Brand listing", blurb: "Apple phones, with crawlable pagination.", href: "/refurbished-mobiles/apple" },
   { title: "Budget listing", blurb: "Phones under ₹20,000.", href: "/refurbished-mobiles/under-20000" },
+  { title: "Product page", blurb: "Model page listing the actual available units, specs, FAQs, sticky CTA.", href: "/refurbished-iphone-13" },
   { title: "Old catalogue (API check)", blurb: "Raw model list from the public API.", href: "/catalogue" },
   { title: "Admin", blurb: "Back-office. Demo admin sign-in.", href: "/admin" },
   { title: "Partner", blurb: "Counter area (POS comes later).", href: "/partner" },
