@@ -3,12 +3,14 @@ import secrets
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from app.billing.service import issue_invoice
 from app.checkout.models import Checkout, CheckoutItem
 from app.core.errors import ConflictError, NotFoundError
 from app.inventory.lifecycle import transition
 from app.inventory.models import DeviceStatus
 from app.orders.courier import Courier
 from app.orders.models import Order, OrderItem, OrderStatusHistory
+from app.warranty.service import create_online_warranty
 
 FLOW = {"PLACED": "PACKED", "PACKED": "SHIPPED", "SHIPPED": "DELIVERED"}
 
@@ -39,6 +41,14 @@ def create_from_checkout(db: Session, c: Checkout) -> Order:
     for it in db.scalars(select(CheckoutItem).where(CheckoutItem.checkout_id == c.id)):
         db.add(OrderItem(order_id=o.id, device_id=it.device_id, price_paise=it.price_paise))
         transition(db, it.device_id, DeviceStatus.SOLD, reason=f"online order {o.number}")
+        inv = issue_invoice(
+            db,
+            it.device_id,
+            selling_paise=it.price_paise,
+            customer_name=c.customer_name,
+            customer_phone=c.phone.strip()[-10:],
+        )
+        create_online_warranty(db, inv.id, it.device_id)
     _log(db, o, "PLACED", "Payment received")
     return o
 

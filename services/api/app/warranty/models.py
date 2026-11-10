@@ -14,7 +14,7 @@ CLAIM_STATUSES = ("OPEN", "IN_REVIEW", "APPROVED", "REJECTED", "RESOLVED")
 class Warranty(Base):
     __tablename__ = "warranties"
     id: Mapped[int] = mapped_column(ID, primary_key=True)
-    sale_id: Mapped[int] = mapped_column(ForeignKey("sales.id"), unique=True)
+    sale_id: Mapped[int | None] = mapped_column(ForeignKey("sales.id"), unique=True, nullable=True)
     invoice_id: Mapped[int] = mapped_column(ForeignKey("invoices.id"), unique=True)
     device_id: Mapped[int] = mapped_column(ForeignKey("devices.id"), index=True)
     months: Mapped[int] = mapped_column()

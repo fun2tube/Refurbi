@@ -1,11 +1,13 @@
-from datetime import datetime
+from datetime import UTC, date, datetime
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Request, Response
 from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.auth.deps import require_permission
+from app.billing.models import Invoice
+from app.billing.pdf import render_pdf
 from app.catalog.models import ProductModel, ProductVariant
 from app.core.db import get_session
 from app.core.errors import NotFoundError
@@ -15,6 +17,7 @@ from app.orders.courier import Courier, get_courier
 from app.orders.models import Order, OrderItem, OrderStatusHistory
 from app.reservations.router import Email, _rate_limit
 from app.reservations.service import norm_email, verify_otp
+from app.warranty.models import Warranty
 
 public = APIRouter(prefix="/public", tags=["orders"])
 admin = APIRouter(prefix="/admin/orders", tags=["orders-admin"])
@@ -30,6 +33,10 @@ class TimelineOut(BaseModel):
 class OrderItemOut(BaseModel):
     title: str
     price_paise: int
+    invoice_number: str | None = None
+    warranty_months: int | None = None
+    warranty_ends_on: date | None = None
+    warranty_active: bool | None = None
 
 
 class OrderOut(BaseModel):
@@ -46,12 +53,22 @@ class OrderOut(BaseModel):
 
 def _view(db: Session, o: Order) -> OrderOut:
     rows = db.execute(
-        select(OrderItem.price_paise, ProductModel.name, ProductVariant.storage_gb)
+        select(
+            OrderItem.price_paise,
+            ProductModel.name,
+            ProductVariant.storage_gb,
+            Invoice.number,
+            Warranty.months,
+            Warranty.ends_on,
+        )
         .join(Device, Device.id == OrderItem.device_id)
         .join(ProductVariant, ProductVariant.id == Device.variant_id)
         .join(ProductModel, ProductModel.id == ProductVariant.model_id)
+        .outerjoin(Invoice, Invoice.device_id == OrderItem.device_id)
+        .outerjoin(Warranty, Warranty.device_id == OrderItem.device_id)
         .where(OrderItem.order_id == o.id)
     ).all()
+    today = datetime.now(UTC).date()
     hist = db.scalars(
         select(OrderStatusHistory)
         .where(OrderStatusHistory.order_id == o.id)
@@ -60,7 +77,13 @@ def _view(db: Session, o: Order) -> OrderOut:
     return OrderOut(
         number=o.number, token=o.token, status=o.status, total_paise=o.total_paise,
         placed_at=o.created_at, carrier=o.carrier, tracking_no=o.tracking_no,
-        items=[OrderItemOut(title=f"{n} {g}GB", price_paise=p) for p, n, g in rows],
+        items=[
+            OrderItemOut(
+                title=f"{n} {g}GB", price_paise=p, invoice_number=inv, warranty_months=m,
+                warranty_ends_on=e, warranty_active=None if e is None else e >= today,
+            )
+            for p, n, g, inv, m, e in rows
+        ],
         timeline=[TimelineOut(status=h.status, note=h.note, at=h.created_at) for h in hist],
     )  # fmt: skip
 
@@ -71,6 +94,24 @@ def track(token: str, db: Session = Depends(get_session)):
     if o is None:
         raise NotFoundError("Order not found")
     return _view(db, o)
+
+
+@public.get("/orders/{token}/invoice.pdf")
+def invoice_pdf(token: str, number: str, db: Session = Depends(get_session)) -> Response:
+    """Customer's own invoice, gated by the unguessable order token + the invoice number
+    (which must belong to a device in that order)."""
+    o = db.scalar(select(Order).where(Order.token == token))
+    inv = db.scalar(
+        select(Invoice)
+        .join(OrderItem, OrderItem.device_id == Invoice.device_id)
+        .where(OrderItem.order_id == (o.id if o else -1), Invoice.number == number)
+    )
+    if o is None or inv is None:
+        raise NotFoundError("Invoice not found")
+    return Response(
+        render_pdf(inv), media_type="application/pdf",
+        headers={"Content-Disposition": f'inline; filename="{number.replace("/", "-")}.pdf"'},
+    )  # fmt: skip
 
 
 class AccountIn(BaseModel):
@@ -121,6 +162,20 @@ def list_orders(status: str | None = None, db: Session = Depends(get_session)):
     if status:
         stmt = stmt.where(Order.status == status.upper())
     return [_adm(o) for o in db.scalars(stmt)]
+
+
+class AdminOrderDetail(AdminOrder):
+    items: list[OrderItemOut]
+    timeline: list[TimelineOut]
+
+
+@admin.get("/{order_id}", response_model=AdminOrderDetail, dependencies=[_perm])
+def order_detail(order_id: int, db: Session = Depends(get_session)):
+    o = db.get(Order, order_id)
+    if o is None:
+        raise NotFoundError("Order not found")
+    v = _view(db, o)
+    return AdminOrderDetail(**_adm(o).model_dump(), items=v.items, timeline=v.timeline)
 
 
 @admin.post("/{order_id}/advance", response_model=AdminOrder)

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Button, Input } from "@/components/ui";
 import { formatRupees } from "@/lib/money";
 
-type Order = { number: string; token: string; status: string; total_paise: number; placed_at: string; items: { title: string }[] };
+type Order = { number: string; token: string; status: string; total_paise: number; placed_at: string; items: { title: string; invoice_number: string | null; warranty_ends_on: string | null; warranty_active: boolean | null }[] };
 
 export function AccountClient({ apiBase }: { apiBase: string }) {
   const [email, setEmail] = useState("");
@@ -39,7 +39,13 @@ export function AccountClient({ apiBase }: { apiBase: string }) {
           <li key={o.token} className="rounded-xl border border-silver/40 bg-white p-3 text-sm">
             <Link className="font-semibold text-brand underline" href={`/orders/${o.token}`}>{o.number}</Link>
             {" "}· {o.status} · {formatRupees(o.total_paise)}
-            <div className="text-midnight/70">{o.items.map((i) => i.title).join(", ")}</div>
+            {o.items.map((i, k) => (
+              <div key={k} className="text-midnight/70">
+                {i.title}
+                {i.invoice_number && <> · <a className="text-brand underline" href={`${apiBase}/public/orders/${o.token}/invoice.pdf?number=${encodeURIComponent(i.invoice_number)}`}>Invoice {i.invoice_number}</a></>}
+                {i.warranty_ends_on && <> · Warranty {i.warranty_active ? "until" : "ended"} {i.warranty_ends_on}</>}
+              </div>
+            ))}
           </li>
         ))}
       </ul>

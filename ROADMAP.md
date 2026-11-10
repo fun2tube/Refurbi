@@ -51,7 +51,7 @@ Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)
 - [x] T29 Cart + checkout with device reservation (row lock, 15-min hold), address, PIN-code delivery estimate stub
 - [x] T30 Payment adapter (Razorpay) with signed idempotent webhook (payment_events unique event_id); fake gateway in dev
 - [x] T31A Orders from paid checkouts, status history, courier adapter (fake), public tracking, email-OTP "My orders" page, admin order API
-- [ ] T31B Admin orders UI; GST invoice + warranty for online orders; warranties in customer account (Orders, order status history, shipments adapter, customer account (orders, warranties))
+- [x] T31B Admin orders UI; GST invoice + warranty for online orders; warranties in customer account (Orders, order status history, shipments adapter, customer account (orders, warranties))
 - [ ] T32 Returns/refunds workflow
 
 ## Milestone 5 - Launch hardening

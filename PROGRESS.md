@@ -1,8 +1,8 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 31 / 39 (79%)
-- Current milestone: 4 - Online payments (Builder A next: T31B)
+- Tasks done: 32 / 39 (82%)
+- Current milestone: 4 - Online payments (Builder A next: T32)
 - Next task (Builder B): none (all B tasks done)
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
@@ -134,3 +134,10 @@
 - Tests: API 348 passed; ruff clean; web build/lint/typecheck green. Public endpoints tested for no IMEI/cost/PII.
 - Decisions made: T31 split; T31B = admin UI, GST invoice + warranty for online orders (needs Sale/Invoice integration).
 - Next: T31B
+
+### 2026-11-10T19:10Z - T31B Online invoice + warranty + admin orders UI (Builder A)
+- Done: paid orders now issue a GST invoice (margin scheme) + warranty per item (migration 0019: warranties.sale_id nullable). Customer invoice PDF via order token; invoice/warranty shown on order page and My orders; warranty lookup works for online orders. /admin/orders UI (list, detail, advance) linked from /admin.
+- Tests: API 350 passed; ruff clean; web lint/typecheck/build green.
+- Decisions made: customer state defaults to seller state (no state captured at checkout yet); PDF keeps IMEI last4 on the customer's own invoice only (JSON never has IMEI).
+- Founder inputs: GSTIN/legal name for invoices (already listed).
+- Next: T32

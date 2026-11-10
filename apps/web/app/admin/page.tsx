@@ -10,6 +10,7 @@ export default function Page() {
   const tiles = [
     { href: "/admin/inventory", t: "Inventory", d: "All devices: filter by brand, model, status, grade, battery, location, age." },
     { href: "/admin/receive", t: "Receive stock", d: "Suppliers, purchase orders and goods receipt (IMEI check on every unit)." },
+    { href: "/admin/orders", t: "Online orders", d: "Pack, ship and deliver web orders; see invoice and warranty per order." },
     { href: "/admin/login", t: "Sign in", d: "Demo admin sign-in." },
   ];
   return (

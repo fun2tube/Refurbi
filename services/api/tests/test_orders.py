@@ -85,3 +85,40 @@ def test_admin_fulfilment_flow(client):
         tok = db.scalar(select(Order)).token
     tl = c.get(f"/public/orders/{tok}").json()
     assert [t["status"] for t in tl["timeline"]] == ["PLACED", "PACKED", "SHIPPED", "DELIVERED"]
+
+
+def test_online_order_gets_invoice_and_warranty(client):
+    c, f = client
+    uid, _ = _paid(c)
+    with f() as db:
+        tok = db.scalar(select(Order)).token
+    b = c.get(f"/public/orders/{tok}").json()
+    it = b["items"][0]
+    assert it["invoice_number"] and it["warranty_months"] and it["warranty_active"] is True
+    low = c.get(f"/public/orders/{tok}").text.lower()
+    for bad in ("imei", "cost", "supplier", "commission", "9000000000"):
+        assert bad not in low
+    r = c.get(f"/public/orders/{tok}/invoice.pdf", params={"number": it["invoice_number"]})
+    assert r.status_code == 200 and r.content.startswith(b"%PDF")
+    assert (
+        c.get("/public/orders/bad/invoice.pdf", params={"number": it["invoice_number"]}).status_code
+        == 404
+    )
+    assert c.get(f"/public/orders/{tok}/invoice.pdf", params={"number": "X/1"}).status_code == 404
+    # warranty lookup by phone + invoice works for online orders
+    r = c.post(
+        "/public/warranty/lookup",
+        json={"phone": "9000000000", "invoice_number": it["invoice_number"]},
+    )
+    assert r.status_code == 200 and r.json()["active"] is True
+
+
+def test_admin_order_detail(client):
+    c, f = client
+    _paid(c)
+    h = token(c, f, "adm@example.com", "super_admin")
+    oid = c.get("/admin/orders", headers=h).json()[0]["id"]
+    assert c.get(f"/admin/orders/{oid}").status_code == 401
+    d = c.get(f"/admin/orders/{oid}", headers=h).json()
+    assert d["items"][0]["invoice_number"] and d["timeline"][0]["status"] == "PLACED"
+    assert c.get("/admin/orders/9999", headers=h).status_code == 404
