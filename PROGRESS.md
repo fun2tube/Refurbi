@@ -3,7 +3,7 @@
 ## Status
 - Tasks done: 21 / 37 (56%) (incl. TP1 preview task)
 - Current milestone: 3 - Public storefront (priority override)
-- Next task (Builder B): T15
+- Next task (Builder B): T16
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
 
@@ -169,3 +169,8 @@
 - Tests: API 309 passed, ruff clean; web lint/tsc/vitest/build pass.
 - Founder inputs: real exchange rule table (current values are DEMO placeholders in app/exchange/rules.py).
 - Next: T24 (needs email OTP; Brevo adapter + fake)
+
+### 2026-11-10T16:30Z - T15 Stock transfers (Builder B)
+- Done: /admin/transfers create/approve/reject/cancel/receive (partial receive ok); approve -> IN_TRANSIT, receive -> AVAILABLE at destination via lifecycle service; perms transfers.manage (admin) + transfers.receive (partner, own counter only); migration 0010.
+- Tests: API 313 passed; ruff clean; alembic up/down ok.
+- Next: T16

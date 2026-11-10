@@ -8,6 +8,8 @@ PERMISSIONS: dict[str, str] = {
     "inventory.write": "Add/edit devices, run QC",
     "pricing.write": "Change device prices",
     "counters.manage": "Manage counters, agreements and commission rules",
+    "transfers.manage": "Create, approve and receive stock transfers",
+    "transfers.receive": "Confirm receipt of a transfer at own counter",
     "leads.manage": "View and manage exchange enquiries",
     "procurement.write": "Suppliers, purchase orders, goods receipt",
     "counter.stock.read": "View stock at a counter",
@@ -23,6 +25,12 @@ ROLES: dict[str, tuple[str, list[str]]] = {
     "qc_technician": ("QC technician", ["inventory.read", "inventory.write"]),
     "counter_partner": (
         "Counter partner",
-        ["counter.stock.read", "counter.sell", "sales.read", "commission.read"],
+        [
+            "counter.stock.read",
+            "counter.sell",
+            "sales.read",
+            "commission.read",
+            "transfers.receive",
+        ],
     ),
 }

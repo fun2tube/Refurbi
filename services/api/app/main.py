@@ -16,6 +16,7 @@ from app.procurement.router import router as procurement_router
 from app.qc.router import media as media_router
 from app.qc.router import router as qc_router
 from app.storefront.router import router as storefront_router
+from app.transfers.router import router as transfers_router
 
 configure_logging(get_settings().log_level)
 
@@ -43,6 +44,7 @@ app.include_router(pricing_router)
 app.include_router(media_router)
 app.include_router(exchange_public)
 app.include_router(exchange_admin)
+app.include_router(transfers_router)
 
 
 @app.get("/health")
