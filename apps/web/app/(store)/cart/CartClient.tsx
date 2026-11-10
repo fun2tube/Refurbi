@@ -12,6 +12,23 @@ type Hold = {
   delivery: { min_days: number; max_days: number } | null;
 };
 
+type Order = { order_id: string; key_id: string; amount_paise: number; currency: string };
+
+/** Razorpay Checkout.js (loaded only when a real gateway is configured). Payment is confirmed by
+ *  the signed server webhook; the client callback only updates the screen. */
+async function openRazorpay(o: Order, h: Hold, onDone: () => void) {
+  await new Promise<void>((res, rej) => {
+    const el = document.createElement("script");
+    el.src = "https://checkout.razorpay.com/v1/checkout.js";
+    el.onload = () => res();
+    el.onerror = () => rej(new Error("load"));
+    document.head.appendChild(el);
+  });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const Rz = (window as any).Razorpay;
+  new Rz({ key: o.key_id, order_id: o.order_id, amount: h.total_paise, currency: o.currency, name: "Refurbi", handler: onDone }).open();
+}
+
 export function CartClient({ apiBase }: { apiBase: string }) {
   const [ids, setIds] = useState<number[] | null>(null);
   const [lines, setLines] = useState<Line[]>([]);
@@ -24,6 +41,7 @@ export function CartClient({ apiBase }: { apiBase: string }) {
   const [est, setEst] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [paid, setPaid] = useState(false);
 
   const load = useCallback(async () => {
     const c = readCart();
@@ -84,6 +102,23 @@ export function CartClient({ apiBase }: { apiBase: string }) {
     } catch { setError("Could not reach the server - please retry."); } finally { setBusy(false); }
   }
 
+  async function pay() {
+    if (!hold) return;
+    setBusy(true); setError("");
+    try {
+      const r = await post(`/public/payments/${hold.token}/start`, {});
+      if (!r.ok) return setError("Could not start payment - your hold may have expired.");
+      const o = await r.json();
+      if (o.gateway === "fake") {
+        const d = await fetch(`${apiBase}/public/payments/fake/${o.order_id}/pay`, { method: "POST" });
+        if (d.ok) setPaid(true);
+        else setError("Demo payment failed.");
+      } else {
+        await openRazorpay(o, hold, () => setPaid(true));
+      }
+    } catch { setError("Could not reach the server - please retry."); } finally { setBusy(false); }
+  }
+
   async function cancel() {
     if (!hold) return;
     await fetch(`${apiBase}/public/checkout/${hold.token}/cancel`, { method: "POST" }).catch(() => undefined);
@@ -92,14 +127,25 @@ export function CartClient({ apiBase }: { apiBase: string }) {
 
   if (step === "held" && hold) {
     const mm = String(Math.floor(left / 60)).padStart(2, "0"), ss = String(left % 60).padStart(2, "0");
+    if (paid)
+      return (
+        <div role="status" className="mt-6 max-w-lg rounded-2xl bg-porcelain p-5">
+          <p className="font-display text-lg font-semibold">Payment received. Thank you!</p>
+          <p className="mt-1 text-sm text-midnight/70">Your phones are set aside for you. Order tracking arrives in the next update; we will email you.</p>
+        </div>
+      );
     return (
       <div role="status" className="mt-6 max-w-lg rounded-2xl bg-porcelain p-5">
         {left > 0 ? (
           <>
             <p className="font-display text-lg font-semibold">Your phones are held for {mm}:{ss}</p>
-            <p className="mt-1 text-sm text-midnight/70">Total {formatRupees(hold.total_paise)}. Online payment is not switched on yet in this preview; nothing has been charged.</p>
+            <p className="mt-1 text-sm text-midnight/70">Total {formatRupees(hold.total_paise)}. You have not been charged yet. In this preview the payment is a demo (no real money).</p>
             {hold.delivery && <p className="mt-1 text-sm text-midnight/70">Estimated delivery {hold.delivery.min_days}-{hold.delivery.max_days} days (indicative).</p>}
-            <Button type="button" className="mt-4" onClick={cancel}>Release hold</Button>
+            <div className="mt-4 flex gap-3">
+              <Button type="button" onClick={pay} disabled={busy}>{busy ? "Please wait..." : `Pay ${formatRupees(hold.total_paise)}`}</Button>
+              <button type="button" className="text-sm underline" onClick={cancel}>Release hold</button>
+            </div>
+            {error && <p role="alert" className="mt-2 text-sm text-red-700">{error}</p>}
           </>
         ) : (
           <p className="font-display font-semibold">The hold has expired and the phones are back in stock. <Link className="text-brand underline" href="/refurbished-mobiles">Browse phones</Link></p>

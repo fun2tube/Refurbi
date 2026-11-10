@@ -1,8 +1,8 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 29 / 38 (76%)
-- Current milestone: 4 - Online payments (Builder A next: T30)
+- Tasks done: 30 / 38 (79%)
+- Current milestone: 4 - Online payments (Builder A next: T31)
 - Next task (Builder B): none (all B tasks done)
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
@@ -122,3 +122,9 @@
 - Tests: API 341 passed; ruff clean; web 24 passed, lint/typecheck/build green.
 - Decisions made: payment not wired yet (T30); hold UI says nothing charged.
 - Next: T30
+
+### 2026-11-10T18:10Z - T30 Payment adapter + signed webhook (Builder A)
+- Done: app/payments (migration 0017): gateway adapter (Razorpay REST order create; fake in dev/preview), HMAC-signed webhook, idempotent via unique payment_events.event_id, amount-mismatch guard, late-payment re-hold / REFUND_DUE. Cart page "Pay" (fake demo capture; Razorpay Checkout.js when keys set). Dev webhook secret rejected in production.
+- Tests: API 345 passed; ruff clean; web build/lint/typecheck green.
+- Founder inputs: Razorpay key id/secret/webhook secret at go-live (optional; pay-at-store works without).
+- Next: T31

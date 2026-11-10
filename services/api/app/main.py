@@ -16,6 +16,7 @@ from app.dashboard.router import router as dashboard_router
 from app.exchange.router import admin as exchange_admin
 from app.exchange.router import public as exchange_public
 from app.inventory.router import router as inventory_router
+from app.payments.router import public as payments_public
 from app.pos.router import router as pos_router
 from app.pricing.router import router as pricing_router
 from app.procurement.router import router as procurement_router
@@ -64,6 +65,7 @@ app.include_router(warranty_admin)
 app.include_router(reservations_public)
 app.include_router(reservations_admin)
 app.include_router(checkout_public)
+app.include_router(payments_public)
 app.include_router(dashboard_router)
 
 

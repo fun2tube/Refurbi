@@ -49,7 +49,7 @@ Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)
 
 ## Milestone 4 - Online payments (Release 1.5)
 - [x] T29 Cart + checkout with device reservation (row lock, 15-min hold), address, PIN-code delivery estimate stub
-- [ ] T30 Payment adapter (Razorpay) with signed idempotent webhook (payment_events unique event_id); fake gateway in dev
+- [x] T30 Payment adapter (Razorpay) with signed idempotent webhook (payment_events unique event_id); fake gateway in dev
 - [ ] T31 Orders, order status history, shipments adapter, customer account (orders, warranties)
 - [ ] T32 Returns/refunds workflow
 

@@ -30,6 +30,10 @@ class Settings(BaseSettings):
     # Email (Brevo free tier). Empty key = fake outbox adapter (dev/tests/preview).
     brevo_api_key: str = ""
     email_from: str = "no-reply@example.invalid"
+    # Payments: empty razorpay_key_id = fake gateway (dev/tests/preview). Never commit real keys.
+    razorpay_key_id: str = ""
+    razorpay_key_secret: str = ""
+    razorpay_webhook_secret: str = "dev-only-webhook-secret"
     reservation_hours: int = 24
     otp_ttl_minutes: int = 10
     seller_legal_name: str = "REFURBI DEMO TRADERS (placeholder - not a real entity)"
