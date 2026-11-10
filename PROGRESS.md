@@ -1,9 +1,9 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 5 / 36 (14%)
-- Current milestone: 0 - Foundation
-- Next task: T07
+- Tasks done: 6 / 36 (17%)
+- Current milestone: 1 - Inventory core
+- Next task: T08
 - Blockers: T02 (push lacks `workflow` scope)
 
 ## Founder inputs needed (not blocking yet)
@@ -55,3 +55,10 @@
 - Decisions made: specs are per model (not per variant); image URLs only accepted if https:// or relative (blocks javascript:); seed lists RAM/storage configs from public knowledge and is labelled demo - founder to verify; slugs omit duplicate brand prefix (iphone-13, oneplus-11, samsung-galaxy-s22). A52s was added to reach 15 models.
 - Blockers / founder inputs needed: T02 still blocked (workflow scope); catalogue content (photos, specs) and grade definitions.
 - Next: T07
+
+### 2026-11-10T11:15Z - T07 Device schema
+- Done: app/inventory: devices (imei_encrypted, imei_hash UNIQUE, imei_last4, grade, battery_health, cost_paise, price_paise, status, location_kind + counter_id), device_tests (JSONB checklist, partial unique index = one current test per device), device_photos, stock_movements (append-only ledger), audit_log; CHECK constraints for status (D7's 14 states), grade, location, battery 0-100, non-negative money, counter_id iff COUNTER; migration 0004. IMEI helpers (Luhn validation, Fernet MultiFernet encryption with key rotation, HMAC-SHA256 keyed hash); settings IMEI_ENCRYPTION_KEYS / IMEI_HASH_KEY (dev placeholders, documented in .env.example). Added `cryptography` dependency.
+- Tests: API 44 passed (15 new: D7 enum, IMEI validation, encrypt/rotate/hash, unique IMEI, 8 CHECK violations, partial unique test index); ruff clean; alembic upgrade/downgrade/check verified on Postgres 16 (partial index confirmed in pg_indexes).
+- Decisions made: Schema only - no write paths yet; status changes arrive with the lifecycle service (T08). The D2 "one active reservation/sale per device" partial indexes need reservation/sale tables, so they land with T24/T17 (noted); the partial index here is on current QC test. counter_id has no FK until T14. Grades A/B/C remain placeholders.
+- Blockers / founder inputs needed: T02 still blocked (workflow scope). Before production: generate real IMEI_ENCRYPTION_KEYS (Fernet) and IMEI_HASH_KEY and store them securely; losing the encryption key makes stored IMEIs unreadable.
+- Next: T08

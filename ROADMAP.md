@@ -13,7 +13,7 @@ Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)
 
 ## Milestone 1 - Inventory core (most important)
 - [x] T06 Catalogue schema + API: brands, product_models, product_variants, specifications, images; admin CRUD; public read endpoints; seed 15 popular models (iPhone 11-15, Galaxy S21-S23, A-series, OnePlus 9-11)
-- [ ] T07 Device schema: devices (imei_encrypted, imei_hash unique, grade, battery_health, cost_paise, price_paise, status, location), device_tests (JSONB checklist), device_photos, stock_movements, audit_log; partial unique indexes per D2
+- [x] T07 Device schema: devices (imei_encrypted, imei_hash unique, grade, battery_health, cost_paise, price_paise, status, location), device_tests (JSONB checklist), device_photos, stock_movements, audit_log; partial unique indexes per D2
 - [ ] T08 Device lifecycle state machine service (D7) with exhaustive transition tests; every transition writes stock_movement + audit_log
 - [ ] T09 Suppliers + purchase orders + goods receipts; receiving a device requires IMEI + IMEI-check record (fake CEIR adapter in dev)
 - [ ] T10 QC workflow: checklist template per category, battery %, grade assignment, photo upload (S3-compatible adapter, local disk in dev), certificate data

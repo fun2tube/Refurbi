@@ -18,6 +18,10 @@ class Settings(BaseSettings):
     # Super admin seeded by `python -m app.seed` (both must be set).
     super_admin_email: str = ""
     super_admin_password: str = ""
+    # IMEI protection. Dev-only placeholders; set real keys outside dev (see .env.example).
+    # imei_encryption_keys: comma-separated Fernet keys, newest first (older ones decrypt only).
+    imei_encryption_keys: str = "ZGV2LW9ubHktaW1laS1rZXktZGV2LW9ubHkta2V5MDA="
+    imei_hash_key: str = "dev-only-imei-hash-key-change-me"
     # Default page size / cap for list endpoints.
     default_page_size: int = 20
     max_page_size: int = 100
