@@ -103,3 +103,19 @@ def test_validation(client, factory):
     adm = token(client, factory, "pa@x.in", "admin")  # global admin may sell too
     r = client.post(f"/pos/counters/{c1}/sales", headers=adm, json={**base, "payment_mode": "CARD"})
     assert r.status_code == 201 and "upi_uri" not in r.json()
+
+
+def test_preview_seed_demo_partner(client, factory):
+    from app.preview_seed import seed_preview
+    from app.seed import seed_demo_partner
+
+    with factory() as db:
+        seed_preview(db)
+        assert seed_demo_partner(db, PW) is not None
+        assert seed_demo_partner(db, PW) is not None  # idempotent
+    r = client.post("/auth/login", json={"email": "partner@demo.refurbi", "password": PW})
+    assert r.status_code == 200
+    cid = r.json()["user"]["roles"][0]["counter_id"]
+    h = {"Authorization": f"Bearer {r.json()['access_token']}"}
+    stock = client.get(f"/pos/counters/{cid}/stock", headers=h)
+    assert stock.status_code == 200 and len(stock.json()) > 0

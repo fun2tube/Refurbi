@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { Button, Input } from "@/components/ui";
 
@@ -41,8 +42,8 @@ export function LoginForm({ apiBase }: { apiBase: string }) {
   if (me) {
     return (
       <p className="rounded-lg border border-silver/40 bg-white p-4 text-sm">
-        Signed in as <strong>{me.email}</strong> ({me.roles.map((r) => r.code).join(", ")}). Admin
-        screens are coming soon.
+        Signed in as <strong>{me.email}</strong> ({me.roles.map((r) => r.code).join(", ")}). Open the{" "}
+        <Link className="underline" href="/admin">admin home</Link> or the <Link className="underline" href="/partner">counter POS</Link>.
       </p>
     );
   }

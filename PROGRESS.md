@@ -3,7 +3,7 @@
 ## Status
 - Tasks done: 21 / 37 (56%) (incl. TP1 preview task)
 - Current milestone: 3 - Public storefront (priority override)
-- Next task (Builder B): T17B
+- Next task (Builder B): T18
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
 
@@ -186,3 +186,8 @@
 - Tests: API 323 passed; ruff clean; alembic up/down ok.
 - Founder inputs: UPI_ID / UPI_PAYEE_NAME (placeholder demo@upi now).
 - Next: T17B (web UI)
+
+### 2026-11-10T17:40Z - T17B Partner POS UI (Builder B)
+- Done: /partner mobile-first POS (search counter stock, sell, cash/UPI/card, invoice PDF, WhatsApp share); preview seeds partner@demo.refurbi (password = demo admin password in Render env) scoped to first demo counter; linked from start page.
+- Tests: API 324 passed; web lint/tsc/vitest/build pass.
+- Next: T18

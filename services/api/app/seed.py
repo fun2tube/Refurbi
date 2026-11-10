@@ -52,6 +52,31 @@ def seed_super_admin(db: Session, email: str, password: str) -> User | None:
     return user
 
 
+def seed_demo_partner(db: Session, password: str) -> User | None:
+    """Preview only: a counter partner login scoped to the first demo counter."""
+    from app.counters.models import Counter
+
+    counter = db.scalar(select(Counter).where(Counter.is_demo.is_(True)).order_by(Counter.id))
+    role = db.scalar(select(Role).where(Role.code == "counter_partner"))
+    if not password or counter is None or role is None:
+        return None
+    user = db.scalar(select(User).where(User.email == "partner@demo.refurbi"))
+    if user is None:
+        user = User(
+            email="partner@demo.refurbi",
+            password_hash=hash_password(password),
+            full_name="Demo Partner",
+        )
+        db.add(user)
+        db.flush()
+    if not db.scalar(
+        select(UserRole.id).where(UserRole.user_id == user.id, UserRole.counter_id == counter.id)
+    ):
+        db.add(UserRole(user_id=user.id, role_id=role.id, counter_id=counter.id))
+    db.commit()
+    return user
+
+
 def main() -> None:
     from app.core.db import _session_factory
 
@@ -62,6 +87,7 @@ def main() -> None:
         admin = seed_super_admin(db, s.super_admin_email, s.super_admin_password)
         if s.is_preview:
             print("preview demo data:", seed_preview(db))
+            seed_demo_partner(db, s.super_admin_password)
         print("seeded rbac;", "super admin ready" if admin else "super admin skipped (env not set)")
 
 
