@@ -4,6 +4,8 @@ import { Header } from "./store/Header";
 import type { ReactNode } from "react";
 import { AdminNav } from "./admin/AdminNav";
 
+import { Analytics } from "@/components/store/Analytics";
+
 export function StoreShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen">
@@ -11,6 +13,7 @@ export function StoreShell({ children }: { children: ReactNode }) {
       <main>{children}</main>
       <Footer />
       <BottomNav />
+      <Analytics />
     </div>
   );
 }

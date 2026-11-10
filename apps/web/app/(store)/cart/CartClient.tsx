@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button, Input } from "@/components/ui";
 import { readCart, removeFromCart, writeCart } from "@/lib/cart";
 import { formatRupees } from "@/lib/money";
+import { events, track } from "@/lib/analytics";
 
 type Line = { unit_id: number; available: boolean; price_paise: number | null };
 type Hold = {
@@ -98,7 +99,7 @@ export function CartClient({ apiBase }: { apiBase: string }) {
       const r = await post("/public/checkout", { ...f, unit_ids: ok.map((l) => l.unit_id), otp });
       if (!r.ok) { if (r.status === 404) void load(); return fail(r.status); }
       const h: Hold = await r.json();
-      setHold(h); setLeft(h.seconds_left); setStep("held"); writeCart([]);
+      setHold(h); track("begin_checkout", events.beginCheckout(h.items, h.total_paise)); setLeft(h.seconds_left); setStep("held"); writeCart([]);
     } catch { setError("Could not reach the server - please retry."); } finally { setBusy(false); }
   }
 
@@ -111,10 +112,10 @@ export function CartClient({ apiBase }: { apiBase: string }) {
       const o = await r.json();
       if (o.gateway === "fake") {
         const d = await fetch(`${apiBase}/public/payments/fake/${o.order_id}/pay`, { method: "POST" });
-        if (d.ok) setPaid(true);
+        if (d.ok) { setPaid(true); track("purchase", events.purchase(hold.token, hold.items, hold.total_paise)); }
         else setError("Demo payment failed.");
       } else {
-        await openRazorpay(o, hold, () => setPaid(true));
+        await openRazorpay(o, hold, () => { setPaid(true); track("purchase", events.purchase(hold.token, hold.items, hold.total_paise)); });
       }
     } catch { setError("Could not reach the server - please retry."); } finally { setBusy(false); }
   }

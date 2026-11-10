@@ -1,8 +1,8 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 37 / 39 (95%)
-- Current milestone: 4 - Online payments (Builder A next: T35)
+- Tasks done: 38 / 39 (97%)
+- Current milestone: 5 - Launch hardening (Builder A: all tasks done; only T02 blocked)
 - Next task (Builder B): none (all B tasks done)
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
@@ -161,3 +161,9 @@
 - Decisions made: CSP deferred to launch (needs real domain + Razorpay/OSM/GA4 allowlist).
 - Founder inputs: enable Dependabot; confirm CSP at launch.
 - Next: T35
+
+### 2026-11-10T20:40Z - T35 Analytics (Builder A)
+- Done: lib/analytics + Analytics component: consent banner, GA4 loaded only after Accept, events view/add_to_cart/begin_checkout/purchase/whatsapp_click (delegated wa.me clicks), Core Web Vitals -> GA4, optional cookieless Cloudflare Web Analytics. Env NEXT_PUBLIC_GA_MEASUREMENT_ID / NEXT_PUBLIC_CF_BEACON_TOKEN (empty = off).
+- Tests: web 29 passed (5 new); E2E 3 passed; lint/typecheck/build clean.
+- Founder inputs: GA4 measurement id or Cloudflare beacon token (free); set in Render/Cloudflare env.
+- Next: none (storefront stream complete)
