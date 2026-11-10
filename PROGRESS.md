@@ -1,7 +1,7 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 15 / 37 (41%) (incl. TP1 preview task)
+- Tasks done: 16 / 37 (43%) (incl. TP1 preview task)
 - Current milestone: 3 - Public storefront (priority override)
 - Next task: T26 (storefront-first order: T26, T24, then T09...)
 - Preview URL: https://refurbi-web.onrender.com
@@ -133,3 +133,10 @@
 - Tests: API 281 passed; ruff clean.
 - Decisions made: receipts create device PURCHASED then lifecycle transition; fake checker blocks IMEIs starting 13579.
 - Next: T10
+
+### 2026-11-10T15:50Z - T10 QC workflow (Builder B)
+- Done: app/qc: smartphone checklist template, submit QC (grade, battery %, pass/fail via lifecycle, retests), photo upload (raw body, magic-byte + 5MB validation) via storage adapter (local disk dev; R2 S3-compatible SigV4 adapter, env S3_*), certificate data endpoint, /media serving. API only (UI in T12).
+- Tests: API 289 passed; ruff clean.
+- Decisions made: one template for all categories (catalogue has no category yet); critical items must pass.
+- Founder inputs: R2 bucket + keys at go-live (docs/GO_LIVE_FREE.md in T36); final grade definitions.
+- Next: T11

@@ -8,6 +8,8 @@ from app.core.errors import install_error_handlers
 from app.core.logging import configure_logging, install_request_logging
 from app.core.settings import get_settings
 from app.procurement.router import router as procurement_router
+from app.qc.router import media as media_router
+from app.qc.router import router as qc_router
 from app.storefront.router import router as storefront_router
 
 configure_logging(get_settings().log_level)
@@ -29,6 +31,8 @@ app.include_router(catalog_public)
 app.include_router(catalog_admin)
 app.include_router(storefront_router)
 app.include_router(procurement_router)
+app.include_router(qc_router)
+app.include_router(media_router)
 
 
 @app.get("/health")

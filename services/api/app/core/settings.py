@@ -30,6 +30,14 @@ class Settings(BaseSettings):
     default_cors_origins: str = "https://refurbi-web.onrender.com"
     # Regex for preview deploys / renamed services of the same app.
     cors_origin_regex: str = r"^https://refurbi-web[a-z0-9-]*\.onrender\.com$"
+    # Image storage: local disk in dev; s3 = Cloudflare R2 free tier (S3-compatible).
+    storage_backend: str = "local"
+    media_dir: str = "media"
+    s3_endpoint: str = ""
+    s3_bucket: str = ""
+    s3_access_key: str = ""
+    s3_secret_key: str = ""
+    s3_public_base: str = ""
     # Default page size / cap for list endpoints.
     default_page_size: int = 20
     max_page_size: int = 100
