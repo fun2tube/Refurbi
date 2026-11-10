@@ -1,7 +1,7 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 16 / 37 (43%) (incl. TP1 preview task)
+- Tasks done: 17 / 37 (46%) (incl. TP1 preview task)
 - Current milestone: 3 - Public storefront (priority override)
 - Next task: T26 (storefront-first order: T26, T24, then T09...)
 - Preview URL: https://refurbi-web.onrender.com
@@ -140,3 +140,9 @@
 - Decisions made: one template for all categories (catalogue has no category yet); critical items must pass.
 - Founder inputs: R2 bucket + keys at go-live (docs/GO_LIVE_FREE.md in T36); final grade definitions.
 - Next: T11
+
+### 2026-11-10T15:25Z - T11 Pricing (Builder B)
+- Done: app/pricing: landed cost (purchase + repair/logistics entries), suggested price by grade margin (bps, round up to Rs 50), rules editable, apply-suggested, manual override with reason + below-cost confirmation, all audited. Migration 0007.
+- Tests: API 294 passed; ruff clean (worked examples in test_pricing).
+- Founder inputs: real margin targets per grade (defaults A25%/B20%/C15% are placeholders).
+- Next: T12

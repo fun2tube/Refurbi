@@ -21,7 +21,7 @@ Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)
 - [x] T08 Device lifecycle state machine service (D7) with exhaustive transition tests; every transition writes stock_movement + audit_log
 - [x] T09 Suppliers + purchase orders + goods receipts; receiving a device requires IMEI + IMEI-check record (fake CEIR adapter in dev)
 - [x] T10 QC workflow: checklist template per category, battery %, grade assignment, photo upload (S3-compatible adapter, local disk in dev), certificate data
-- [ ] T11 Pricing: landed cost (purchase + repair + logistics), suggested price by grade/margin target, manual override with audit
+- [x] T11 Pricing: landed cost (purchase + repair + logistics), suggested price by grade/margin target, manual override with audit
 - [ ] T12 Admin UI: inventory table (filters brand, model, status, grade, battery, location, age), device detail page with timeline, add-device + QC screens
 - [ ] T13 Stock ageing + alerts job (21-day / 35-day, QC fail, counter mismatch) on admin dashboard
 
