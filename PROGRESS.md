@@ -1,7 +1,7 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 33 / 39 (85%)
+- Tasks done: 35 / 39 (90%)
 - Current milestone: 4 - Online payments (Builder A next: T33)
 - Next task (Builder B): none (all B tasks done)
 - Preview URL: https://refurbi-web.onrender.com
