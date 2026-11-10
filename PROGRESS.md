@@ -1,9 +1,9 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 7 / 37 (19%) (incl. TP1 preview task)
+- Tasks done: 8 / 37 (22%) (incl. TP1 preview task)
 - Current milestone: 1 - Inventory core
-- Next task: T08
+- Next task: T09
 - Preview URL: (not yet recorded - founder: add a line `Preview URL: ...` after following docs/PREVIEW_SETUP.md)
 - Blockers: T02 (push lacks `workflow` scope)
 
@@ -71,3 +71,10 @@
 - Decisions made: (1) Render free plan has no pre-deploy command, so migrations + seed run in the container start script. (2) Public URLs wired with `fromService ... envVarKey: RENDER_EXTERNAL_URL` (gives a full https URL; `host` is private-network only); apps also normalise a missing scheme. (3) Demo devices are inserted directly in their initial state because the lifecycle service (T08) does not exist yet. (4) Access token kept in sessionStorage in the preview login page (refresh cookie is SameSite=Strict and web/API are different sites on Render; real auth UI comes later). (5) `/` is the preview start page until T21 replaces it.
 - Blockers / founder inputs needed: render.com and docs.render.com were NOT reachable from the build sandbox, so render.yaml was checked against the spec only via search-result excerpts and memory, NOT by Render's validator. Residual risks to check on first Apply: (a) web<->api `fromService` references form a cycle (Render may reject it; fallback: drop CORS_ORIGINS wiring and use a Next rewrite proxy); (b) `RENDER_EXTERNAL_URL` via fromService envVarKey; (c) Docker `dockerfilePath`/`dockerContext` are repo-root relative. If Apply errors, copy the error to the next run. Founder: ACTION (3 min) follow docs/PREVIEW_SETUP.md, then record `Preview URL: ...` here.
 - Next: T08
+
+### 2026-11-10T15:00Z - T08 Device lifecycle state machine
+- Done: app/inventory/lifecycle.py - `transition(db, device_id, to, actor_user_id, reason, location)` is the only code that assigns Device.status. Explicit ALLOWED table for all 14 D7 states (WRITTEN_OFF terminal; BLACKLISTED -> WRITTEN_OFF only). Guards: QC_PASSED/QC_FAILED need a matching current device_test; QC_PASSED -> AVAILABLE needs a recorded IMEI_CHECKED movement + grade + price; reason mandatory for QC_FAILED/BLACKLISTED/WRITTEN_OFF/RETURNED/WARRANTY_HOLD; IN_TRANSIT sets location IN_TRANSIT and receiving requires a destination Location (counter_id iff COUNTER). Each transition writes stock_movements (with from/to location) + audit_log (before/after snapshot) in the caller's transaction (flush only); row locked with FOR UPDATE; errors use the envelope (invalid_transition / transition_guard_failed, 409).
+- Tests: API 268 passed (211 new/parametrised: all 14x14 status pairs checked against the table, guards, reason rule, movement+audit written, nothing written on rejection, transfer location handling, source-scan test that no other app code assigns device.status); ruff clean; alembic check clean on Postgres 16. Web untouched.
+- Decisions made: "recorded IMEI check" is currently the IMEI_CHECKED stock movement; T09 will add the real IMEI-check record and tighten this guard. Re-QC allowed from AVAILABLE/QC_PASSED/QC_FAILED/REPAIR/RETURNED. No HTTP endpoint yet (admin UI/API in T12). Preview-seeded demo devices are inserted directly in initial state (documented in preview_seed.py).
+- Blockers / founder inputs needed: none new. T02 still blocked; preview link action still pending (see top of Founder inputs).
+- Next: T09
