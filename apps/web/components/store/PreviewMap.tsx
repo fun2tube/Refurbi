@@ -17,6 +17,8 @@ export const PREVIEW_PAGES: { title: string; blurb: string; href: string }[] = [
   { title: "About", blurb: "Trust page.", href: "/about" },
   { title: "Contact", blurb: "Trust page.", href: "/contact" },
   { title: "FAQ", blurb: "Trust page.", href: "/faq" },
+  { title: "sitemap.xml", blurb: "Generated from live brands, models and stores.", href: "/sitemap.xml" },
+  { title: "robots.txt", blurb: "Preview blocks all crawlers.", href: "/robots.txt" },
   { title: "Old catalogue (API check)", blurb: "Raw model list from the public API.", href: "/catalogue" },
   { title: "Admin", blurb: "Back-office. Demo admin sign-in.", href: "/admin" },
   { title: "Partner", blurb: "Counter area (POS comes later).", href: "/partner" },

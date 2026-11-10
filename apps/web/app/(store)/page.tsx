@@ -3,6 +3,8 @@ import { Container } from "@/components/store/Container";
 import { DeviceArt } from "@/components/store/DeviceArt";
 import { UnitGrid } from "@/components/store/UnitCard";
 import { WhatsAppButton } from "@/components/store/WhatsAppButton";
+import { JsonLd } from "@/components/store/JsonLd";
+import { organizationLd, websiteLd } from "@/lib/seo";
 import { PreviewMap } from "@/components/store/PreviewMap";
 import { getBrands, getModels, getUnits } from "@/lib/api";
 import { formatRupees } from "@/lib/money";
@@ -29,6 +31,8 @@ export default async function Home() {
 
   return (
     <>
+      <JsonLd data={organizationLd()} />
+      <JsonLd data={websiteLd()} />
       <section className="bg-midnight text-porcelain">
         <Container className="grid items-center gap-6 py-10 md:grid-cols-2 md:py-16">
           <div>

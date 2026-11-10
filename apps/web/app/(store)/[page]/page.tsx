@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/store/Container";
+import { JsonLd } from "@/components/store/JsonLd";
+import { breadcrumbLd } from "@/lib/seo";
 import { Faq } from "@/components/store/Faq";
 import { WhatsAppButton } from "@/components/store/WhatsAppButton";
 import { PAGES, bySlug } from "@/lib/content";
@@ -29,7 +31,8 @@ export default async function TrustPage({ params }: Props) {
   };
   return (
     <Container className="max-w-3xl py-8 md:py-12">
-      {faqLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />}
+      {faqLd && <JsonLd data={faqLd} />}
+      <JsonLd data={breadcrumbLd([{ name: "Home", path: "/" }, { name: p.title, path: `/${p.slug}` }])} />
       <h1 className="font-display text-3xl font-bold">{p.title}</h1>
       <p className="mt-2 text-midnight/75">{p.intro}</p>
       <div className="mt-8 space-y-8">

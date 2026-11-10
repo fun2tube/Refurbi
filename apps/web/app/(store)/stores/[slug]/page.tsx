@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/store/Container";
+import { JsonLd } from "@/components/store/JsonLd";
+import { breadcrumbLd } from "@/lib/seo";
 import { MapPanel } from "@/components/store/MapPanel";
 import { UnitGrid } from "@/components/store/UnitCard";
 import { WhatsAppButton } from "@/components/store/WhatsAppButton";
@@ -36,6 +38,7 @@ export default async function StorePage({ params }: Props) {
   const units = await getUnits({ store: slug, page_size: 24, sort: "price_asc" });
   return (
     <Container className="py-6 md:py-10">
+      <JsonLd data={breadcrumbLd([{ name: "Home", path: "/" }, { name: "Stores", path: "/stores" }, { name: s.name, path: `/stores/${slug}` }])} />
       <nav aria-label="Breadcrumb" className="text-xs text-midnight/60">
         <Link href="/">Home</Link> / <Link href="/stores">Stores</Link>
       </nav>

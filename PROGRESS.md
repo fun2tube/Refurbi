@@ -1,9 +1,9 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 13 / 37 (35%) (incl. TP1 preview task)
+- Tasks done: 14 / 37 (38%) (incl. TP1 preview task)
 - Current milestone: 3 - Public storefront (priority override)
-- Next task: T28 (storefront-first order: T28, T26, T24, then T09...)
+- Next task: T26 (storefront-first order: T26, T24, then T09...)
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
 
@@ -120,3 +120,10 @@
 - Decisions made: content as TS data rather than MDX (no new toolchain; trivially swappable later). All founder-owned facts (warranty months, return window, company/contact details, final grade standards) are written as "to be confirmed" - nothing invented.
 - Blockers / founder inputs needed: see Founder inputs (grade definitions, warranty, returns, company details, contact numbers).
 - Next: T28
+
+### 2026-11-10T20:15Z - T28 SEO
+- Done: metadataBase + title template + OG defaults; per-page canonical (all storefront pages); JSON-LD: Organization + WebSite(SearchAction) on home, Product/AggregateOffer (itemCondition Refurbished) + BreadcrumbList on product, BreadcrumbList on listings/stores/trust pages, FAQPage on /faq (all embedded safely, `<` escaped); `sitemap.xml` generated live from brands/models/stores + trust pages + budget pages; `robots.txt` (preview blocks all crawlers and sets noindex; production disallows /admin, /partner, /preview, /catalogue); redirects table lib/seo.ts -> next.config (permanent) e.g. /about-us -> /about.
+- Tests: web lint, tsc, 22 tests (4 new SEO tests incl. redirect-table validity), build pass; smoke: sitemap 34 URLs, robots, redirect, JSON-LD. API 275 passed.
+- Decisions made: LocalBusiness JSON-LD deliberately NOT emitted yet - it needs a real address/phone/hours (T14); Organization carries only name+url. Set NEXT_PUBLIC_SITE_URL in production for correct canonicals/sitemap.
+- Blockers / founder inputs needed: production domain (NEXT_PUBLIC_SITE_URL); legal name/address/contact for Organization + LocalBusiness.
+- Next: T26

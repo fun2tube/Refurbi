@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/store/Container";
 import { DeviceArt } from "@/components/store/DeviceArt";
+import { JsonLd } from "@/components/store/JsonLd";
+import { breadcrumbLd } from "@/lib/seo";
 import { Faq, PRODUCT_FAQS } from "@/components/store/Faq";
 import { WhatsAppButton } from "@/components/store/WhatsAppButton";
 import { GradeBadge, Price } from "@/components/ui";
@@ -72,7 +74,8 @@ export default async function Page({ params, searchParams }: Props) {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd(m.name, slug, all)) }} />
+      <JsonLd data={jsonLd(m.name, slug, all)} />
+      <JsonLd data={breadcrumbLd([{ name: "Home", path: "/" }, { name: "Refurbished mobiles", path: "/refurbished-mobiles" }, { name: m.brand.name, path: `/refurbished-mobiles/${m.brand.slug}` }, { name: m.name, path: `/refurbished-${slug}` }])} />
       <Container className="py-6 md:py-10">
         <nav aria-label="Breadcrumb" className="text-xs text-midnight/60">
           <Link href="/">Home</Link> / <Link href="/refurbished-mobiles">Refurbished mobiles</Link> /{" "}

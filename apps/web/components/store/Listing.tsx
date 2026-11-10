@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { JsonLd } from "./JsonLd";
+import { breadcrumbLd } from "@/lib/seo";
 import { Container } from "./Container";
 import { UnitGrid } from "./UnitCard";
 import { cleanFilters, pageNumber, type SP } from "@/lib/listing";
@@ -38,6 +40,7 @@ export async function Listing({
 
   return (
     <Container className="py-6 md:py-10">
+      <JsonLd data={breadcrumbLd([{ name: "Home", path: "/" }, { name: "Refurbished mobiles", path: "/refurbished-mobiles" }, ...(basePath !== "/refurbished-mobiles" ? [{ name: title, path: basePath }] : [])])} />
       <nav aria-label="Breadcrumb" className="text-xs text-midnight/60">
         <Link href="/">Home</Link> / <Link href="/refurbished-mobiles">Refurbished mobiles</Link>
         {basePath !== "/refurbished-mobiles" && <> / <span>{title}</span></>}
