@@ -1,9 +1,9 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 2 / 36 (6%)
+- Tasks done: 3 / 36 (8%)
 - Current milestone: 0 - Foundation
-- Next task: T04
+- Next task: T05
 - Blockers: T02 (push lacks `workflow` scope)
 
 ## Founder inputs needed (not blocking yet)
@@ -32,3 +32,10 @@
 - Decisions made: Pagination is page/page_size (default 20, max 100). Core tests use in-memory SQLite for the helper; Postgres-specific behaviour will be tested once CI (T02) provides a service. Ignored ruff UP046/UP047 (TypeVar style kept). Sandbox default python is 3.11, ran with UV_PYTHON=/usr/bin/python3.12.
 - Blockers / founder inputs needed: T02 still blocked (workflow scope).
 - Next: T04
+
+### 2026-11-10T02:50Z - T04 Design system in web
+- Done: tokens (Midnight/Porcelain/Silver/Refurbi Green) in globals.css + Tailwind theme; Inter + Manrope via next/font; components/ui: Button, Input, Select, Card, GradeBadge, Price (tabular, paise -> Indian-grouped rupees via lib/money.ts); StoreShell/AdminShell/PartnerShell with route-group layouts (app/(store), app/admin, app/partner); placeholder demo home (real homepage is T21); removed create-next-app boilerplate assets. Added vitest + `npm test`, wired into ci/ci.yml.
+- Tests: web 3 passed (money formatting); lint, tsc, build pass. API 8 passed.
+- Decisions made: vitest pinned to ^3 (v5 conflicts with @types/node 20). Grade A/B/C labels are placeholders pending founder grade definitions. Demo price on the placeholder home is dummy data.
+- Blockers / founder inputs needed: T02 still blocked (workflow scope); grade definitions still needed.
+- Next: T05

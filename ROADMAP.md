@@ -8,7 +8,7 @@ Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)
 - [x] T01 Monorepo skeleton: apps/web (Next.js 15, TypeScript, Tailwind, App Router), services/api (FastAPI, Python 3.12, uv), docker-compose.yml (Postgres 16), root README run instructions
 - [!] T02 CI: GitHub Actions running API lint (ruff) + tests (pytest against Postgres service) and web lint + typecheck + build
 - [x] T03 API core: settings (pydantic-settings), DB session, Alembic setup, health endpoint, consistent error envelope, pagination helper, structured logging
-- [ ] T04 Design system in web: tokens (Midnight #111318, Porcelain #F7F7F5, Silver #A8B1B9, Refurbi Green #247C65), Inter + Manrope fonts, Button, Input, Select, Card, Badge (grade), Price (tabular, Rs formatting from paise), layout shells for store/admin/partner
+- [x] T04 Design system in web: tokens (Midnight #111318, Porcelain #F7F7F5, Silver #A8B1B9, Refurbi Green #247C65), Inter + Manrope fonts, Button, Input, Select, Card, Badge (grade), Price (tabular, Rs formatting from paise), layout shells for store/admin/partner
 - [ ] T05 Auth: users, roles, permissions, user_roles (counter-scoped); Argon2id; JWT access + rotating refresh (HttpOnly cookie); require_permission() dependency; seed super admin from env; tests incl. counter isolation
 
 ## Milestone 1 - Inventory core (most important)
