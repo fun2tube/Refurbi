@@ -5,6 +5,8 @@ from app.auth.router import router as auth_router
 from app.billing.router import router as billing_router
 from app.catalog.router import admin as catalog_admin
 from app.catalog.router import public as catalog_public
+from app.commission.router import admin as commission_admin
+from app.commission.router import partner as commission_partner
 from app.core.errors import install_error_handlers
 from app.core.logging import configure_logging, install_request_logging
 from app.core.settings import get_settings
@@ -51,6 +53,8 @@ app.include_router(exchange_admin)
 app.include_router(transfers_router)
 app.include_router(billing_router)
 app.include_router(pos_router)
+app.include_router(commission_admin)
+app.include_router(commission_partner)
 app.include_router(warranty_public)
 app.include_router(warranty_admin)
 

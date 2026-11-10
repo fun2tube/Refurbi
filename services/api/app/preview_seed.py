@@ -9,7 +9,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.catalog.models import ProductVariant
-from app.counters.models import Counter
+from app.counters.models import CommissionRule, Counter
 from app.inventory import imei as imei_mod
 from app.inventory.models import Device, DeviceStatus, LocationKind
 from app.procurement.models import PurchaseOrder, PurchaseOrderLine, Supplier
@@ -43,6 +43,9 @@ def seed_preview(db: Session) -> dict[str, int]:
             db.add(c)
             db.flush()
         c.is_verified = True  # demo counters are public in preview
+        if db.scalar(select(CommissionRule.id).where(CommissionRule.counter_id == c.id)) is None:
+            # DEMO commission terms (5%), not real terms
+            db.add(CommissionRule(counter_id=c.id, kind="PERCENT", value=500))
         counters.append(c)
 
     variants = list(db.scalars(select(ProductVariant).order_by(ProductVariant.id)))

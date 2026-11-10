@@ -17,6 +17,7 @@ from app.billing.models import Invoice
 from app.billing.pdf import render_pdf, rupees
 from app.billing.service import issue_invoice
 from app.catalog.models import Brand, ProductModel, ProductVariant
+from app.commission.service import record_commission
 from app.core.db import get_session
 from app.core.errors import AppError, ConflictError, NotFoundError
 from app.core.settings import get_settings
@@ -159,6 +160,7 @@ def sell(
     db.add(s)
     db.flush()
     create_warranty(db, s)
+    record_commission(db, s, d)
     db.commit()
     return _sale_out(db, s, inv)
 

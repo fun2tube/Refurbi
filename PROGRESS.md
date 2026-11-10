@@ -3,7 +3,7 @@
 ## Status
 - Tasks done: 21 / 37 (56%) (incl. TP1 preview task)
 - Current milestone: 3 - Public storefront (priority override)
-- Next task (Builder B): T19
+- Next task (Builder B): T20
 - Preview URL: https://refurbi-web.onrender.com
 - Blockers: T02 (push lacks `workflow` scope)
 
@@ -198,3 +198,9 @@
 - Founder inputs: warranty months per grade/terms (placeholder 6 months for all).
 - Note: T15 transfers have API only (no admin UI yet) - add UI when convenient.
 - Next: T19
+
+### 2026-11-10T18:15Z - T19 Commission + settlement (Builder B)
+- Done: commission entry frozen per POS sale (counter rules), counter statement (partner own via /pos/counters/{id}/commission, admin via /admin/commissions), settle -> SETTLED; UI /admin/commissions; demo 5% commission rule seeded on demo counters; migration 0014.
+- Tests: API 331 passed; ruff clean; web lint/tsc/build pass; alembic up/down ok.
+- Founder inputs: real commission terms; confirm who collects customer payment (assumed counter; owes sales minus commission).
+- Next: T20

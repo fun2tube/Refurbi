@@ -32,7 +32,7 @@ Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)
 - [x] T17A (API) Partner POS UI (mobile-first): search own counter stock, sell device (customer phone + name), payment mode (cash/UPI/card recorded), issue invoice + warranty, WhatsApp-share link
 - [x] T17B Partner POS web UI (mobile-first) on top of the T17A API, linked from start page
 - [x] T18 Warranty: auto-created on sale, public lookup by phone + invoice no., claims workflow in admin
-- [ ] T19 Commission entries per sold device + counter settlement statement
+- [x] T19 Commission entries per sold device + counter settlement statement
 - [ ] T20 Admin dashboard: today's sales, units, gross margin, stock by location, ageing, counter leaderboard
 
 ## Milestone 3 - Public storefront
