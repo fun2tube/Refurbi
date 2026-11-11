@@ -189,3 +189,7 @@
 - TP0: render.yaml NODE_VERSION was 22.12.0 but Render still built with older Node (ERR_REQUIRE_ESM), so now NODE_VERSION="22" + .node-version (root and apps/web) + engines >=22.12 + `prebuild` guard that logs the Node version and fails clearly. Clean `npm ci` + `next build` OK under 384 MB heap. Founder/CTO: if the deploy log still shows an old Node in the `[check-node]` line, set NODE_VERSION=22 in the Render dashboard (Blueprint may not have re-synced). API (Docker) unaffected.
 - TP2b: seeded local API (30 demo devices), standalone web with 384 MB cap: /refurbished-mobiles, ?page=2, / and /stores all 200 repeatedly; RSS ~114 MB. No crash.
 - Tests: web 40 passed; lint/typecheck/build clean. Next: TP7A.
+
+### 2026-11-11T15:25Z - TP7A Home film part 1 (Builder A)
+- Done: components/home/{HeroHeadline (CSS), HeroPhone, RebornScene (pinned 220vh, scratches fade, glow rises; calm slider fallback, mounted-gated to avoid hydration #418), Reveal}; home sections reveal on scroll. Verified at 375px, no overflow, no console errors. Shared JS still 103 kB.
+- Tests: web 42 passed; lint/typecheck/build clean. Next: TP7B (Inspected scene, count-up stats, tilt brand cards, magnetic WhatsApp).

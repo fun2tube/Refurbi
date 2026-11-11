@@ -68,3 +68,13 @@ body { padding-bottom: 0; }
 @keyframes intro-draw { to { stroke-dashoffset: 0; } }
 @keyframes intro-dot { 0% { opacity: 0; transform: scale(0.4); } 60% { opacity: 1; transform: scale(1.6); } 100% { opacity: 1; transform: scale(1); } }
 @media (prefers-reduced-motion: reduce) { .intro-draw, .intro-dot { animation: none; stroke-dashoffset: 0; opacity: 1; } }
+
+/* TP7: kinetic headline + light sweep (transform/opacity only; calm under reduced motion) */
+@keyframes word-in { from { opacity: 0; transform: translateY(0.6em); } to { opacity: 1; transform: none; } }
+@keyframes sweep { from { transform: translateX(-120%) skewX(-20deg); } to { transform: translateX(260%) skewX(-20deg); } }
+.word-in { display: inline-block; opacity: 0; animation: word-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.light-sweep { animation: sweep 2.4s 1.2s ease-in-out 1 both; }
+@media (prefers-reduced-motion: reduce) {
+  .word-in { opacity: 1; animation: none; }
+  .light-sweep { display: none; }
+}
