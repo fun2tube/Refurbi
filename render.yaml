@@ -45,12 +45,17 @@ services:
     plan: free
     region: singapore
     rootDir: apps/web
-    buildCommand: npm ci && npm run build
-    startCommand: npm run start
-    healthCheckPath: /
+    # standalone output: copy static assets next to the server bundle, then run it directly.
+    buildCommand: npm ci && npm run build && cp -r .next/static .next/standalone/.next/static
+    startCommand: node .next/standalone/server.js
+    healthCheckPath: /api/health
     envVars:
       - key: NODE_VERSION
         value: 22.12.0
+      - key: NODE_OPTIONS # free instance has 512 MB RAM; cap V8 heap below it
+        value: --max-old-space-size=384
+      - key: HOSTNAME
+        value: 0.0.0.0
       - key: APP_ENV
         value: preview
       - key: NEXT_PUBLIC_APP_ENV

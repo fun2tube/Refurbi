@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ApiError } from "@/components/store/ApiError";
 import { Container } from "@/components/store/Container";
 import { DeviceArt } from "@/components/store/DeviceArt";
 import { UnitGrid } from "@/components/store/UnitCard";
@@ -130,7 +131,7 @@ export default async function Home() {
                 <p className="text-sm text-midnight/70">No phones are listed right now. Please check back soon.</p>
               )
             ) : (
-              <p className="text-sm text-midnight/70">{units.error}</p>
+              <ApiError error={units.error} waking={units.waking} />
             )}
           </div>
         </section>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ApiError } from "@/components/store/ApiError";
 import Link from "next/link";
 import { Container } from "@/components/store/Container";
 import { WhatsAppButton } from "@/components/store/WhatsAppButton";
@@ -20,7 +21,7 @@ export default async function Stores() {
         Stock shown at each store is live. Visit to see a phone in person, or message us first.
       </p>
       {!res.ok ? (
-        <p className="mt-6 text-sm text-midnight/70">{res.error}</p>
+        <div className="mt-6"><ApiError error={res.error} waking={res.waking} /></div>
       ) : res.data.length === 0 ? (
         <p className="mt-6 text-sm text-midnight/70">Stores will be listed here soon.</p>
       ) : (

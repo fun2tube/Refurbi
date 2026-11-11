@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ApiError } from "@/components/store/ApiError";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/store/Container";
@@ -63,7 +64,7 @@ export default async function Page({ params, searchParams }: Props) {
   const [model, units] = await Promise.all([getModel(slug), getUnits({ model: slug, sort: "price_asc", page_size: 50 })]);
   if (!model.ok) {
     if (model.error === "not_found") notFound();
-    return <Container className="py-10"><p className="text-sm text-midnight/70">{model.error}</p></Container>;
+    return <Container className="py-10"><ApiError error={model.error} waking={model.waking} /></Container>;
   }
   const m = model.data;
   const all = units.ok ? units.data.items : [];

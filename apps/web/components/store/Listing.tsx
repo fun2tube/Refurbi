@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ApiError } from "./ApiError";
 import { JsonLd } from "./JsonLd";
 import { breadcrumbLd } from "@/lib/seo";
 import { Container } from "./Container";
@@ -104,7 +105,7 @@ export async function Listing({
 
       <div className="mt-6">
         {!res.ok ? (
-          <p className="text-sm text-midnight/70">{res.error}</p>
+          <ApiError error={res.error} waking={res.waking} />
         ) : res.data.items.length === 0 ? (
           <div className="rounded-2xl border border-silver/40 bg-white p-8 text-center">
             <p className="font-display font-semibold">No phones match these filters.</p>

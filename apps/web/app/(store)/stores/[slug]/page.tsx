@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ApiError } from "@/components/store/ApiError";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/store/Container";
@@ -32,7 +33,7 @@ export default async function StorePage({ params }: Props) {
   if (!store) notFound();
   if (!store.ok) {
     if (store.error === "not_found") notFound();
-    return <Container className="py-10"><p className="text-sm text-midnight/70">{store.error}</p></Container>;
+    return <Container className="py-10"><ApiError error={store.error} waking={store.waking} /></Container>;
   }
   const s = store.data;
   const units = await getUnits({ store: slug, page_size: 24, sort: "price_asc" });
@@ -66,7 +67,7 @@ export default async function StorePage({ params }: Props) {
         {units.ok && units.data.items.length > 0 ? (
           <UnitGrid units={units.data.items} />
         ) : (
-          <p className="text-sm text-midnight/70">{units.ok ? "No phones in stock here right now." : units.error}</p>
+          units.ok ? <p className="text-sm text-midnight/70">No phones in stock here right now.</p> : <ApiError error={units.error} waking={units.waking} />
         )}
       </div>
     </Container>

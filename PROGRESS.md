@@ -167,3 +167,10 @@
 - Tests: web 29 passed (5 new); E2E 3 passed; lint/typecheck/build clean.
 - Founder inputs: GA4 measurement id or Cloudflare beacon token (free); set in Render/Cloudflare env.
 - Next: none (storefront stream complete)
+
+### 2026-11-11T13:50Z - TP2 Stabilise preview (Builder A)
+- Done: apiGet retries 429/502/503/504 + network errors with backoff (<=60s) then shows a friendly self-refreshing "Waking up" state (ApiError); 60s in-memory cache with stale-on-error; app/error.tsx boundary; `output: standalone` + `node .next/standalone/server.js` + NODE_OPTIONS=--max-old-space-size=384 in render.yaml; /api/health; GO_LIVE_FREE.md has both UptimeRobot monitors.
+- Measured: standalone RSS ~152 MB after 60 requests; listing with API down returns 200 + Waking state after ~55s. Listing was already server-paginated (12/page). Likely cause of earlier 502: `next start` memory on 512 MB (not reproducible locally; unconfirmed).
+- Tests: web 35 passed (6 new); lint/typecheck/build clean.
+- Next: TP5
+

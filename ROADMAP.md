@@ -59,3 +59,4 @@ Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)
 - [x] T34 Security pass: rate limits, CORS, headers, upload validation, IMEI encryption key rotation doc, OWASP checklist (docs/SECURITY.md)
 - [x] T35 Analytics events (GA4 ecommerce + WhatsApp clicks) behind consent; Core Web Vitals check
 - [x] T36 Deployment: API Dockerfile, Vercel config, env templates, migration-on-deploy, backup/restore runbook, LAUNCH_CHECKLIST.md listing every remaining founder-provided item
+- [x] TP2 Stabilise preview: API retry/backoff + 'Waking up' state, standalone web output + 384 MB heap cap, 60s response cache, error boundary, /api/health, UptimeRobot docs

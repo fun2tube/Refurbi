@@ -16,10 +16,11 @@ Items marked **[you]** need your own accounts or business facts; nothing here is
 2. Environment variables: `APP_ENV=production`, `DATABASE_URL` (Neon), `JWT_SECRET` and `IMEI_ENCRYPTION_KEYS` and `IMEI_HASH_KEY` (each a long random string, e.g. `openssl rand -hex 32`; **keep them safe, losing the IMEI keys makes stored IMEIs unreadable**), `SUPER_ADMIN_EMAIL`, `SUPER_ADMIN_PASSWORD`, `CORS_ORIGINS` (your web URL), **[you]** `SELLER_GSTIN`, `SELLER_LEGAL_NAME`, `SELLER_ADDRESS`, `SELLER_STATE_CODE`, `UPI_ID`, `UPI_PAYEE_NAME`.
 3. Deploy. The container runs migrations and the idempotent seed on start (`scripts/start.sh`). Open `https://<api>.onrender.com/health`.
 
-## 3. UptimeRobot (keep the API warm)
+## 3. UptimeRobot (keep BOTH services warm)
 1. uptimerobot.com > free account (no card).
 2. Add New Monitor > type **HTTP(s)**, URL `https://<api>.onrender.com/health`, interval **5 minutes** (free minimum).
-3. This stops Render free from sleeping (it sleeps after 15 min idle). Free plans are for non-commercial use per UptimeRobot terms - if that matters to you, alternatives are cron-job.org (free) hitting the same URL every 10 min.
+3. Add a **second** monitor for the web service: `https://<web>.onrender.com/api/health` (also every 5 minutes). Both services must be pinged: a sleeping web service shows a Render error page, a sleeping API shows the in-site "Waking up" state (the site retries for up to ~60s).
+4. This stops Render free from sleeping (it sleeps after 15 min idle). Free plans are for non-commercial use per UptimeRobot terms - if that matters to you, alternatives are cron-job.org (free) hitting the same URL every 10 min.
 
 ## 4. Web on Cloudflare Workers (OpenNext)
 1. dash.cloudflare.com > sign up (no card). Workers & Pages > Create > Import a repository > this repo.
