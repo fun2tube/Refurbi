@@ -63,6 +63,8 @@ Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)
 - [x] TP0 Pin Node >=22 for Render web build (render.yaml NODE_VERSION=22, .node-version, engines, prebuild guard)
 - [x] TP2b Listing verified with seeded API under 384 MB heap
 - [x] TP7A Home film part 1: kinetic headline, rising phone with scroll rotate + light sweep, pinned Reborn scene (slider in reduced motion), section reveals
+- [x] TP7B Home film part 2: Inspected scene (markers draw, battery bar fill), count-up stats, magnetic WhatsApp CTA
+- [x] TP7 Home as a film (A+B)
 - [!] TP5 Budli partner catalogue import - BLOCKED: buy.budli.in and cdn.shopify.com refused by the cloud egress proxy. Action: allow buy.budli.in + cdn.shopify.com in Claude cloud environment network settings.
 - [x] TP6A Cinematic foundation part 1: docs/DESIGN_MOTION.md, `motion` + MotionProvider (LazyMotion), motion tokens, reduced-motion hook, grain/glow utilities
 - [x] TP6B Cinematic foundation part 2: route curtain transition (template), liquid bottom nav pill (layoutId), condensing header, skeleton shimmer + loading.tsx, first-visit intro (<=1.1s, skippable)

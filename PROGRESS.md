@@ -193,3 +193,7 @@
 ### 2026-11-11T15:25Z - TP7A Home film part 1 (Builder A)
 - Done: components/home/{HeroHeadline (CSS), HeroPhone, RebornScene (pinned 220vh, scratches fade, glow rises; calm slider fallback, mounted-gated to avoid hydration #418), Reveal}; home sections reveal on scroll. Verified at 375px, no overflow, no console errors. Shared JS still 103 kB.
 - Tests: web 42 passed; lint/typecheck/build clean. Next: TP7B (Inspected scene, count-up stats, tilt brand cards, magnetic WhatsApp).
+
+### 2026-11-11T15:24Z - TP7B Home film part 2 (Builder A)
+- Done: InspectedScene (checkpoint circles draw via pathLength, battery bar scaleX fill, labelled "example"), CountUp stats from live API counts (SSR shows final number), Magnetic WhatsApp CTA (mouse only). 375px verified, no overflow/errors, shared JS 103 kB.
+- Tests: web 44 passed; lint/typecheck/build clean. Brand/budget tilt cards deferred to TP10 polish. Next: TP8 (product page reveal).

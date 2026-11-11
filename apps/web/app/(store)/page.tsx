@@ -4,6 +4,9 @@ import { Container } from "@/components/store/Container";
 import { HeroHeadline } from "@/components/home/HeroHeadline";
 import { HeroPhone } from "@/components/home/HeroPhone";
 import { RebornScene } from "@/components/home/RebornScene";
+import { InspectedScene } from "@/components/home/InspectedScene";
+import { CountUp } from "@/components/home/CountUp";
+import { Magnetic } from "@/components/home/Magnetic";
 import { Reveal } from "@/components/home/Reveal";
 import { UnitGrid } from "@/components/store/UnitCard";
 import { WhatsAppButton } from "@/components/store/WhatsAppButton";
@@ -109,6 +112,7 @@ export default async function Home() {
       </section>
 
       <RebornScene />
+      <InspectedScene />
 
       <Container className="mt-10 space-y-12">
         <Reveal>
@@ -223,15 +227,35 @@ export default async function Home() {
         </Reveal>
 
         <Reveal>
+          <section aria-label="Store numbers" className="rounded-3xl bg-midnight p-6 text-porcelain">
+            <dl className="grid grid-cols-3 gap-4 text-center">
+              {[
+                ["Phones listed now", units.ok ? units.data.total : 0],
+                ["Models", models.ok ? models.data.length : 0],
+                ["Brands", brands.ok ? brands.data.length : 0],
+              ].map(([k, v]) => (
+                <div key={k as string} className="flex flex-col-reverse">
+                  <dt className="mt-1 text-xs text-silver">{k}</dt>
+                  <dd className="font-display text-3xl font-bold text-brand">
+                    <CountUp value={v as number} />
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        </Reveal>
+        <Reveal>
           <section className="rounded-3xl bg-brand p-6 text-white md:flex md:items-center md:justify-between md:p-10">
             <div>
               <h2 className="font-display text-xl font-bold">Not sure which phone? Ask us.</h2>
               <p className="mt-1 text-white/80">Tell us your budget and we will suggest what is in stock.</p>
             </div>
-            <WhatsAppButton
-              message="Hi Refurbi, I'd like help choosing a refurbished phone."
-              className="mt-4 bg-midnight hover:bg-black md:mt-0"
-            />
+            <Magnetic className="mt-4 md:mt-0">
+              <WhatsAppButton
+                message="Hi Refurbi, I'd like help choosing a refurbished phone."
+                className="bg-midnight hover:bg-black"
+              />
+            </Magnetic>
           </section>
         </Reveal>
 

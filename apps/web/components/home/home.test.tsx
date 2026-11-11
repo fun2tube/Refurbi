@@ -15,3 +15,14 @@ describe("TP7A home scenes", () => {
     expect(html.toLowerCase()).not.toMatch(/certified|100% original/);
   });
 });
+
+import { InspectedScene } from "./InspectedScene";
+import { CountUp } from "./CountUp";
+describe("TP7B", () => {
+  it("count-up SSRs the final number (no JS needed)", () => {
+    expect(renderToString(<CountUp value={1234} />)).toContain("1,234");
+  });
+  it("inspected scene labels battery bar as an example", () => {
+    expect(renderToString(<InspectedScene />)).toContain("Battery health (example)");
+  });
+});
