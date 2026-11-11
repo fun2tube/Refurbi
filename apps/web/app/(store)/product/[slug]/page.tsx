@@ -92,6 +92,7 @@ export default async function Page({ params, searchParams }: Props) {
           <FlipGallery
             seed={m.name.length}
             name={m.name}
+            photos={[...new Set(all.flatMap((u) => u.photos))].slice(0, 4)}
             facts={[m.is_5g ? "5G" : "4G", ...(m.release_year ? [`Released ${m.release_year}`] : []), "Checked unit by unit", "Battery health shown"]}
           />
           <div>

@@ -219,3 +219,7 @@
 ### 2026-11-11T15:55Z - TP5 Partner phone catalogue import (Builder A)
 - Done: egress now open (200). 469 phones snapshotted (slim, no partner name/links) to data/partners/budli/phones.json (+ packaged copy for Docker); app/partners/catalogue.py parser + idempotent importer run in preview seed; demo prices = partner prices; cdn.shopify.com in next.config; docs/PARTNER_CONTENT.md.
 - Tests: api 362 passed, ruff clean; web lint/typecheck/build clean. Founder input: review photo/licence use before any non-preview use. Next: TP3 (Playwright E2E).
+
+### 2026-11-11T15:50Z - TP5b Real photos on product page (Builder A)
+- Done: FlipGallery now shows real unit photos (thumbnails, 44px) with illustration fallback; listing cards already used photos. Real data/photos appear once Render redeploys the API (seed imports 469 phones at start) - founder: check refurbi-api deploy finished.
+- Tests: web 49 passed, lint/typecheck/build clean.
