@@ -1,7 +1,9 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { m } from "motion/react";
 import { cn } from "@/lib/cn";
+import { spring } from "@/lib/motion";
 
 const ITEMS = [
   { href: "/", label: "Home", d: "M3 11l9-8 9 8v9a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1z" },
@@ -27,14 +29,22 @@ export function BottomNav() {
                 href={i.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "flex flex-col items-center gap-0.5 py-2 text-[11px] font-medium",
+                  "relative flex min-h-[52px] flex-col items-center justify-center gap-0.5 py-2 text-[11px] font-medium",
                   active ? "text-brand" : "text-midnight/70",
                 )}
               >
-                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                {active && (
+                  <m.span
+                    layoutId="nav-pill"
+                    aria-hidden
+                    className="absolute inset-x-2 inset-y-1 rounded-2xl bg-brand/10"
+                    transition={spring.snappy}
+                  />
+                )}
+                <svg viewBox="0 0 24 24" className="relative h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                   <path d={i.d} />
                 </svg>
-                {i.label}
+                <span className="relative">{i.label}</span>
               </Link>
             </li>
           );

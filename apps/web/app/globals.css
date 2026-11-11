@@ -61,3 +61,10 @@ body { padding-bottom: 0; }
 @media (prefers-reduced-motion: reduce) {
   .shimmer::after { animation: none; }
 }
+
+/* First-visit intro: stroke draws in, then the dot pulses (transform/opacity only). */
+.intro-draw { stroke-dasharray: 400; stroke-dashoffset: 400; animation: intro-draw 0.7s ease-out forwards; }
+.intro-dot { transform-box: fill-box; transform-origin: center; opacity: 0; animation: intro-dot 0.4s 0.65s ease-out forwards; }
+@keyframes intro-draw { to { stroke-dashoffset: 0; } }
+@keyframes intro-dot { 0% { opacity: 0; transform: scale(0.4); } 60% { opacity: 1; transform: scale(1.6); } 100% { opacity: 1; transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .intro-draw, .intro-dot { animation: none; stroke-dashoffset: 0; opacity: 1; } }

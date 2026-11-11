@@ -62,5 +62,5 @@ Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)
 - [x] TP2 Stabilise preview: API retry/backoff + 'Waking up' state, standalone web output + 384 MB heap cap, 60s response cache, error boundary, /api/health, UptimeRobot docs
 - [!] TP5 Budli partner catalogue import - BLOCKED: buy.budli.in and cdn.shopify.com refused by the cloud egress proxy. Action: allow buy.budli.in + cdn.shopify.com in Claude cloud environment network settings.
 - [x] TP6A Cinematic foundation part 1: docs/DESIGN_MOTION.md, `motion` + MotionProvider (LazyMotion), motion tokens, reduced-motion hook, grain/glow utilities
-- [ ] TP6B Cinematic foundation part 2: page transitions, liquid bottom nav, condensing top bar, skeleton shimmer, first-visit intro
+- [x] TP6B Cinematic foundation part 2: route curtain transition (template), liquid bottom nav pill (layoutId), condensing header, skeleton shimmer + loading.tsx, first-visit intro (<=1.1s, skippable)
 

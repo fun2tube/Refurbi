@@ -179,3 +179,8 @@
 - TP5 [!]: buy.budli.in and cdn.shopify.com refused by the egress proxy. Action: allow both hosts in Claude cloud environment network settings.
 - TP6A done: docs/DESIGN_MOTION.md (concept, storyboard, tokens, guardrails); `motion` + MotionProvider (LazyMotion strict, reducedMotion=user) in root layout; lib/motion.ts tokens; useReducedMotionSafe; grain/glow/rim/shimmer CSS utilities. Shared JS still 103 kB.
 - Tests: web 37 passed; lint/typecheck/build clean. Next: TP6B (transitions, liquid nav, top bar, intro).
+
+### 2026-11-11T14:40Z - TP6B Cinematic foundation part 2 (Builder A)
+- Done: PageTransition via (store)/template.tsx (green clip-path curtain ~350ms, skipped on first load/reduced motion); BottomNav liquid pill (layoutId, 52px targets); CondensingHeader (scale+shadow, fixed height = no CLS); Skeleton/CardGridSkeleton + (store)/loading.tsx; IntroSplash (first visit, 1.1s, tap to skip, never for reduced motion).
+- Tests: web 40 passed (3 new; vitest now has @ alias + automatic JSX); lint/typecheck/build clean; shared JS 103 kB.
+- TP5 still blocked (egress 403 on buy.budli.in). Next: TP7A (home hero + Reborn scene).

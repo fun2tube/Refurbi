@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CartLink } from "./CartLink";
+import { CondensingHeader } from "./CondensingHeader";
 import { Container } from "./Container";
 
 export const NAV = [
@@ -12,9 +13,9 @@ export const NAV = [
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-30 border-b border-silver/40 bg-porcelain/90 backdrop-blur">
+    <CondensingHeader>
       <Container className="flex h-14 items-center gap-4 md:h-16">
-        <Link href="/" className="font-display text-xl font-bold lowercase">
+        <Link href="/" className="origin-left font-display text-xl font-bold lowercase transition-transform duration-200 group-data-[condensed=true]:scale-90">
           refurbi<span className="text-brand">.</span>
         </Link>
         <nav aria-label="Main" className="ml-4 hidden gap-5 text-sm font-medium md:flex">
@@ -38,6 +39,6 @@ export function Header() {
         </form>
         <CartLink />
       </Container>
-    </header>
+    </CondensingHeader>
   );
 }
