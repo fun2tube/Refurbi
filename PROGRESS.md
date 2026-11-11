@@ -202,3 +202,8 @@
 - Done: components/product/{FlipGallery, BatteryRing, ClipReveal+RevealItem, StickyBar} wired into product page. Verified 375px with seeded API: no errors/overflow.
 - CORRECTION to TP2b: my first check ran WITHOUT runtime NEXT_PUBLIC_API_URL (empty data). Re-verified properly with it: listing/home/product (94-100 KB real HTML) 200 repeatedly, RSS ~164 MB under 384 MB cap. No crash.
 - Tests: web 46 passed; lint/typecheck/build clean. Next: TP9 (listing + flows).
+
+### 2026-11-11T15:34Z - TP9 Listing and flows (Builder A)
+- Done: FilterSheet (mobile spring bottom sheet; inline on md+; noscript fallback), UnitGrid stagger reveal, StateArt draw-in for empty/error states, filter controls now 44px. Verified at 375px with seeded API (open sheet, apply grade filter, empty state).
+- Deferred to TP10: chip morph, compare tray, swipeable checkout step cards, brand/budget tilt cards, layoutId card->page flight, reserve success burst.
+- Tests: web 48 passed; lint/typecheck/build clean; shared JS 103 kB. Next: TP10 (polish + Lighthouse).

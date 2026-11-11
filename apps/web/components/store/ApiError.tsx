@@ -1,6 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { StateArt } from "./StateArt";
 
 /** Friendly failure state for server-fetched data. While the API is waking up it re-checks every 8s. */
 export function ApiError({ error, waking }: { error: string; waking?: boolean }) {
@@ -15,6 +16,7 @@ export function ApiError({ error, waking }: { error: string; waking?: boolean })
       {waking && (
         <span aria-hidden className="mb-3 block h-1.5 w-24 animate-pulse rounded-full bg-brand" />
       )}
+      {!waking && <StateArt kind="error" />}
       <p className="font-medium">{waking ? "Waking up" : "Something went wrong"}</p>
       <p className="mt-1 text-midnight/70">{error}</p>
       {waking && <p className="mt-1 text-midnight/70">This page will refresh by itself.</p>}

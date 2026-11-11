@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { GradeBadge, Price } from "@/components/ui";
 import type { Unit } from "@/lib/api";
+import { RevealItem } from "@/components/product/ClipReveal";
 import { DeviceArt } from "./DeviceArt";
 
 export function unitTitle(u: Unit): string {
@@ -36,10 +37,10 @@ export function UnitCard({ unit }: { unit: Unit }) {
 export function UnitGrid({ units }: { units: Unit[] }) {
   return (
     <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-      {units.map((u) => (
-        <li key={u.unit_id}>
+      {units.map((u, i) => (
+        <RevealItem key={u.unit_id} index={i % 4}>
           <UnitCard unit={u} />
-        </li>
+        </RevealItem>
       ))}
     </ul>
   );

@@ -4,6 +4,8 @@ import { JsonLd } from "./JsonLd";
 import { breadcrumbLd } from "@/lib/seo";
 import { Container } from "./Container";
 import { UnitGrid } from "./UnitCard";
+import { FilterSheet } from "./FilterSheet";
+import { StateArt } from "./StateArt";
 import { cleanFilters, pageNumber, type SP } from "@/lib/listing";
 import { getBrands, getStores, getUnits, qs } from "@/lib/api";
 import { formatRupees } from "@/lib/money";
@@ -16,7 +18,7 @@ function apiParams(f: Record<string, string>, fixed: Record<string, string>, pag
   return p;
 }
 
-const sel = "h-10 w-full rounded-lg border border-silver/60 bg-white px-2 text-sm";
+const sel = "h-11 w-full rounded-lg border border-silver/60 bg-white px-2 text-sm";
 
 export async function Listing({
   basePath,
@@ -49,7 +51,8 @@ export async function Listing({
       <h1 className="mt-2 font-display text-2xl font-bold md:text-3xl">{title}</h1>
       {intro && <p className="mt-1 max-w-2xl text-sm text-midnight/70">{intro}</p>}
 
-      <form method="get" action={basePath} className="mt-5 grid grid-cols-2 gap-2 rounded-2xl border border-silver/40 bg-white p-3 md:grid-cols-5">
+      <FilterSheet activeCount={Object.values(f).filter(Boolean).length}>
+      <form method="get" action={basePath} className="grid grid-cols-2 gap-2 rounded-2xl border border-silver/40 bg-white p-3 md:grid-cols-5">
         <input type="search" name="q" defaultValue={f.q} placeholder="Search model" aria-label="Search model" className={`${sel} col-span-2 md:col-span-1`} />
         {show("brand") && (
           <select name="brand" defaultValue={f.brand ?? ""} aria-label="Brand" className={sel}>
@@ -94,20 +97,22 @@ export async function Listing({
           <option value="battery">Battery health</option>
         </select>
         <div className="col-span-2 flex gap-2 md:col-span-1">
-          <button type="submit" className="h-10 flex-1 rounded-full bg-brand px-4 text-sm font-medium text-white hover:bg-brand-dark">
+          <button type="submit" className="h-11 flex-1 rounded-full bg-brand px-4 text-sm font-medium text-white hover:bg-brand-dark">
             Apply
           </button>
-          <Link href={basePath} className="inline-flex h-10 items-center rounded-full border border-silver px-4 text-sm">
+          <Link href={basePath} className="inline-flex h-11 items-center rounded-full border border-silver px-4 text-sm">
             Reset
           </Link>
         </div>
       </form>
+      </FilterSheet>
 
       <div className="mt-6">
         {!res.ok ? (
           <ApiError error={res.error} waking={res.waking} />
         ) : res.data.items.length === 0 ? (
           <div className="rounded-2xl border border-silver/40 bg-white p-8 text-center">
+            <StateArt kind="empty" />
             <p className="font-display font-semibold">No phones match these filters.</p>
             <p className="mt-1 text-sm text-midnight/70">Try removing a filter, or ask us on the contact page.</p>
           </div>

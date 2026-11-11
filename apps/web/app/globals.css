@@ -78,3 +78,8 @@ body { padding-bottom: 0; }
   .word-in { opacity: 1; animation: none; }
   .light-sweep { display: none; }
 }
+
+/* TP9: stroke-draw for empty/error art */
+@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+.draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 0.9s 0.1s ease-out forwards; }
+@media (prefers-reduced-motion: reduce) { .draw { stroke-dasharray: none; stroke-dashoffset: 0; animation: none; } }

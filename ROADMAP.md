@@ -66,6 +66,7 @@ Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)
 - [x] TP7B Home film part 2: Inspected scene (markers draw, battery bar fill), count-up stats, magnetic WhatsApp CTA
 - [x] TP7 Home as a film (A+B)
 - [x] TP8 Product reveal: 3D flip gallery, battery ring draw, staggered unit cards, clip-path spec reveal, springing sticky bar (layoutId flight + success burst deferred to TP10)
+- [x] TP9 Listing + flows: bottom-sheet filters (spring, no-JS inline fallback), staggered grid, animated empty/error art, 44px controls (compare tray, chip morph, swipe step cards deferred to TP10)
 - [!] TP5 Budli partner catalogue import - BLOCKED: buy.budli.in and cdn.shopify.com refused by the cloud egress proxy. Action: allow buy.budli.in + cdn.shopify.com in Claude cloud environment network settings.
 - [x] TP6A Cinematic foundation part 1: docs/DESIGN_MOTION.md, `motion` + MotionProvider (LazyMotion), motion tokens, reduced-motion hook, grain/glow utilities
 - [x] TP6B Cinematic foundation part 2: route curtain transition (template), liquid bottom nav pill (layoutId), condensing header, skeleton shimmer + loading.tsx, first-visit intro (<=1.1s, skippable)
