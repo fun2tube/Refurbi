@@ -1,7 +1,7 @@
 # Refurbi - Build Progress
 
 ## Status
-- Tasks done: 38 / 39 (97%)
+- Tasks done: 39 / 39 (100%)
 - Current milestone: 5 - Launch hardening (Builder A: all tasks done; only T02 blocked)
 - Next task (Builder B): none (all B tasks done)
 - Preview URL: https://refurbi-web.onrender.com
@@ -216,3 +216,6 @@
 - Done: ran e2e/run.sh (prod build, seeded API, mobile-chromium 375px). Found the purchase test collided with the reserve test (product page served from the 60s response cache, so a just-reserved unit still shows "Add to cart"; cart correctly says "no longer available") - test now adds the last unit. New e2e/design.spec.ts: home scenes, filter sheet, flip gallery, no overflow, no page errors.
 - Product note: stale stock up to 60s on cached listing/product pages; the cart/checkout re-checks availability.
 - Tests: web 49 unit + 4 e2e passed; lint/typecheck/build clean. Backlog empty except TP5 (blocked: Action: allow buy.budli.in + cdn.shopify.com in Claude cloud environment network settings).
+### 2026-11-11T15:55Z - TP5 Partner phone catalogue import (Builder A)
+- Done: egress now open (200). 469 phones snapshotted (slim, no partner name/links) to data/partners/budli/phones.json (+ packaged copy for Docker); app/partners/catalogue.py parser + idempotent importer run in preview seed; demo prices = partner prices; cdn.shopify.com in next.config; docs/PARTNER_CONTENT.md.
+- Tests: api 362 passed, ruff clean; web lint/typecheck/build clean. Founder input: review photo/licence use before any non-preview use. Next: TP3 (Playwright E2E).

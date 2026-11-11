@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
   // Self-contained server bundle (~10x smaller RSS than `next start`); see render.yaml.
   output: "standalone",
   poweredByHeader: false,
+  images: { remotePatterns: [{ protocol: "https", hostname: "cdn.shopify.com" }] },
   async headers() {
     // CSP is intentionally not set yet (Razorpay checkout + OSM tiles + GA4 need a tuned allowlist; see docs/SECURITY.md).
     return [{ source: "/:path*", headers: SECURITY_HEADERS }];

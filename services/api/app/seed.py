@@ -11,6 +11,7 @@ from app.auth.rbac import PERMISSIONS, ROLES
 from app.auth.security import hash_password
 from app.catalog.seed import seed_catalog
 from app.core.settings import get_settings
+from app.partners.catalogue import import_snapshot
 from app.preview_seed import seed_preview
 
 
@@ -87,6 +88,7 @@ def main() -> None:
         admin = seed_super_admin(db, s.super_admin_email, s.super_admin_password)
         if s.is_preview:
             print("preview demo data:", seed_preview(db))
+            print("partner demo catalogue:", import_snapshot(db))
             seed_demo_partner(db, s.super_admin_password)
         print("seeded rbac;", "super admin ready" if admin else "super admin skipped (env not set)")
 

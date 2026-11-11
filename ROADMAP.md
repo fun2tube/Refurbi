@@ -70,7 +70,7 @@ Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)
 - [x] TP10 Polish + audit: contrast fixes (a11y 100 on home/listing/product), reserve success burst + haptic, tap-squash cards, Lighthouse audit logged in docs/DESIGN_MOTION.md
 - [x] TP3 Playwright E2E on production build (run.sh: reserve, online purchase, counter sale + warranty, design smoke) - all green
 - [x] TP4 375px polish covered: every new scene/sheet verified at 375px (no horizontal overflow asserted in e2e/design.spec.ts), 44px targets
-- [!] TP5 Budli partner catalogue import - BLOCKED: buy.budli.in and cdn.shopify.com refused by the cloud egress proxy. Action: allow buy.budli.in + cdn.shopify.com in Claude cloud environment network settings.
+- [x] TP5 Partner phone catalogue import: snapshot (469 phones) in data/partners/budli, idempotent importer in preview seed, CDN images, no partner name shown, docs/PARTNER_CONTENT.md
 - [x] TP6A Cinematic foundation part 1: docs/DESIGN_MOTION.md, `motion` + MotionProvider (LazyMotion), motion tokens, reduced-motion hook, grain/glow utilities
 - [x] TP6B Cinematic foundation part 2: route curtain transition (template), liquid bottom nav pill (layoutId), condensing header, skeleton shimmer + loading.tsx, first-visit intro (<=1.1s, skippable)
 
