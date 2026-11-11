@@ -174,3 +174,8 @@
 - Tests: web 35 passed (6 new); lint/typecheck/build clean.
 - Next: TP5
 
+
+### 2026-11-11T14:10Z - TP5 blocked, TP6A Cinematic foundation part 1 (Builder A)
+- TP5 [!]: buy.budli.in and cdn.shopify.com refused by the egress proxy. Action: allow both hosts in Claude cloud environment network settings.
+- TP6A done: docs/DESIGN_MOTION.md (concept, storyboard, tokens, guardrails); `motion` + MotionProvider (LazyMotion strict, reducedMotion=user) in root layout; lib/motion.ts tokens; useReducedMotionSafe; grain/glow/rim/shimmer CSS utilities. Shared JS still 103 kB.
+- Tests: web 37 passed; lint/typecheck/build clean. Next: TP6B (transitions, liquid nav, top bar, intro).

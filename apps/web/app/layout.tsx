@@ -3,6 +3,7 @@ import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import { DemoBanner } from "@/components/DemoBanner";
 import { isPreview } from "@/lib/config";
+import { MotionProvider } from "@/components/motion/MotionProvider";
 import { siteUrl } from "@/lib/site";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
@@ -20,8 +21,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <body className={`${inter.variable} ${manrope.variable} antialiased`}>
-        <DemoBanner />
-        {children}
+        <MotionProvider>
+          <DemoBanner />
+          {children}
+        </MotionProvider>
       </body>
     </html>
   );
