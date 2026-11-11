@@ -211,3 +211,8 @@
 ### 2026-11-11T15:42Z - TP10 Polish + Lighthouse audit (Builder A)
 - Done: AA contrast fixes (a11y 100 on 3 pages), heading order on listing, SuccessBurst on reserve, TapCard squash on budget chips/unit cards. Audit table in docs/DESIGN_MOTION.md: CLS 0, TBT 120-250 ms, but SIMULATED mobile LCP 3.2-3.3 s (>2.5 s target; real local LCP 0.2 s) - must re-measure on Render.
 - Tests: web 49 passed; lint/typecheck/build clean; shared JS 103 kB. Deferred: chip morph, compare tray, swipe step cards, layoutId flight. Next: TP3 (Playwright E2E on production build).
+
+### 2026-11-11T15:48Z - TP3 + TP4 E2E on production build, 375px (Builder A)
+- Done: ran e2e/run.sh (prod build, seeded API, mobile-chromium 375px). Found the purchase test collided with the reserve test (product page served from the 60s response cache, so a just-reserved unit still shows "Add to cart"; cart correctly says "no longer available") - test now adds the last unit. New e2e/design.spec.ts: home scenes, filter sheet, flip gallery, no overflow, no page errors.
+- Product note: stale stock up to 60s on cached listing/product pages; the cart/checkout re-checks availability.
+- Tests: web 49 unit + 4 e2e passed; lint/typecheck/build clean. Backlog empty except TP5 (blocked: Action: allow buy.budli.in + cdn.shopify.com in Claude cloud environment network settings).

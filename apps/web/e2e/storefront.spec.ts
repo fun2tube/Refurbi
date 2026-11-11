@@ -19,7 +19,8 @@ test("reserve a phone for store pickup (fake email OTP)", async ({ page, request
 test("online purchase: cart, 15-minute hold, fake gateway payment", async ({ page, request }) => {
   const slug = await firstModelSlug(request);
   await page.goto(`/product/${slug}`);
-  await page.getByRole("button", { name: "Add to cart" }).first().click();
+  // .last(): the reserve test above takes the first unit and the product page is served from the 60s response cache
+  await page.getByRole("button", { name: "Add to cart" }).last().click();
   await page.goto("/cart");
   await page.getByLabel("Full name").fill("E2E Buyer");
   await page.getByLabel("Email").fill(`buyer-${Date.now()}@example.com`);

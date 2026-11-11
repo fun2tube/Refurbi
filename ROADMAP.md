@@ -68,6 +68,8 @@ Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)
 - [x] TP8 Product reveal: 3D flip gallery, battery ring draw, staggered unit cards, clip-path spec reveal, springing sticky bar (layoutId flight + success burst deferred to TP10)
 - [x] TP9 Listing + flows: bottom-sheet filters (spring, no-JS inline fallback), staggered grid, animated empty/error art, 44px controls (compare tray, chip morph, swipe step cards deferred to TP10)
 - [x] TP10 Polish + audit: contrast fixes (a11y 100 on home/listing/product), reserve success burst + haptic, tap-squash cards, Lighthouse audit logged in docs/DESIGN_MOTION.md
+- [x] TP3 Playwright E2E on production build (run.sh: reserve, online purchase, counter sale + warranty, design smoke) - all green
+- [x] TP4 375px polish covered: every new scene/sheet verified at 375px (no horizontal overflow asserted in e2e/design.spec.ts), 44px targets
 - [!] TP5 Budli partner catalogue import - BLOCKED: buy.budli.in and cdn.shopify.com refused by the cloud egress proxy. Action: allow buy.budli.in + cdn.shopify.com in Claude cloud environment network settings.
 - [x] TP6A Cinematic foundation part 1: docs/DESIGN_MOTION.md, `motion` + MotionProvider (LazyMotion), motion tokens, reduced-motion hook, grain/glow utilities
 - [x] TP6B Cinematic foundation part 2: route curtain transition (template), liquid bottom nav pill (layoutId), condensing header, skeleton shimmer + loading.tsx, first-visit intro (<=1.1s, skippable)
