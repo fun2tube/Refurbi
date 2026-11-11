@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { GradeBadge, Price } from "@/components/ui";
 import type { Unit } from "@/lib/api";
+import { TapCard } from "@/components/motion/TapCard";
 import { RevealItem } from "@/components/product/ClipReveal";
 import { DeviceArt } from "./DeviceArt";
 
@@ -22,7 +23,7 @@ export function UnitCard({ unit }: { unit: Unit }) {
         {unit.grade && <GradeBadge grade={unit.grade} className="absolute left-3 top-3" />}
       </div>
       <div className="flex flex-1 flex-col gap-1 p-3 sm:p-4">
-        <div className="text-[11px] font-medium uppercase tracking-wide text-silver">{unit.model.brand.name}</div>
+        <div className="text-[11px] font-medium uppercase tracking-wide text-midnight/60">{unit.model.brand.name}</div>
         <h3 className="font-display text-sm font-semibold leading-snug sm:text-base">{unitTitle(unit)}</h3>
         <p className="text-xs text-midnight/65">
           {unit.battery_health != null ? `Battery ${unit.battery_health}%` : "Battery tested"}
@@ -39,7 +40,9 @@ export function UnitGrid({ units }: { units: Unit[] }) {
     <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
       {units.map((u, i) => (
         <RevealItem key={u.unit_id} index={i % 4}>
-          <UnitCard unit={u} />
+          <TapCard>
+            <UnitCard unit={u} />
+          </TapCard>
         </RevealItem>
       ))}
     </ul>

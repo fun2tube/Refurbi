@@ -95,7 +95,7 @@ export default async function Page({ params, searchParams }: Props) {
             facts={[m.is_5g ? "5G" : "4G", ...(m.release_year ? [`Released ${m.release_year}`] : []), "Checked unit by unit", "Battery health shown"]}
           />
           <div>
-            <div className="text-xs font-semibold uppercase tracking-wide text-silver">{m.brand.name}</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-midnight/60">{m.brand.name}</div>
             <h1 className="font-display text-3xl font-bold">Refurbished {m.name}</h1>
             <p className="mt-1 text-sm text-midnight/70">
               {m.release_year ? `${m.release_year} · ` : ""}

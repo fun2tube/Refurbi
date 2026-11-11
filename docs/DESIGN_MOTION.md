@@ -41,3 +41,12 @@ Route changes use a ~350ms brand-green curtain wipe.
 - LCP <=2.5s on mid-range Android, CLS <=0.1, INP <=200ms; motion JS <= ~60 KB gzip; touch targets >=44px; WCAG AA contrast.
 - Design at 360-430px first; test at 375px.
 - No claims like "Apple certified" or "100% original parts" in copy.
+
+## Audit log (TP10, local production build, Lighthouse 12 mobile preset, seeded demo API)
+| Page | Perf | A11y | Best practices | CLS | TBT | LCP (simulated slow 4G + 4x CPU) |
+|------|------|------|----------------|-----|-----|-----|
+| Home | 90 | 100 | 100 | 0 | 160 ms | 3.3 s |
+| Listing | 88 | 100 | 100 | 0 | 250 ms | 3.3 s |
+| Product | 92 | 100 | 100 | 0 | 120 ms | 3.2 s |
+- Real (unthrottled, localhost) LCP is 0.2 s; the simulated figure is above the 2.5 s target and must be re-measured against the Render deploy (network + cold start dominate there). Shared JS stays 103 kB; motion adds no shared-bundle weight (heavy scenes are client components below the fold).
+- Open follow-ups: chip morph, compare tray, swipeable checkout step cards, layoutId card->page flight (needs same-document transition).

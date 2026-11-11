@@ -55,7 +55,7 @@ export function RebornScene() {
             <div className="mt-6">
               <Phone p={p} />
             </div>
-            <m.p className="mt-4 text-center font-display text-lg font-semibold text-brand" aria-live="off">
+            <m.p className="mt-4 text-center font-display text-lg font-semibold text-[#3fbf9a]" aria-live="off">
               {label}
             </m.p>
             {reduced && (

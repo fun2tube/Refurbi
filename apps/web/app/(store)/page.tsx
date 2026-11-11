@@ -7,6 +7,7 @@ import { RebornScene } from "@/components/home/RebornScene";
 import { InspectedScene } from "@/components/home/InspectedScene";
 import { CountUp } from "@/components/home/CountUp";
 import { Magnetic } from "@/components/home/Magnetic";
+import { TapCard } from "@/components/motion/TapCard";
 import { Reveal } from "@/components/home/Reveal";
 import { UnitGrid } from "@/components/store/UnitCard";
 import { WhatsAppButton } from "@/components/store/WhatsAppButton";
@@ -102,7 +103,7 @@ export default async function Home() {
                 href={`/refurbished-${hero.model.slug}`}
                 className="absolute bottom-2 right-0 rounded-2xl bg-porcelain px-4 py-3 text-midnight shadow-xl md:right-6"
               >
-                <div className="text-[11px] uppercase tracking-wide text-silver">In stock now</div>
+                <div className="text-[11px] uppercase tracking-wide text-midnight/60">In stock now</div>
                 <div className="font-display text-sm font-semibold">{hero.model.name}</div>
                 <div className="font-display text-lg font-bold text-brand">from {formatRupees(hero.price_paise)}</div>
               </Link>
@@ -123,12 +124,14 @@ export default async function Home() {
             <ul className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
               {BUDGETS.map((b) => (
                 <li key={b}>
+                  <TapCard>
                   <Link
                     href={`/refurbished-mobiles/under-${b}`}
                     className="block rounded-2xl border border-silver/40 bg-white p-4 text-center font-display font-semibold hover:border-brand"
                   >
                     Under {formatRupees(b * 100)}
                   </Link>
+                  </TapCard>
                 </li>
               ))}
             </ul>
@@ -194,7 +197,7 @@ export default async function Home() {
                       href={`/refurbished-${m.slug}`}
                       className="block rounded-2xl border border-silver/40 bg-white p-4 hover:border-brand"
                     >
-                      <div className="text-[11px] uppercase tracking-wide text-silver">{m.brand.name}</div>
+                      <div className="text-[11px] uppercase tracking-wide text-midnight/60">{m.brand.name}</div>
                       <div className="font-display font-semibold">{m.name}</div>
                       <div className="mt-1 text-sm text-midnight/70">
                         From {formatRupees(m.from_price_paise)} · {m.units_available} in stock

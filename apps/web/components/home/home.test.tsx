@@ -26,3 +26,12 @@ describe("TP7B", () => {
     expect(renderToString(<InspectedScene />)).toContain("Battery health (example)");
   });
 });
+
+import { TapCard } from "../motion/TapCard";
+import { SuccessBurst } from "../motion/SuccessBurst";
+describe("TP10 polish", () => {
+  it("tap card renders children; success burst is decorative", () => {
+    expect(renderToString(<TapCard><span>Go</span></TapCard>)).toContain("Go");
+    expect(renderToString(<SuccessBurst />)).toContain('aria-hidden="true"');
+  });
+});

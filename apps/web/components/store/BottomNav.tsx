@@ -30,7 +30,7 @@ export function BottomNav() {
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "relative flex min-h-[52px] flex-col items-center justify-center gap-0.5 py-2 text-[11px] font-medium",
-                  active ? "text-brand" : "text-midnight/70",
+                  active ? "text-brand-dark" : "text-midnight/70",
                 )}
               >
                 {active && (

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { SuccessBurst } from "@/components/motion/SuccessBurst";
 import { Button, Input } from "@/components/ui";
 
 type Done = { code: string; expires_at: string; store_name: string | null; store_city: string | null };
@@ -87,6 +88,7 @@ export function ReserveButton({ apiBase, unitId, label }: { apiBase: string; uni
       )}
       {step === "done" && done && (
         <div role="status">
+          <SuccessBurst />
           <p className="font-display font-semibold">Reserved! Your code: {done.code}</p>
           <p className="mt-1 text-sm text-midnight/70">
             Held at {done.store_name ? `${done.store_name}, ${done.store_city}` : "our pickup point"} until {new Date(done.expires_at).toLocaleString("en-IN")}. Show this code and pay at the store.

@@ -207,3 +207,7 @@
 - Done: FilterSheet (mobile spring bottom sheet; inline on md+; noscript fallback), UnitGrid stagger reveal, StateArt draw-in for empty/error states, filter controls now 44px. Verified at 375px with seeded API (open sheet, apply grade filter, empty state).
 - Deferred to TP10: chip morph, compare tray, swipeable checkout step cards, brand/budget tilt cards, layoutId card->page flight, reserve success burst.
 - Tests: web 48 passed; lint/typecheck/build clean; shared JS 103 kB. Next: TP10 (polish + Lighthouse).
+
+### 2026-11-11T15:42Z - TP10 Polish + Lighthouse audit (Builder A)
+- Done: AA contrast fixes (a11y 100 on 3 pages), heading order on listing, SuccessBurst on reserve, TapCard squash on budget chips/unit cards. Audit table in docs/DESIGN_MOTION.md: CLS 0, TBT 120-250 ms, but SIMULATED mobile LCP 3.2-3.3 s (>2.5 s target; real local LCP 0.2 s) - must re-measure on Render.
+- Tests: web 49 passed; lint/typecheck/build clean; shared JS 103 kB. Deferred: chip morph, compare tray, swipe step cards, layoutId flight. Next: TP3 (Playwright E2E on production build).

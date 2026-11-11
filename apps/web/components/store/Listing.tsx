@@ -119,6 +119,7 @@ export async function Listing({
         ) : (
           <>
             <p className="mb-3 text-sm text-midnight/70" aria-live="polite">{res.data.total} phone{res.data.total === 1 ? "" : "s"} available</p>
+            <h2 className="sr-only">Phones</h2>
             <UnitGrid units={res.data.items} />
             {res.data.total_pages > 1 && (
               <nav aria-label="Pagination" className="mt-8 flex items-center justify-center gap-3 text-sm">
