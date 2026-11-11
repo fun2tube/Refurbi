@@ -197,3 +197,8 @@
 ### 2026-11-11T15:24Z - TP7B Home film part 2 (Builder A)
 - Done: InspectedScene (checkpoint circles draw via pathLength, battery bar scaleX fill, labelled "example"), CountUp stats from live API counts (SSR shows final number), Magnetic WhatsApp CTA (mouse only). 375px verified, no overflow/errors, shared JS 103 kB.
 - Tests: web 44 passed; lint/typecheck/build clean. Brand/budget tilt cards deferred to TP10 polish. Next: TP8 (product page reveal).
+
+### 2026-11-11T15:30Z - TP8 Product page reveal (Builder A)
+- Done: components/product/{FlipGallery, BatteryRing, ClipReveal+RevealItem, StickyBar} wired into product page. Verified 375px with seeded API: no errors/overflow.
+- CORRECTION to TP2b: my first check ran WITHOUT runtime NEXT_PUBLIC_API_URL (empty data). Re-verified properly with it: listing/home/product (94-100 KB real HTML) 200 repeatedly, RSS ~164 MB under 384 MB cap. No crash.
+- Tests: web 46 passed; lint/typecheck/build clean. Next: TP9 (listing + flows).

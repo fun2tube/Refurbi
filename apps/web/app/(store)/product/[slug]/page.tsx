@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
+import { FlipGallery } from "@/components/product/FlipGallery";
+import { BatteryRing } from "@/components/product/BatteryRing";
+import { ClipReveal, RevealItem } from "@/components/product/ClipReveal";
+import { StickyBar } from "@/components/product/StickyBar";
 import { ApiError } from "@/components/store/ApiError";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/store/Container";
-import { DeviceArt } from "@/components/store/DeviceArt";
 import { JsonLd } from "@/components/store/JsonLd";
 import { breadcrumbLd } from "@/lib/seo";
 import { Faq, PRODUCT_FAQS } from "@/components/store/Faq";
@@ -86,9 +89,11 @@ export default async function Page({ params, searchParams }: Props) {
           <Link href={`/refurbished-mobiles/${m.brand.slug}`}>{m.brand.name}</Link>
         </nav>
         <div className="mt-4 grid gap-8 md:grid-cols-2">
-          <div className="flex h-72 items-center justify-center rounded-3xl bg-gradient-to-b from-white to-silver/25 py-6 md:h-[28rem]">
-            <DeviceArt seed={m.name.length} label={`${m.name} illustration`} />
-          </div>
+          <FlipGallery
+            seed={m.name.length}
+            name={m.name}
+            facts={[m.is_5g ? "5G" : "4G", ...(m.release_year ? [`Released ${m.release_year}`] : []), "Checked unit by unit", "Battery health shown"]}
+          />
           <div>
             <div className="text-xs font-semibold uppercase tracking-wide text-silver">{m.brand.name}</div>
             <h1 className="font-display text-3xl font-bold">Refurbished {m.name}</h1>
@@ -135,14 +140,15 @@ export default async function Page({ params, searchParams }: Props) {
             <p className="mt-3 text-sm text-midnight/70">No units available.</p>
           ) : (
             <ul className="mt-3 space-y-3">
-              {list.map((u) => (
-                <li key={u.unit_id} className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-2xl border border-silver/40 bg-white p-4">
+              {list.map((u, i) => (
+                <RevealItem key={u.unit_id} index={i} className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-2xl border border-silver/40 bg-white p-4">
                   <div className="min-w-[9rem] flex-1">
                     <div className="font-display font-semibold">
                       {u.storage_gb} GB{u.ram_gb ? ` · ${u.ram_gb} GB RAM` : ""}
                     </div>
                     <div className="mt-1 flex flex-wrap items-center gap-2 text-sm text-midnight/70">
                       {u.grade && <GradeBadge grade={u.grade} />}
+                      {u.battery_health != null ? <BatteryRing percent={u.battery_health} /> : null}
                       <span>{u.battery_health != null ? `Battery ${u.battery_health}%` : "Battery tested"}</span>
                     </div>
                     <div className="mt-1 text-sm text-midnight/70">
@@ -166,7 +172,7 @@ export default async function Page({ params, searchParams }: Props) {
                   </a>
                   <AddToCart unitId={u.unit_id} />
                   <ReserveButton apiBase={apiBaseUrl()} unitId={u.unit_id} label="Reserve for store pickup" />
-                </li>
+                </RevealItem>
               ))}
             </ul>
           )}
@@ -177,7 +183,8 @@ export default async function Page({ params, searchParams }: Props) {
             <h2 id="specs" className="font-display text-xl font-bold">
               Specifications
             </h2>
-            <dl className="mt-3 divide-y divide-silver/40 rounded-2xl border border-silver/40 bg-white">
+            <ClipReveal className="mt-3">
+            <dl className="divide-y divide-silver/40 rounded-2xl border border-silver/40 bg-white">
               {m.specifications.map((s) => (
                 <div key={s.key} className="grid grid-cols-2 gap-3 p-3 text-sm">
                   <dt className="text-midnight/60">{s.key}</dt>
@@ -185,6 +192,7 @@ export default async function Page({ params, searchParams }: Props) {
                 </div>
               ))}
             </dl>
+            </ClipReveal>
           </section>
         )}
 
@@ -204,14 +212,14 @@ export default async function Page({ params, searchParams }: Props) {
       </Container>
 
       {/* Sticky CTA: sits above the mobile bottom nav */}
-      <div className="fixed inset-x-0 bottom-16 z-30 flex gap-2 border-t border-silver/40 bg-porcelain/95 p-3 backdrop-blur md:hidden">
+      <StickyBar>
         <a href={wa} target="_blank" rel="noopener noreferrer" className="inline-flex h-11 flex-1 items-center justify-center rounded-full bg-brand text-sm font-medium text-white">
           WhatsApp
         </a>
         <Link href={firstStore ? `/stores/${firstStore.slug}` : "/stores"} className="inline-flex h-11 flex-1 items-center justify-center rounded-full border border-silver text-sm font-medium">
           Visit store
         </Link>
-      </div>
+      </StickyBar>
     </>
   );
 }
