@@ -51,7 +51,7 @@ services:
     healthCheckPath: /api/health
     envVars:
       - key: NODE_VERSION
-        value: 22.12.0
+        value: "22" # >=22.12 needed (Tailwind v4 require(esm)); also see .node-version
       - key: NODE_OPTIONS # free instance has 512 MB RAM; cap V8 heap below it
         value: --max-old-space-size=384
       - key: HOSTNAME

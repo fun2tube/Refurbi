@@ -184,3 +184,8 @@
 - Done: PageTransition via (store)/template.tsx (green clip-path curtain ~350ms, skipped on first load/reduced motion); BottomNav liquid pill (layoutId, 52px targets); CondensingHeader (scale+shadow, fixed height = no CLS); Skeleton/CardGridSkeleton + (store)/loading.tsx; IntroSplash (first visit, 1.1s, tap to skip, never for reduced motion).
 - Tests: web 40 passed (3 new; vitest now has @ alias + automatic JSX); lint/typecheck/build clean; shared JS 103 kB.
 - TP5 still blocked (egress 403 on buy.budli.in). Next: TP7A (home hero + Reborn scene).
+
+### 2026-11-11T15:15Z - TP0 Render Node pin + TP2b listing check (Builder A)
+- TP0: render.yaml NODE_VERSION was 22.12.0 but Render still built with older Node (ERR_REQUIRE_ESM), so now NODE_VERSION="22" + .node-version (root and apps/web) + engines >=22.12 + `prebuild` guard that logs the Node version and fails clearly. Clean `npm ci` + `next build` OK under 384 MB heap. Founder/CTO: if the deploy log still shows an old Node in the `[check-node]` line, set NODE_VERSION=22 in the Render dashboard (Blueprint may not have re-synced). API (Docker) unaffected.
+- TP2b: seeded local API (30 demo devices), standalone web with 384 MB cap: /refurbished-mobiles, ?page=2, / and /stores all 200 repeatedly; RSS ~114 MB. No crash.
+- Tests: web 40 passed; lint/typecheck/build clean. Next: TP7A.
