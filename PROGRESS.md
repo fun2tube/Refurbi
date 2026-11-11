@@ -223,3 +223,6 @@
 ### 2026-11-11T15:50Z - TP5b Real photos on product page (Builder A)
 - Done: FlipGallery now shows real unit photos (thumbnails, 44px) with illustration fallback; listing cards already used photos. Real data/photos appear once Render redeploys the API (seed imports 469 phones at start) - founder: check refurbi-api deploy finished.
 - Tests: web 49 passed, lint/typecheck/build clean.
+
+### 2026-11-11T16:05Z - TP5c Preview admin password syncs from env (Builder A)
+- Done: in APP_ENV=preview the seed re-hashes the demo admin password from SUPER_ADMIN_PASSWORD on every start, so the founder can set their own value in Render when the generated one is hidden. Tests: api preview/auth 28 passed.

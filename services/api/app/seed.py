@@ -30,7 +30,9 @@ def seed_rbac(db: Session) -> None:
     db.commit()
 
 
-def seed_super_admin(db: Session, email: str, password: str) -> User | None:
+def seed_super_admin(
+    db: Session, email: str, password: str, sync_password: bool = False
+) -> User | None:
     if not email or not password:
         return None
     email = email.strip().lower()
@@ -39,6 +41,8 @@ def seed_super_admin(db: Session, email: str, password: str) -> User | None:
         user = User(email=email, password_hash=hash_password(password), full_name="Super Admin")
         db.add(user)
         db.flush()
+    elif sync_password:  # preview only: the env var is the source of truth for the demo admin
+        user.password_hash = hash_password(password)
     role = db.scalar(select(Role).where(Role.code == "super_admin"))
     exists = db.scalar(
         select(UserRole.id).where(
@@ -85,7 +89,9 @@ def main() -> None:
     with _session_factory()() as db:
         seed_rbac(db)
         seed_catalog(db)
-        admin = seed_super_admin(db, s.super_admin_email, s.super_admin_password)
+        admin = seed_super_admin(
+            db, s.super_admin_email, s.super_admin_password, sync_password=s.is_preview
+        )
         if s.is_preview:
             print("preview demo data:", seed_preview(db))
             print("partner demo catalogue:", import_snapshot(db))
