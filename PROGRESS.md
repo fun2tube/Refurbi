@@ -226,3 +226,7 @@
 
 ### 2026-11-11T16:05Z - TP5c Preview admin password syncs from env (Builder A)
 - Done: in APP_ENV=preview the seed re-hashes the demo admin password from SUPER_ADMIN_PASSWORD on every start, so the founder can set their own value in Render when the generated one is hidden. Tests: api preview/auth 28 passed.
+
+### 2026-11-15T02:55Z - TP5d Real product specs (Builder A)
+- Done: user feedback "no real product details": snapshot lacked specs. Importer now parses whitelisted model specs (display, camera, battery, OS, processor...) for 480/481 phones into Specification rows (also back-fills existing preview models on next API start); product page already renders them. Partner name/warranty/condition text excluded.
+- Tests: api 363 passed, ruff clean. Real descriptions/condition grades stay placeholders (founder input: own grading + warranty terms). Next: none.

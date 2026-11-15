@@ -6,12 +6,13 @@ the DB or shown publicly. See docs/PARTNER_CONTENT.md. Idempotent: re-running up
 import json
 import re
 from dataclasses import dataclass, field
+from html import unescape
 from pathlib import Path
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.catalog.models import Brand, ProductImage, ProductModel, ProductVariant
+from app.catalog.models import Brand, ProductImage, ProductModel, ProductVariant, Specification
 from app.catalog.schemas import model_slug, slugify
 from app.counters.models import Counter
 from app.inventory import imei as imei_mod
@@ -73,6 +74,40 @@ class Parsed:
     is_5g: bool
     price_paise: int
     images: list[str] = field(default_factory=list)
+    specs: list[tuple[str, str]] = field(default_factory=list)
+
+
+# Model-level technical specs only. Storage/RAM live on the variant; battery health, condition,
+# accessories and warranty are per-unit/partner claims and are never copied.
+SPEC_KEYS = {
+    "screen size": "Display",
+    "display": "Display",
+    "resolution": "Resolution",
+    "processor": "Processor",
+    "camera": "Camera",
+    "battery": "Battery",
+    "os": "Operating system",
+    "os version": "Operating system",
+    "ios": "Operating system",
+    "network": "Network",
+    "connectivity": "Connectivity",
+}
+_LI = re.compile(r"<li>\s*<(?:strong|b)[^>]*>(.*?)</(?:strong|b)>(.*?)</li>", re.I | re.S)
+_TAG = re.compile(r"<[^>]+>")
+
+
+def _clean(t: str) -> str:
+    return re.sub(r"\s+", " ", unescape(_TAG.sub(" ", t))).strip(" :-\u00a0")
+
+
+def parse_specs(body_html: str | None) -> list[tuple[str, str]]:
+    out: dict[str, str] = {}
+    for k, v in _LI.findall(body_html or ""):
+        key = SPEC_KEYS.get(_clean(k).lower())
+        val = _clean(v)
+        if key and val and key not in out and len(val) <= 200 and "budli" not in val.lower():
+            out[key] = val
+    return list(out.items())
 
 
 def _first_int_gb(text: str) -> int | None:
@@ -127,7 +162,19 @@ def parse_product(p: dict) -> Parsed | None:
         return None
     imgs = [i["src"] if isinstance(i, dict) else i for i in p.get("images", [])]
     imgs = [u for u in imgs if u.startswith("https://cdn.shopify.com/")]
-    return Parsed(int(p["id"]), brand, name, storage or 0, ram, color, is_5g, price, imgs[:3])
+    specs = p.get("specs") or parse_specs(p.get("body_html"))
+    return Parsed(
+        int(p["id"]),
+        brand,
+        name,
+        storage or 0,
+        ram,
+        color,
+        is_5g,
+        price,
+        imgs[:3],
+        [(str(k), str(v)) for k, v in specs],
+    )
 
 
 def slim(p: dict) -> dict:
@@ -139,6 +186,7 @@ def slim(p: dict) -> dict:
         "product_type": p["product_type"],
         "variants": [{"price": v.get("price")}],
         "images": [{"src": i["src"]} for i in p.get("images", [])][:3],
+        "specs": parse_specs(p.get("body_html")),
     }
 
 
@@ -173,6 +221,11 @@ def import_parsed(db: Session, items: list[Parsed]) -> dict[str, int]:
             and db.scalar(select(ProductImage.id).where(ProductImage.model_id == model.id)) is None
         ):
             db.add(ProductImage(model_id=model.id, url=it.images[0], alt=f"{it.brand} {it.name}"))
+        have = {sp.key for sp in model.specifications}
+        for j, (k, v) in enumerate(it.specs):
+            if k not in have:
+                model.specifications.append(Specification(key=k, value=v[:255], sort_order=j))
+                have.add(k)
         sku = slugify(f"{slug}-{it.storage_gb}gb-{it.ram_gb or 0}gb-{it.color or 'na'}")[:160]
         variant = db.scalar(select(ProductVariant).where(ProductVariant.sku == sku))
         if variant is None:

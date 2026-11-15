@@ -16,3 +16,7 @@ Phones from a partner's public Shopify catalogue are used as **demo catalogue co
 - The partner's name and links are never shown in the UI or stored in the DB. Photos may carry the
   partner's own watermarks/boxes: **founder must review before any non-preview use** (licence,
   accuracy of condition/warranty). Not real stock, not real prices of ours.
+- Specs (TP5d): the snapshot now carries model-level specs (display, resolution, processor, camera,
+  battery capacity, OS, network) parsed from the partner's spec list, whitelisted in
+  `app.partners.catalogue.SPEC_KEYS`. Condition, accessories, warranty, battery health and prose are
+  never copied. Importer adds missing specs to existing models on every preview start.

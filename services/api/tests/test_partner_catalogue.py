@@ -120,3 +120,29 @@ def test_full_snapshot_imports_and_listing_never_names_partner(factory):
         ).all()
         out = " ".join(_unit(*r).model_dump_json() for r in rows).lower()
         assert "budli" not in out and "imei" not in out and "cost" not in out
+
+
+BODY = (
+    "<p>Comes in a Budli box, 6 months Budli service warranty</p><ul>"
+    '<li><strong>Screen Size:</strong> 5.5" inches</li>'
+    "<li><strong>Memory:</strong><span> 4GB RAM</span></li>"
+    "<li><strong>Camera:</strong><span> 12.3MP Rear &amp; 8MP Front</span></li>"
+    "<li><strong>Battery: </strong><span>3450mAh</span></li>"
+    "<li><strong>Battery Health:</strong> 91%</li>"
+    "<li><strong>SKU:</strong> 123</li></ul>"
+)
+
+
+def test_specs_whitelisted_and_partner_claims_dropped():
+    from app.partners.catalogue import parse_specs, slim
+
+    assert parse_specs(BODY) == [
+        ("Display", '5.5" inches'),
+        ("Camera", "12.3MP Rear & 8MP Front"),
+        ("Battery", "3450mAh"),
+    ]
+    p = prod("Google Pixel XL 32GB 4GB RAM Silver")
+    p["body_html"] = BODY
+    sl = slim(p)
+    assert "body_html" not in sl and "budli" not in json.dumps(sl).lower()
+    assert parse_product(sl).specs[0] == ("Display", '5.5" inches')
