@@ -35,3 +35,6 @@ You are building Refurbi, a refurbished-smartphone retail + counter-distribution
 
 ## Hourly summary line (last line of every run)
 Refurbi build: <done>/<total> tasks (<pct>%). This hour: Txx <title>. Next: Tyy. Blockers: <none | short list>.
+
+## Notification cadence (founder request, 2026-11-22)
+Send the hourly report (PushNotification + Slack self-DM) only twice a day: on the run that starts in the 04:00 UTC hour (~09:30 IST) and the 16:00 UTC hour (~21:30 IST). Report items from `git log --since="13 hours ago"` on those runs. On other runs, keep working and skip the notification, except when the build is broken, the run cannot work at all, or the founder must act (then notify at once). Still end the final message with the summary line.
