@@ -4,6 +4,7 @@ import type { Unit } from "@/lib/api";
 import { TapCard } from "@/components/motion/TapCard";
 import { RevealItem } from "@/components/product/ClipReveal";
 import { DeviceArt } from "./DeviceArt";
+import { CompareToggle } from "./CompareToggle";
 
 export function unitTitle(u: Unit): string {
   return `${u.model.name} ${u.storage_gb}GB`;
@@ -41,7 +42,10 @@ export function UnitGrid({ units }: { units: Unit[] }) {
       {units.map((u, i) => (
         <RevealItem key={u.unit_id} index={i % 4}>
           <TapCard>
-            <UnitCard unit={u} />
+            <div className="relative">
+              <UnitCard unit={u} />
+              <CompareToggle unit={u} />
+            </div>
           </TapCard>
         </RevealItem>
       ))}

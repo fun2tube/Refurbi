@@ -230,3 +230,7 @@
 ### 2026-11-15T02:55Z - TP5d Real product specs (Builder A)
 - Done: user feedback "no real product details": snapshot lacked specs. Importer now parses whitelisted model specs (display, camera, battery, OS, processor...) for 480/481 phones into Specification rows (also back-fills existing preview models on next API start); product page already renders them. Partner name/warranty/condition text excluded.
 - Tests: api 363 passed, ruff clean. Real descriptions/condition grades stay placeholders (founder input: own grading + warranty terms). Next: none.
+
+### 2026-11-22T11:58Z - TP11A Compare tray (Builder A)
+- Done: deferred TP10 item. CompareToggle on cards (44px), CompareTray + dialog table, lib/compare.ts (snapshots only public fields).
+- Tests: web 52 passed, lint/typecheck/build clean. Next: TP11B chip morph / swipe step cards.

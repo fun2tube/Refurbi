@@ -74,4 +74,4 @@ Legend: [ ] todo - [x] done - [!] blocked (reason in PROGRESS.md)
 - [x] TP5 Partner phone catalogue import: snapshot (469 phones) in data/partners/budli, idempotent importer in preview seed, CDN images, no partner name shown, docs/PARTNER_CONTENT.md
 - [x] TP6A Cinematic foundation part 1: docs/DESIGN_MOTION.md, `motion` + MotionProvider (LazyMotion), motion tokens, reduced-motion hook, grain/glow utilities
 - [x] TP6B Cinematic foundation part 2: route curtain transition (template), liquid bottom nav pill (layoutId), condensing header, skeleton shimmer + loading.tsx, first-visit intro (<=1.1s, skippable)
-
+- [x] TP11A Compare tray: up to 3 phones from listing cards, side-by-side sheet (price, grade, storage, RAM, battery, store), lowest-price highlight, localStorage public fields only

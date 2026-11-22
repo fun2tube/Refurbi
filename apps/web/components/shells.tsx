@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { AdminNav } from "./admin/AdminNav";
 
 import { IntroSplash } from "@/components/motion/IntroSplash";
+import { CompareTray } from "@/components/store/CompareTray";
 import { Analytics } from "@/components/store/Analytics";
 
 export function StoreShell({ children }: { children: ReactNode }) {
@@ -14,6 +15,7 @@ export function StoreShell({ children }: { children: ReactNode }) {
       <main>{children}</main>
       <Footer />
       <BottomNav />
+      <CompareTray />
       <Analytics />
       <IntroSplash />
     </div>
